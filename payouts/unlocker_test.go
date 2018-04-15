@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ubiq/open-ethereum-pool/rpc"
-	"github.com/ubiq/open-ethereum-pool/storage"
+	"../rpc"
+	"../storage"
 )
 
 func TestMain(m *testing.M) {

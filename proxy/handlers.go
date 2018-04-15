@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ubiq/open-ethereum-pool/rpc"
-	"github.com/ubiq/open-ethereum-pool/util"
+	"../rpc"
+	"../util"
 )
 
 // Allow only lowercase hexadecimal with 0x prefix

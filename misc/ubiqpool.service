@@ -1,0 +1,13 @@
+[Unit]
+Description=GUbiq Pool Daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/open-ethereum-pool /etc/ubiqpool.config
+Restart=on-failure
+# Specifies which signal to use when killing a service. Defaults to SIGTERM.
+# SIGHUP gives the daemon time to exit cleanly before SIGKILL (default 90s)
+KillSignal=SIGHUP
+
+[Install]
+WantedBy=default.target

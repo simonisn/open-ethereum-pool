@@ -9,7 +9,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/ubiq/open-ethereum-pool/util"
+	"../util"
 )
 
 const (

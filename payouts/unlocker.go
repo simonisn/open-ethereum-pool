@@ -6,20 +6,17 @@ import (
 	"math/big"
 	"strconv"
 	"strings"
-	"time"
+	"time"	
 
-	/*"github.com/ethereum/go-ethereum/common/math"*/
-
-	"github.com/ubiq/open-ethereum-pool/rpc"
-	"github.com/ubiq/open-ethereum-pool/storage"
-	"github.com/ubiq/open-ethereum-pool/util"
+	"../rpc"
+	"../storage"
+	"../util"
 )
 
 type UnlockerConfig struct {
 	Enabled        bool    `json:"enabled"`
 	PoolFee        float64 `json:"poolFee"`
 	PoolFeeAddress string  `json:"poolFeeAddress"`
-	Donate         bool    `json:"donate"`
 	Depth          int64   `json:"depth"`
 	ImmatureDepth  int64   `json:"immatureDepth"`
 	KeepTxFees     bool    `json:"keepTxFees"`
@@ -36,10 +33,6 @@ var (
 	BlockReward *big.Int = big.NewInt(8e+18)
 
 )
-
-// Donate 10% from pool fees to developers
-const donationFee = 10.0
-const donationAccount = "0xb85150eb365e7df0941f0cf08235f987ba91506a"
 
 type BlockUnlocker struct {
 	config   *UnlockerConfig
@@ -495,13 +488,6 @@ func (u *BlockUnlocker) calculateRewards(block *storage.BlockData) (*big.Rat, *b
 		extraReward := new(big.Rat).SetInt(block.ExtraReward)
 		poolProfit.Add(poolProfit, extraReward)
 		revenue.Add(revenue, extraReward)
-	}
-
-	if u.config.Donate {
-		var donation = new(big.Rat)
-		poolProfit, donation = chargeFee(poolProfit, donationFee)
-		login := strings.ToLower(donationAccount)
-		rewards[login] += weiToShannonInt64(donation)
 	}
 
 	if len(u.config.PoolFeeAddress) != 0 {
