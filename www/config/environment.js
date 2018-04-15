@@ -1,39 +1,38 @@
 /* jshint node: true */
 module.exports = function (environment) {
   var ENV = {
-      modulePrefix: 'open-ethereum-pool',
-      environment: environment,
-      rootURL: '/',
-      locationType: 'hash',
-      EmberENV: {
-        FEATURES: {
-          // Here you can enable experimental features on an ember canary build
-          // e.g. 'with-controller': true      }
-        },
-        APP: {
-          // HTTP (getWork) mining endpoint
-          HttpHost: 'http://myubiqpool.com',
-          HttpPort: 8888,
-
-          // Stratum mining endpoint
-          StratumHost: 'myubiqpool.com',
-          StratumPort: 8008,
-
-          // Fee and payout details
-          PoolFee: '1.0%',
-          PayoutThreshold: '1 Ubiq',
-
-          // For network hashrate (change for your favourite fork)
-          BlockTime: 88
-        }
+    modulePrefix: 'open-ethereum-pool',
+    environment: environment,
+    rootURL: '/',
+    locationType: 'hash',
+    EmberENV: {
+      FEATURES: {
+        // Here you can enable experimental features on an ember canary build
+        // e.g. 'with-controller': true
       }
+    },  
+
+    APP: {
+      ApiUrl: 'http://myubiqpool.com/',
+
+      // HTTP (getWork) mining endpoint
+      HttpHost: 'http://myubiqpool.com',
+      HttpPort: 8888,
+
+      // Stratum mining endpoint
+      StratumHost: 'myubiqpool.com',
+      StratumPort: 8008,
+
+      // Fee and payout details
+      PoolFee: '1.0%',
+      PayoutThreshold: '1 Ubiq',
+
+      // For network hashrate (change for your favourite fork)
+      BlockTime: 88
     };
+  
 
     if(environment === 'development') {
-      /* Override ApiUrl just for development, while you are customizing
-          frontend markup and css theme on your workstation.    */
-
-      ENV.APP.ApiUrl = 'http://localhost:8080/';
       // ENV.APP.LOG_RESOLVER = true;
       // ENV.APP.LOG_ACTIVE_GENERATION = true;
       // ENV.APP.LOG_TRANSITIONS = true;
@@ -57,4 +56,4 @@ module.exports = function (environment) {
 
     return ENV;
 
-  };
+};
