@@ -1,4 +1,4 @@
-## Open Source Ubiq Mining Pool
+## Open Source Ethereum Mining Pool
 
 ![Miner's stats page](https://15254b2dcaab7f5478ab-24461f391e20b7336331d5789078af53.ssl.cf1.rackcdn.com/ethereum.vanillaforums.com/editor/pe/cf77cki0pjpt.png)
 
@@ -8,7 +8,7 @@
 
 ### Features
 
-**This pool is being further developed to provide an easy to use pool for Ubiq miners. This software is functional however an optimised release of the pool is expected soon. Testing and bug submissions are welcome!**
+**This pool is being further developed to provide an easy to use pool for Ethereum miners. This software is functional however an optimised release of the pool is expected soon. Testing and bug submissions are welcome!**
 
 * Support for HTTP and Stratum mining
 * Detailed block stats with luck percentage and full reward
@@ -17,24 +17,28 @@
 * Separate stats for workers: can highlight timed-out workers so miners can perform maintenance of rigs
 * JSON-API for stats
 
+#### Proxies
+
+* [Ether-Proxy](https://github.com/sammy007/ether-proxy) HTTP proxy with web interface
+* [Stratum Proxy](https://github.com/Atrides/eth-proxy) for Ethereum
 
 ### Building on Linux
 
 Dependencies:
 
   * go >= 1.5
-  * gubiq
+  * geth
   * redis-server >= 2.8.0
   * nodejs >= 4 LTS
   * nginx
 
 **I highly recommend to use Ubuntu 16.04 LTS.**
 
-First install  [go-ubiq](https://github.com/ubiq/go-ubiq).
+First install  [go-ethereum](https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubuntu).
 
 Clone & compile:
 
-    git clone https://github.com/simonisn/open-ethereum-pool.git
+    git clone https://github.com/ubiq/open-ethereum-pool.git
     cd open-ethereum-pool
     make
 
