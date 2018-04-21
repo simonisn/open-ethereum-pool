@@ -1,0 +1,12 @@
+{  
+  apps: [
+    {
+      "name": "Ethminer",
+      "url": "https://www.github.com/ethereum-miner/ethminer"
+    },
+    {
+      "name": "Claymore",
+      "url": "http://google.com"
+    }
+  ]  
+}

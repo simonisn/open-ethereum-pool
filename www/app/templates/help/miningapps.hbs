@@ -1,0 +1,9 @@
+{{#if model.miningapps}}
+<h4>Mining Apps</h4>
+<div>
+  {{#each model.miningapps as |miningapp|}}
+  {{partial "help/miningapp"}}
+  {{/each}}
+</div>
+{{/if}}
+

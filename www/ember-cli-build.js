@@ -6,11 +6,11 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     minifyJS: {
       // Set to false for debugging
-      enabled: true
+      enabled: false
     },
     minifyCSS: {
       // Set to false for debugging
-      enabled: true
+      enabled: false
     },
 
     // Add options here
