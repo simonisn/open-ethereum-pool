@@ -10,17 +10,17 @@ module.exports = function (environment) {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       }
-    },  
+    },
 
     APP: {
-      ApiUrl: 'http://myubiqpool.com/',
+      ApiUrl: 'http://ubiqmining.net/',
 
       // HTTP (getWork) mining endpoint
-      HttpHost: 'http://myubiqpool.com',
+      HttpHost: 'http://ubiqmining.net',
       HttpPort: 8888,
 
       // Stratum mining endpoint
-      StratumHost: 'myubiqpool.com',
+      StratumHost: 'ubiqmining.net',
       StratumPort: 8008,
 
       // Fee and payout details
@@ -29,31 +29,32 @@ module.exports = function (environment) {
 
       // For network hashrate (change for your favourite fork)
       BlockTime: 88
-    };
+    }
+  };
   
 
-    if(environment === 'development') {
-      // ENV.APP.LOG_RESOLVER = true;
-      // ENV.APP.LOG_ACTIVE_GENERATION = true;
-      // ENV.APP.LOG_TRANSITIONS = true;
-      // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-      // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    }
+  if(environment === 'development') {
+    // ENV.APP.LOG_RESOLVER = true;
+    // ENV.APP.LOG_ACTIVE_GENERATION = true;
+    // ENV.APP.LOG_TRANSITIONS = true;
+    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+  }
 
-    if (environment === 'test') {
-      // Testem prefers this...
-      ENV.locationType = 'none';
+  if (environment === 'test') {
+    // Testem prefers this...
+    ENV.locationType = 'none';
 
-      // keep test console output quieter
-      ENV.APP.LOG_ACTIVE_GENERATION = false;
-      ENV.APP.LOG_VIEW_LOOKUPS = false;
-      ENV.APP.rootElement = '#ember-testing';
-    }
+    // keep test console output quieter
+    ENV.APP.LOG_ACTIVE_GENERATION = false;
+    ENV.APP.LOG_VIEW_LOOKUPS = false;
+    ENV.APP.rootElement = '#ember-testing';
+  }
 
-    if (environment === 'production') {
+  if (environment === 'production') {
 
-    }
+  }
 
-    return ENV;
+  return ENV;
 
 };
