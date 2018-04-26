@@ -1,17 +1,16 @@
 import Ember from 'ember';
-import MiningApp from '../models/miningapp';
-import miningapps from '../constants/miningapps';
+import MiningApp from '../models/mining-app';
+// Specify which Mining Apps you want to show on the Help page
+import ExampleMiningAppDefinition from '../constants/mining-apps/example';
+import EthminerMiningAppDefinition from '../constants/mining-apps/ethminer';
 
 export default Ember.Route.extend({
-  model: function () {
+  model: function () {    
     return {
-      miningapps: miningapps.apps.map(function (m) {
-        return new MiningApp(m);
-      })
+      miningApps: [
+        new MiningApp(ExampleMiningAppDefinition),
+        new MiningApp(EthminerMiningAppDefinition)
+      ]
     };
-  },
-
-  setupController: function (controller, model) {
-    this._super(controller, model);    
   }
 });

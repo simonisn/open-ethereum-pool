@@ -5,21 +5,22 @@ var Router = Ember.Router.extend({
   location: config.locationType
 });
 
-Router.map(function() {
+Router.map(function() {  
   this.route('account', { path: '/account/:login' }, function() {
     this.route('payouts');
-  });
-  this.route('not-found');
+  });  
 
   this.route('blocks', function() {
     this.route('immature');
     this.route('pending');
   });
-
-  this.route('help');
+  
   this.route('payments');
   this.route('miners');
+  this.route('help');
   this.route('about');
+
+  this.route('not-found');
 });
 
 export default Router;

@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <h1 style="font-size: 24px">
+        <div class="ubiq-green">
+          <object type="image/svg+xml" data="ubiq-green-small.svg"></object>
+          <strong><span class="logo-2">Pool</span></strong>
+        </div>
+      </h1>
+      <span class="label label-success">PROP</span> Stable and profitable pool with regular payouts.<br/>Payouts are continuuos throughout the day.
+    </div>
+    <div class="col-md-3 stats">      
+      {{#each miningPoolStatsColumn1 as |miningPoolStat|}}
+        {{mining-pool-stat id=miningPoolstat.id
+          iconClass=miningPoolStat.iconClass 
+          title=miningPoolStat.title 
+          value=miningPoolStat.value}}        
+      {{/each}}
+    </div>
+    <div class="col-md-4 stats">
+      {{#each miningPoolStatsColumn2 as |miningPoolStat|}}
+        {{mining-pool-stat id=miningPoolstat.id 
+          iconClass=miningPoolStat.iconClass 
+          title=miningPoolStat.title
+          value=miningPoolStat.value}}        
+      {{/each}}
+    </div>
+  </div>
+</div>

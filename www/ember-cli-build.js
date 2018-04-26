@@ -8,6 +8,7 @@ module.exports = function(defaults) {
       // Set to false for debugging
       enabled: false
     },
+
     minifyCSS: {
       // Set to false for debugging
       enabled: false
@@ -16,6 +17,12 @@ module.exports = function(defaults) {
     // Add options here
     SRI: {
       enabled: false
+    },
+
+    'ember-bootstrap': {
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': true
     }
   });
 

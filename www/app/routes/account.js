@@ -2,17 +2,17 @@ import Ember from 'ember';
 import config from '../config/environment';
 
 export default Ember.Route.extend({
-	model: function(params) {
-		var url = config.APP.ApiUrl + 'api/accounts/' + params.login;
-    return Ember.$.getJSON(url).then(function(data) {
+  model: function (params) {
+    var url = config.APP.ApiUrl + 'api/accounts/' + params.login;
+    return Ember.$.getJSON(url).then(function (data) {
       data.login = params.login;
       return Ember.Object.create(data);
     });
-	},
+  },
 
-  setupController: function(controller, model) {
+  setupController: function (controller, model) {
     this._super(controller, model);
-    Ember.run.later(this, this.refresh, 5000);
+    this.delayedRun = Ember.run.later(this, this.refresh, 5000);
   },
 
   actions: {

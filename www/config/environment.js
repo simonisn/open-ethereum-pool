@@ -10,10 +10,9 @@ module.exports = function (environment) {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       }
-    },
-
+    },    
     APP: {
-      ApiUrl: 'http://ubiqmining.net/',
+      ApiUrl: 'http://www.ubiqmining.net/',
 
       // HTTP (getWork) mining endpoint
       HttpHost: 'http://ubiqmining.net',
@@ -24,21 +23,22 @@ module.exports = function (environment) {
       StratumPort: 8008,
 
       // Fee and payout details
-      PoolFee: '1.0%',
-      PayoutThreshold: '1 Ubiq',
+      PoolFee: '0.5%',
+      PayoutThreshold: '1 UBQ',
 
       // For network hashrate (change for your favourite fork)
       BlockTime: 88
     }
   };
-  
 
-  if(environment === 'development') {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+  if (environment === 'development') {
+     ENV.APP.ApiUrl = 'http://localhost:8080/';
+     
+     ENV.APP.LOG_RESOLVER = true;
+     ENV.APP.LOG_ACTIVE_GENERATION = true;
+     ENV.APP.LOG_TRANSITIONS = true;
+     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+     ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
 
   if (environment === 'test') {

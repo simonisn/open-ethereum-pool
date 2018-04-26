@@ -1,0 +1,28 @@
+{{#bs-navbar as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle}}
+    <a class="navbar-brand" href="#">Brand</a>
+  </div>
+  {{#navbar.content}}
+    {{#navbar.nav as |nav|}}
+      {{#nav.item}}
+        {{#nav.link-to "index"}}Home{{/nav.link-to}}
+      {{/nav.item}}
+      {{#nav.item}}
+        {{#nav.link-to "blocks"}}Pool Blocks{{/nav.link-to}}
+      {{/nav.item}}
+      {{#nav.item}}
+        {{#nav.link-to "payments"}}Payments{{/nav.link-to}}
+      {{/nav.item}}      
+      {{#nav.item}}
+        {{#nav.link-to "miners"}}Miners{{/nav.link-to}}
+      {{/nav.item}}      
+      {{#nav.item}}
+        {{#nav.link-to "help"}}Help{{/nav.link-to}}
+      {{/nav.item}}      
+      {{#nav.item}}
+        {{#nav.link-to "about"}}About{{/nav.link-to}}
+      {{/nav.item}}
+    {{/navbar.nav}}
+  {{/navbar.content}}
+{{/bs-navbar}}
