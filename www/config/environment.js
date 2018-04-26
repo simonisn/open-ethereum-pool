@@ -12,6 +12,8 @@ module.exports = function (environment) {
       }
     },    
     APP: {
+      PoolName: 'UbiqMining.net',
+      
       ApiUrl: 'http://www.ubiqmining.net/',
 
       // HTTP (getWork) mining endpoint
@@ -27,7 +29,9 @@ module.exports = function (environment) {
       PayoutThreshold: '1 UBQ',
 
       // For network hashrate (change for your favourite fork)
-      BlockTime: 88
+      BlockTime: 88,
+
+      StatsRefreshRate: 10000
     }
   };
 

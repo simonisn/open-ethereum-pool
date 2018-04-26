@@ -1,0 +1,19 @@
+<div id="{{id}}" display="block">    
+    <i class="{{iconClass}}"> </i>
+    <span class="text-left">{{title}}</span>
+    <span class="text-right">
+        {{#if value}}
+            {{#if (eq valueType "number")}}
+            {{format-number value}}
+            {{else if (eq valueType "timestamp-relative")}}
+            {{format-relative value}}
+            {{else if (eq valueType "hashrate")}}
+            {{format-hashrate value}}
+            {{else if (eq valueType "metric")}}
+            {{with-metric-prefix value}}
+            {{else}}
+            {{value}}
+            {{/if}}
+        {{/if}}
+    </span>
+</div>

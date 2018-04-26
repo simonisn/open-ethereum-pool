@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <!--CHANGE THIS TO USE CSS STYLE-->
+    <div class="col-md-3">
+      <div>
+      <h1 style="font-size: 24px; margin-top: 0">
+        <div class="ubiq-green">
+            <object type="image/svg+xml" data="ubiq-green-small.svg"></object>
+            <strong>          
+              <span class="logo-2">Mining.net</span>          
+            </strong>        
+        </div>
+      </h1>
+      </div>
+
+      <div style="clear:both">          
+          <span class="label label-success">PROP</span> Stable and profitable pool with regular payouts throughout the day.
+      </div>
+    </div>
+
+    <div class="col-md-3 stats">      
+      {{mining-stat iconClass="fa fa-money" title="Payout Threshold:" value=model.payoutThreshold valueType="numeric"}} 
+      {{mining-stat iconClass="fa fa-money" title="Pool Fee:" value=model.poolFee valueType="numeric"}}      
+    </div>      
+    <div class="col-md-3 stats">
+      {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=model.minersTotal valueType="numeric"}}
+      {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=model.hashrate valueType="hashrate"}} 
+      {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=model.lastBlockFound valueType="timestamp-relative"}}
+    </div>
+    <div class="col-md-3 stats">
+      {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=model.difficulty valueType="metric"}} 
+      {{mining-stat iconClass="fa fa-tachometer" title="Network Hashrate:" value=model.networkHashrate valueType="hashrate"}} 
+      {{mining-stat iconClass="fa fa-bars" title="Blockchain Height::" value=model.height valueType="numeric"}}
+    </div>
+  </div>
+</div>

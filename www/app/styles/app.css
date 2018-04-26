@@ -38,7 +38,7 @@ body > .container {
   margin: 20px 0;
 }
 
-.footer > .container {
+.footer > .container {  
   padding-right: 15px;
   padding-left: 15px;
 }
@@ -135,7 +135,7 @@ span.logo-1 {
 span.logo-2 {
 	font-weight: 700;
 	color: #4A4A4A;
-  padding: 0 23px 0 5px;
+  padding: 0 3px 0 5px;
 }
 
 span.logo-3 {
@@ -163,6 +163,7 @@ span.logo-gold {
 .ubiq-green > strong{
   float: left;
 }
+
 
 
 /* That time i figured out how to do that thing to scale svg

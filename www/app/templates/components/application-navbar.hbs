@@ -1,27 +1,45 @@
 {{#bs-navbar as |navbar|}}
   <div class="navbar-header">
     {{navbar.toggle}}
-    <a class="navbar-brand" href="#">Brand</a>
+    <a class="navbar-brand" href="#">{{poolName}}</a>
   </div>
   {{#navbar.content}}
     {{#navbar.nav as |nav|}}
       {{#nav.item}}
-        {{#nav.link-to "index"}}Home{{/nav.link-to}}
+        {{#nav.link-to "index"}}
+        <i class="fa fa-home"></i> Home
+        {{/nav.link-to}}
       {{/nav.item}}
       {{#nav.item}}
-        {{#nav.link-to "blocks"}}Pool Blocks{{/nav.link-to}}
+        {{#nav.link-to "blocks"}}
+        <i class="fa fa-cubes"></i> Pool Blocks
+        {{#if model.newBlocksTotal}}
+        <span class="ul">{{model.newBlocksTotal}}</span>
+        {{/if}}                
+        {{/nav.link-to}}
       {{/nav.item}}
       {{#nav.item}}
-        {{#nav.link-to "payments"}}Payments{{/nav.link-to}}
+        {{#nav.link-to "payments"}}
+        <i class="fa fa-money"></i> Payments
+        {{/nav.link-to}}
       {{/nav.item}}      
       {{#nav.item}}
-        {{#nav.link-to "miners"}}Miners{{/nav.link-to}}
+        {{#nav.link-to "miners" currentWhen="miners account"}}
+        <i class="fa fa-users"></i> Miners
+        {{#if model.minersTotal}}
+        <span class="ul">{{model.minersTotal}}</span>
+        {{/if}}
+        {{/nav.link-to}}
       {{/nav.item}}      
       {{#nav.item}}
-        {{#nav.link-to "help"}}Help{{/nav.link-to}}
+        {{#nav.link-to "help"}}
+        <i class="fa fa-question"></i> Help
+        {{/nav.link-to}}
       {{/nav.item}}      
       {{#nav.item}}
-        {{#nav.link-to "about"}}About{{/nav.link-to}}
+        {{#nav.link-to "about"}}
+        <i class="fa fa-comments"></i> About
+        {{/nav.link-to}}
       {{/nav.item}}
     {{/navbar.nav}}
   {{/navbar.content}}
