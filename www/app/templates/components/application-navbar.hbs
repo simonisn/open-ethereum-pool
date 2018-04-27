@@ -1,7 +1,9 @@
-{{#bs-navbar as |navbar|}}
+{{#bs-navbar class='navbar-fixed-top' as |navbar|}}
   <div class="navbar-header">
     {{navbar.toggle}}
-    <a class="navbar-brand" href="#">{{poolName}}</a>
+    <a class="navbar-brand center" href="/">
+        <object type="image/svg+xml" data="ubiq.svg" class="ubiq"></object>
+    </a>
   </div>
   {{#navbar.content}}
     {{#navbar.nav as |nav|}}
