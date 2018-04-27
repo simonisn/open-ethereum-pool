@@ -1,6 +1,6 @@
 {
     "name": "Application Name",
-    "description": "Description of application",
+    "info": "Description of application",
     "url": "http://www.myminingapp.com/releases",
     "runtime": {
         "example": "MyMiningApp.exe -S [STRATUMHOST]:[STRATUMPORT] -A <YOUR_UBIQ_ADDRESS>.<YOUR_RIG_ID>",
@@ -8,65 +8,65 @@
             "sections": [
                 {
                     "name": "Main Runtime Parameters",
-                    "description": "The most commonly used runtime parameters.",
+                    "info": "The most commonly used runtime parameters.",
                     "parameters": [
                         {
                             "name": "-A",
-                            "description": "Description of what the -A parameter does.",
+                            "info": "Description of what the -A parameter does.",
                         },
                         {
                             "name": "-B <value>",
-                            "description": "Description of what the -B parameter does.",
+                            "info": "Description of what the -B parameter does.",
                             "values": [                            
                                 {
-                                    "value": "1",
-                                    "description": "Description of what this value represents."
+                                    "name": "1",
+                                    "info": "Description of what this value represents."
                                 },
                                 {
-                                    "value": "2",
-                                    "description": "Description of what this value represents."
+                                    "name": "2",
+                                    "info": "Description of what this value represents."
                                 },
                                 {
-                                    "value": "3",
-                                    "description": "Description of what this value represents."
+                                    "name": "3",
+                                    "info": "Description of what this value represents."
                                 }
                             ]
                         },
                         {
                             "name": "-C",
-                            "description": "Description of what the -C parameter does."
+                            "info": "Description of what the -C parameter does."
                         },
                     ]
                 },                
                 {
                     "name": "More parameters",
-                    "description": "Less commonly used parameters",
+                    "info": "Less commonly used parameters",
                     "parameters": [
                         {
                             "name": "-X",
-                            "description": "Description of what the -X parameter does."
+                            "info": "Description of what the -X parameter does."
                         },
                         {
                             "name": "-Y <value>",
-                            "description": "Description of what the -Y parameter does.",
+                            "info": "Description of what the -Y parameter does.",
                             "values":[
                                 {
-                                    "value": "0",
-                                    "description": "Description of what this value represents."
+                                    "name": "0",
+                                    "info": "Description of what this value represents."
                                 },
                                 {
-                                    "value": "1",
-                                    "description": "Description of what this value represents."
+                                    "name": "1",
+                                    "info": "Description of what this value represents."
                                 },
                                 {
-                                    "value": "11",
-                                    "description": "Description of what this value represents."
+                                    "name": "11",
+                                    "info": "Description of what this value represents."
                                 }
                             ]
                         },
                         {
                             "name": "-Z",
-                            "description": "Description of what the -Z parameter does."
+                            "info": "Description of what the -Z parameter does."
                         }
                     ]
                 }
@@ -75,12 +75,12 @@
     },
     "notes": [
         {
-            "title": "Note 1 Title",
-            "details": "Note 1 Details"
+            "name": "Note 1 Title",
+            "info": "Note 1 Details"
         }, 
         {
-            "title": "Note 2 Title",
-            "details": "Note 2 Details"
+            "name": "Note 2 Title",
+            "info": "Note 2 Details"
         }
     ]
 }

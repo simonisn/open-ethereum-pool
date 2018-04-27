@@ -368,3 +368,31 @@ h4.note {
 }
 
 /*--------------------------------------| x-x-x-x-x-x-x-x-x-x |--------------------------------------*/
+
+
+/*-----------------------------------| Mining App Runtime Classes |----------------------------------*/
+
+.runtime-param div:nth-of-type(1) {  
+  display:inline-block;
+  width:100px;
+}
+
+.runtime-param div:nth-of-type(2) {  
+  display:inline-block;
+}
+
+.runtime-param-value div:nth-of-type(1) {
+  display:inline-block;  
+  text-align:right;
+  width:50px;
+  margin-right:50px;
+}
+
+.runtime-param-value div:nth-of-type(2) {
+  display:inline-block;  
+}
+
+
+
+
+/*--------------------------------------| x-x-x-x-x-x-x-x-x-x |--------------------------------------*/
