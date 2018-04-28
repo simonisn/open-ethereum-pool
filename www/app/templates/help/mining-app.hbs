@@ -2,9 +2,9 @@
   <div>
     <h3>Mining with {{miningApp.name}}</h3>
     <p>{{miningApp.info}}</p>
-    <p class="lead">Get the lastest version of
+    <h4>Get the lastest version of
         <a href="{{miningApp.url}}" target="_blank">{{miningApp.name}}</a>
-    </p>
+    </h4>
   </div>
   {{#if miningApp.runtime}}  
   <div>
@@ -37,29 +37,35 @@
               </div>
               <div id="mining-app-{{miningAppIndex}}-runtime-options-section-{{sectionIndex}}-collapse" class="panel-collapse collapse">
                 <div class="panel-body">
-                  <h5>{{section-info}}</h5>                 
+                  <h5>{{section-info}}</h5>    
 
-                  {{#each section.parameters as |param|}}
-                    <div class="runtime-param">                      
-                      <div>{{param.name}}</div>                      
-                      <div>{{param.info}}</div>
-                    </div>  
-                    {{#each param.values as |value|}}
-                      <div class="runtime-param-value">
-                        <div>{{value.name}}</div>                          
-                        <div>{{value.info}}</div>                          
-                      </div>             
-                    {{/each}}                    
-                  {{/each}}
+                  <table class="table table-striped table-condensed">
+                    <thead>
+                      <th>Parameter</th>
+                      <th>Description</th>
+                    </thead>
+                    <tbody>
+                    {{#each section.parameters as |param|}}
+                      <tr>
+                        <td><div style="vertical-align:top;">{{param.name}}</div></td>
+                        <td><div style="vertical-align:top;">{{param.info}}</div></td>
+                      </tr>
+                      {{#each param.values as |value|}}
+                        <tr>
+                          <td><div style="margin-left:25px;vertical-align:top;">{{value.name}}</div></td>
+                          <td><div style="margin-left:25px;vertical-align:top;">{{value.info}}</div></td>
+                        </tr>                        
+                      {{/each}}
+                    {{/each}}
+                    </tbody>
+                  </table>
+
                 </div>
               </div>
             </div>
           {{/each}}            
         </div>
       </div>
-
-
-
     </div>
     {{/if}}
 

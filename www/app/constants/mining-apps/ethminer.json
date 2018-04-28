@@ -1,72 +1,228 @@
 {
     "name": "Ethminer",
-    "info": "Description of application",
-    "url": "http://www.myminingapp.com/releases",
+    "info": "Ethereum miner with OpenCL, CUDA and stratum support",
+    "url": "https://github.com/ethereum-mining/ethminer",
     "runtime": {
-        "example": "MyMiningApp.exe -S [STRATUMHOST]:[STRATUMPORT] -A <YOUR_UBIQ_ADDRESS>.<YOUR_RIG_ID>",
+        "example": "Ethminer.exe -S [STRATUMHOST]:[STRATUMPORT] -SP 1 -O <YOUR_UBIQ_ADDRESS>.<YOUR_RIG_ID>",
         "options": {
             "sections": [
                 {
-                    "name": "Main Runtime Parameters",
-                    "info": "The most commonly used runtime parameters.",
-                    "parameters": [
+                    "name": "Stratum Options",
+                    "info": "These settings tell Ethminer how to connect to a server.",
+                    "parameters": [                        
                         {
-                            "name": "-A",
-                            "info": "Description of what the -A parameter does.",
+                            "name":"-S, --stratum <host:port>",
+                            "info":"Put into stratum mode with the stratum server at host:port"
                         },
                         {
-                            "name": "-B <value>",
-                            "info": "Description of what the -B parameter does.",
-                            "values": [                            
+                            "name":"-SF, --stratum-failover <host:port>",
+                            "info":"Failover stratum server at host:port"
+                        },
+                        {
+                            "name":"-SC, --stratum-client <n>",
+                            "info":"Stratum client version",
+                            "values": [
                                 {
                                     "name": "1",
-                                    "info": "Description of what this value represents."
+                                    "info": "async client (default)"
                                 },
                                 {
                                     "name": "2",
-                                    "info": "Description of what this value represents."
+                                    "info": "new synchronous client."
+                                }
+                            ] 
+                        },
+                        {
+                            "name":"-SP, --stratum-protocol <n>",
+                            "info":"Choose which stratum protocol to use",
+                            "values": [
+                                {
+                                    "name":"0",
+                                    "info":"official stratum spec: ethpool, ethermine, coinotron, mph, nanopool (default)"
                                 },
                                 {
-                                    "name": "3",
-                                    "info": "Description of what this value represents."
+                                    "name":"1",
+                                    "info":"eth-proxy compatible: dwarfpool, f2pool, nanopool (required for hashrate reporting to work with nanopool)"
+                                },
+                                {
+                                    "name":"2",
+                                    "info":"EthereumStratum/1.0.0: nicehash"
                                 }
                             ]
                         },
                         {
-                            "name": "-C",
-                            "info": "Description of what the -C parameter does."
+                            "name":"--work-timeout <n>",
+                            "info":"Reconnect/failover after n seconds of working on the same (stratum) job. Defaults to 180. Don't set lower than max. avg. block time"
+                        },
+                        {
+                            "name":"-O, --userpass <username.workername:password>",
+                            "info":" Stratum login credentials"
+                        },
+                        {   "name":"-FO, --failover-userpass <username.workername:password>",
+                            "info":" Failover stratum login credentials (optional, will use normal credentials when omitted)"
+                        },
+                        {
+                            "name":"-SE, --stratum-email <s>",
+                            "info":"Email address used in eth-proxy (optional)"
+                        },
+                        {
+                            "name":"-RH, --report-hashrate",
+                            "info":"Report current hashrate to pool (please only enable on pools supporting this)"
                         }
                     ]
-                },                
+                }, 
                 {
-                    "name": "More parameters",
-                    "info": "Less commonly used parameters",
-                    "parameters": [
+                    "name":"GetWork Options",
+                    "info":"These settings are used when connecting directly to GUbiq or a mining pool that supports the GetWork method.",
+                    "parameters": [                      
                         {
-                            "name": "-X",
-                            "info": "Description of what the -X parameter does."
+                            "name": "-F,--farm <url>",
+                            "info": "Put into mining farm mode with the getwork server at URL (default: http://127.0.0.1:8545)",
                         },
                         {
-                            "name": "-Y <value>",
-                            "info": "Description of what the -Y parameter does.",
-                            "values":[
+                            "name": "-FF,-FO, --farm-failover <url>",
+                            "info": "Failover getwork URL (default: disabled)"                            
+                        },
+                        {
+                            "name": "--farm-retries <n>",
+                            "info": "Number of retries until switch to failover (default: 3)"
+                        },  
+                        {
+                            "name":"--farm-recheck <n>",
+                            "info":"Leave n ms between checks for changed work (default: 500). When using stratum, use a high value (i.e. 2000) to get more stable hashrate output"
+                        }
+                    ]
+                },
+                {
+                    "name": "Mining Configuration",
+                    "info": "",
+                    "parameters": [
+                        {
+                            "name": "--list-devices",
+                            "info": "List the detected OpenCL/CUDA devices and exit. Should be combined with -G or -U flag."
+                        },
+                        {
+                            "name":"-t, --mining-threads <n>",
+                            "info":"Limit number of CPU/GPU miners to n (default: use everything available on selected platform)"
+                        },
+                        {
+                            "name": "-L, --dag-load-mode <mode>",
+                            "info": "DAG generation mode.",
+                            "values": [
                                 {
-                                    "name": "0",
-                                    "info": "Description of what this value represents."
+                                    "name":"parallel",
+                                    "info":"Load DAG on all GPUs at the same time (default)"
                                 },
                                 {
-                                    "name": "1",
-                                    "info": "Description of what this value represents."
+                                    "name":"sequential",
+                                    "info":"Load DAG on GPUs one after another. Use this when the miner crashes during DAG generation."
                                 },
                                 {
-                                    "name": "11",
-                                    "info": "Description of what this value represents."
+                                    "name":"single <n>",
+                                    "info":"Generate DAG on device n, then copy to other devices."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "OpenCL Configuration",
+                    "info": "",
+                    "parameters": [
+                        {
+                            "name": "-G,--opencl",
+                            "info": "When mining use the GPU via OpenCL."
+                        },                       
+                        {
+                            "name": "-X,--cuda-opencl",
+                            "info": "Use OpenCL + CUDA in a system with mixed AMD/Nvidia cards. May require setting --opencl-platform 1"
+                        },
+                        {
+                            "name":"--opencl-platform <n>",
+                            "info":"When mining using -G/--opencl use OpenCL platform n (default: 0)."
+                        },
+                        {
+                            "name":"--opencl-device <n>",
+                            "info":"When mining using -G/--opencl use OpenCL device n (default: 0)."
+                        },
+                        {
+                            "name":"--cl-kernel <n>",
+                            "info":"Use a different OpenCL kernel (default: use stable kernel)",
+                            "values": [
+                                {
+                                    "name":"0",
+                                    "info":"stable kernel"
+                                },
+                                {
+                                    "name":"1",
+                                    "info":"unstable kernel"
                                 }
                             ]
                         },
                         {
-                            "name": "-Z",
-                            "info": "Description of what the -Z parameter does."
+                            "name":"--cl-local-work <n>",
+                            "info":"Set the OpenCL local work size. Default is 128"
+                        },
+                        {
+                            "name":"--cl-global-work <n>",
+                            "info":"Set the OpenCL global work size as a multiple of the local work size. Default is 8192 * 128"
+                        },
+                        {
+                            "name":"--cl-parallel-hash <n>",
+                            "info":"<1 2 ..8> Define how many threads to associate per hash. Default=8"                            
+                        }
+
+                    ]
+                },
+                {
+                    "name": "CUDA Configuration",
+                    "info": "These settings can be used when working with GPUs supporting CUDA",
+                    "parameters": [
+                        {
+                            "name": "-U,--cuda",
+                            "info": "When mining use the GPU via CUDA."                            
+                        },
+                        {
+                            "name": "--cuda-block-size <n>",
+                            "info": "Set the CUDA block work size. Default is 128"                            
+                        },
+                        {
+                            "name": "--cuda-grid-size <n>",
+                            "info": "Set the CUDA grid size. Default is 8192"
+                        },
+                        {
+                            "name":"--cuda-streams <n>",
+                            "info":"Set the number of CUDA streams. Default is 2"
+                        },
+                        {
+                            "name":"--cuda-schedule <mode>",
+                            "info":"Set the schedule mode for CUDA threads waiting for CUDA devices to finish work. Default is 'sync'.",
+                            "values":[
+                                {
+                                    "name":"auto",
+                                    "info":"Uses a heuristic based on the number of active CUDA contexts in the process C and the number of logical processors in the system P. If C > P, then yield else spin."
+                                },
+                                {
+                                    "name":"spin",
+                                    "info":"Instruct CUDA to actively spin when waiting for results from the device."
+                                },
+                                {
+                                    "name":"yield",
+                                    "info":"Instruct CUDA to yield its thread when waiting for results from the device."
+                                },
+                                {
+                                    "name":"sync",
+                                    "info":"Instruct CUDA to block the CPU thread on a synchronization primitive when waiting for the results from the device."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "--cuda-devices <0 1 ..n>",
+                            "info": "Select which CUDA GPUs to mine on. Default is to use all."
+                        },
+                        {
+                            "name":"--cuda-parallel-hash <1 2 ..8>",
+                            "info":"Define how many hashes to calculate in a kernel, can be scaled to achieve better performance. Default=4"
                         }
                     ]
                 }
@@ -75,12 +231,8 @@
     },
     "notes": [
         {
-            "name": "Note 1 Title",
-            "info": "Note 1 Details"
-        }, 
-        {
-            "name": "Note 2 Title",
-            "info": "Note 2 Details"
-        }
+            "name": "Stratum Connection Timeouts",
+            "info": "During long block times, the default --work-timeout value (180) may be insufficient.  This can cause a reconnect cycle, which can interrupt work.  You can set --work-timeout to a larger value to ensure connection stability. "
+        }        
     ]
 }
