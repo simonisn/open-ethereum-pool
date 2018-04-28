@@ -164,7 +164,11 @@ span.logo-gold {
   float: left;
 }
 
-
+.flag  {
+  height: 150px;
+  width: 250px;
+  pointer-events: none;
+}
 
 /* That time i figured out how to do that thing to scale svg
 
@@ -366,33 +370,5 @@ h4.note {
     background-color: #428359;
     border-color: #2c623e;
 }
-
-/*--------------------------------------| x-x-x-x-x-x-x-x-x-x |--------------------------------------*/
-
-
-/*-----------------------------------| Mining App Runtime Classes |----------------------------------*/
-
-.runtime-param div:nth-of-type(1) {  
-  display:inline-block;
-  width:100px;
-}
-
-.runtime-param div:nth-of-type(2) {  
-  display:inline-block;
-}
-
-.runtime-param-value div:nth-of-type(1) {
-  display:inline-block;  
-  text-align:right;
-  width:50px;
-  margin-right:50px;
-}
-
-.runtime-param-value div:nth-of-type(2) {
-  display:inline-block;  
-}
-
-
-
 
 /*--------------------------------------| x-x-x-x-x-x-x-x-x-x |--------------------------------------*/

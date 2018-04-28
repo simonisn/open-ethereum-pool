@@ -1,9 +1,11 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Route.extend({
+  config: Ember.computed.reads('globals.config'),  
+
   model: function() {
-    var url = config.APP.ApiUrl + 'api/miners';
+    var url = this.get('config').ApiUrl + 'api/miners';
+
     return Ember.$.getJSON(url).then(function(data) {
       if (data.miners) {
         // Convert map to array

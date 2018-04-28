@@ -1,9 +1,10 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Route.extend({
+  config: Ember.computed.reads('globals.config'),  
+
   model: function (params) {
-    var url = config.APP.ApiUrl + 'api/accounts/' + params.login;
+    var url = this.get('config').ApiUrl + 'api/accounts/' + params.login;
     
     return Ember.$.getJSON(url).then(function (data) {
       data.login = params.login;

@@ -1,8 +1,11 @@
 import Ember from 'ember';
-import config from '../config/environment';
 import PoolStatsModel from '../models/pool-stats';
 
 export default Ember.Service.extend({
+    globals: Ember.inject.service('globals'),
+
+    config: Ember.computed.reads('globals.config'),  
+
     model: PoolStatsModel.create(),
 
     _runTimer: null,
@@ -37,7 +40,7 @@ export default Ember.Service.extend({
     loadStats() {
         var that = this;
 
-        Ember.$.getJSON(config.APP.ApiUrl + 'api/stats').then(function(data) {
+        Ember.$.getJSON(that.get('config').ApiUrl + 'api/stats').then(function(data) {
             var model = that.getModel();
 
             console.log('service.model', model);            
@@ -48,7 +51,7 @@ export default Ember.Service.extend({
             
             //model.setProperties(data);            
 
-            that.set('_runTimer', Ember.run.later(that, that.loadStats, config.APP.StatsRefreshRate));
+            that.set('_runTimer', Ember.run.later(that, that.loadStats, that.get('config').StatsRefreshRate));
         });
     },
 
