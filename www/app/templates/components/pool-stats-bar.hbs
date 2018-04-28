@@ -26,7 +26,7 @@
       <div class="col-md-3 stats">
         {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=model.minersTotal valueType="numeric"}}
         {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=model.hashrate valueType="hashrate"}} 
-        {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=model.lastBlockFound valueType="timestamp-relative"}}
+        {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=(seconds-to-ms stats.model.stats.lastBlockFound) valueType="timestamp-relative"}}
       </div>
       <div class="col-md-3 stats">
         {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=model.difficulty valueType="metric"}} 
