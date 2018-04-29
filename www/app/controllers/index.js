@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  config: Ember.computed.reads('globals.config')  ,
+  globalsService: Ember.inject.service('globals'),
+  config: Ember.computed.reads('globalsService.config'),
 
 	cachedLogin: Ember.computed('login', {
     get() {
