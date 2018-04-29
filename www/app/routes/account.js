@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   globalsService: Ember.inject.service('globals'),
   config: Ember.computed.reads('globalsService.config'), 
-
+  
   model: function (params) {
     var url = this.get('config').ApiUrl + 'api/accounts/' + params.login;
     
@@ -15,13 +15,15 @@ export default Ember.Route.extend({
 
   setupController: function (controller, model) {
     this._super(controller, model);
-    this.delayedRun = Ember.run.later(this, this.refresh, this.get('config').StatsRefreshRate);
+    Ember.run.later(this, this.refresh, this.get('config').StatsRefreshRate);
   },
 
-  actions: {
+  actions: {    
     error(error) {
       if (error.status === 404) {
-        return this.transitionTo('not-found');
+        return this.transitionTo('account-not-found');
+      } else {
+        return true;
       }
     }
   }
