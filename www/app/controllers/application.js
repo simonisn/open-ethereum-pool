@@ -1,15 +1,19 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Controller.extend({    
     poolStatsService: Ember.inject.service('pool-stats'),
+    
+    poolStats: Ember.computed(function() {
+        var owner = Ember.getOwner(this);    
+        var poolStats = owner.lookup('object:pool-stats');
 
-    get config() {
-        return config.APP;
-    },
+        console.log('application controller : poolStats lookup', poolStats);      
+        
+        return poolStats;
+    }),
     
     init() {
-        this.get('poolStatsService').start();        
+        this.get('poolStatsService').start();            
     },
 
     willDestroy() {

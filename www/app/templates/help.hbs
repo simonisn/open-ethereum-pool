@@ -7,8 +7,13 @@
         <div class="page-header">
             <h2>Stratum Mining (S)</h2>
         </div>
-        {{#if model.miningApps}} 
-        {{partial "help/mining-apps"}} 
+        {{#if model.miningApps}}
+            <h4>Mining Apps</h4>
+            <div>
+                {{#each model.miningApps as |miningApp miningAppIndex|}}  
+                    {{mining-app miningApp=miningApp miningAppIndex=miningAppIndex}}
+                {{/each}}
+            </div>       
         {{else}}
         <div>
             <p class="lead">Point your favorite Ethash mining application at {{config.StratumHost}}:{{config.StratumPort}} and be sure to

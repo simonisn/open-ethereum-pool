@@ -20,18 +20,18 @@
       </div>
 
       <div class="col-md-3 stats">      
-        {{mining-stat iconClass="fa fa-money" title="Payout Threshold:" value=model.payoutThreshold valueType="numeric"}} 
-        {{mining-stat iconClass="fa fa-money" title="Pool Fee:" value=model.poolFee valueType="numeric"}}      
+        {{mining-stat iconClass="fa fa-money" title="Payout Threshold:" value=poolStats.payoutThreshold valueType="numeric"}} 
+        {{mining-stat iconClass="fa fa-money" title="Pool Fee:" value=poolStats.poolFee valueType="numeric"}}      
       </div>      
       <div class="col-md-3 stats">
-        {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=model.minersTotal valueType="numeric"}}
-        {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=model.hashrate valueType="hashrate"}} 
-        {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=(seconds-to-ms stats.model.stats.lastBlockFound) valueType="timestamp-relative"}}
+        {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=poolStats.minersOnline valueType="numeric"}}
+        {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=poolStats.hashrate valueType="hashrate"}} 
+        {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=(seconds-to-ms poolStats.lastBlockFound) valueType="timestamp-relative"}}
       </div>
       <div class="col-md-3 stats">
-        {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=model.difficulty valueType="metric"}} 
-        {{mining-stat iconClass="fa fa-tachometer" title="Network Hashrate:" value=model.networkHashrate valueType="hashrate"}} 
-        {{mining-stat iconClass="fa fa-bars" title="Blockchain Height::" value=model.height valueType="numeric"}}
+        {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=networkStats.difficulty valueType="metric"}} 
+        {{mining-stat iconClass="fa fa-tachometer" title="Network Hashrate:" value=networkStats.hashrate valueType="hashrate"}} 
+        {{mining-stat iconClass="fa fa-bars" title="Blockchain Height::" value=networkStats.blockchainHeight valueType="numeric"}}
       </div>
     </div>
   </div>

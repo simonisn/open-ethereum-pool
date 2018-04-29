@@ -31,6 +31,10 @@ module.exports = function (environment) {
       // For network hashrate (change for your favourite fork)
       BlockTime: 88,
 
+      // Number of blocks in an epoch
+      EpochBlockCount: 30000,
+
+      // Rate at which stats are refreshed
       StatsRefreshRate: 10000
     }
   };

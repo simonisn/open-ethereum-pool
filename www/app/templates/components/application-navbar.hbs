@@ -15,8 +15,8 @@
       {{#nav.item}}
         {{#nav.link-to "blocks"}}
         <i class="fa fa-cubes"></i> Pool Blocks
-        {{#if model.newBlocksTotal}}
-        <span class="ul">{{model.newBlocksTotal}}</span>
+        {{#if poolStats.newBlocks}}
+        <span class="ul">{{poolStats.newBlocks}}</span>
         {{/if}}                
         {{/nav.link-to}}
       {{/nav.item}}
@@ -28,8 +28,8 @@
       {{#nav.item}}
         {{#nav.link-to "miners" currentWhen="miners account"}}
         <i class="fa fa-users"></i> Miners
-        {{#if model.minersTotal}}
-        <span class="ul">{{model.minersTotal}}</span>
+        {{#if poolStats.minersOnline}}
+        <span class="ul">{{poolStats.minersOnline}}</span>
         {{/if}}
         {{/nav.link-to}}
       {{/nav.item}}      

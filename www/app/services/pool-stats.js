@@ -1,28 +1,17 @@
 import Ember from 'ember';
-import PoolStatsModel from '../models/pool-stats';
 
 export default Ember.Service.extend({
     globals: Ember.inject.service('globals'),
-
     config: Ember.computed.reads('globals.config'),  
 
-    model: PoolStatsModel.create(),
+    poolStats: null,
+    networkStats: null,
 
-    _runTimer: null,
-
-    getModel() {
-        var model = this.get('model');
-
-        console.log('getting service.model', model);
-
-        return model;
+    getStats() {
+        return this.get('stats');
     },
 
-    setModel(model) {
-        console.log('setting service.model', model);
-
-        this.set('model', model);
-    },
+    _runTimer: null,      
 
     init() {
         this._super(arguments);                
@@ -41,18 +30,30 @@ export default Ember.Service.extend({
         var that = this;
 
         Ember.$.getJSON(that.get('config').ApiUrl + 'api/stats').then(function(data) {
-            var model = that.getModel();
-
-            console.log('service.model', model);            
-            
-            that.setModel(PoolStatsModel.create(data));
-
-            // TODO: Update Model Properties instead of replacing the object.  Will thie automatically update component data?
-            
-            //model.setProperties(data);            
+            that.parseStats(data);
 
             that.set('_runTimer', Ember.run.later(that, that.loadStats, that.get('config').StatsRefreshRate));
         });
+    },
+
+    parseStats(data) {
+        // Create PoolStats and NetworkStats data structures
+        // set poolStats and networkStats with new models from the data structures
+
+        var parser,
+            poolStats,
+            networkStats;
+
+        var owner = Ember.getOwner(this);
+        var parser = owner.lookup('object:pool-stats-parser');
+
+        parser.set('data', data);
+
+        poolStats = parser.get('poolStats');
+        networkStats = parser.get('networkStats');
+
+        this.set('poolStats', poolStats);
+        this.set('networkStats', networkStats);
     },
 
     willDestroy() {

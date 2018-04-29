@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  config: Ember.computed.reads('globals.config'),  
+  globalsService: Ember.inject.service('globals'),
+  config: Ember.computed.reads('globalsService.config'), 
 
   model: function (params) {
     var url = this.get('config').ApiUrl + 'api/accounts/' + params.login;
@@ -14,7 +15,7 @@ export default Ember.Route.extend({
 
   setupController: function (controller, model) {
     this._super(controller, model);
-    this.delayedRun = Ember.run.later(this, this.refresh, 5000);
+    this.delayedRun = Ember.run.later(this, this.refresh, this.get('config').StatsRefreshRate);
   },
 
   actions: {

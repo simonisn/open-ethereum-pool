@@ -14,11 +14,6 @@ module.exports = function(defaults) {
       enabled: false
     },
 
-    // Add options here
-    SRI: {
-      enabled: false
-    },
-
     'ember-bootstrap': {
       'bootstrapVersion': 3,
       'importBootstrapFont': true,

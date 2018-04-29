@@ -2,7 +2,8 @@ import Ember from 'ember';
 import Payment from "../models/payment";
 
 export default Ember.Route.extend({
-	config: Ember.computed.reads('globals.config'),  
+	globalsService: Ember.inject.service('globals'),
+    config: Ember.computed.reads('globalsService.config'), 
 
 	model: function() {
 		var url = this.get('config').ApiUrl + 'api/payments';

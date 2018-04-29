@@ -2,7 +2,8 @@ import Ember from 'ember';
 import Block from "../models/block";
 
 export default Ember.Route.extend({
-	config: Ember.computed.reads('globals.config'),  
+	globalsService: Ember.inject.service('globals'),
+    config: Ember.computed.reads('globalsService.config'), 
 
 	model: function() {
 	
