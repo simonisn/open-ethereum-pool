@@ -4,16 +4,6 @@ var Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    minifyJS: {
-      // Set to false for debugging
-      enabled: false
-    },
-
-    minifyCSS: {
-      // Set to false for debugging
-      enabled: false
-    },
-
     'ember-bootstrap': {
       'bootstrapVersion': 3,
       'importBootstrapFont': true,
