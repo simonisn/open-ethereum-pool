@@ -7,8 +7,16 @@ export default Ember.Object.extend({
         return this.get('poolStatsService.networkStats');
     }),
 
-    difficulty: Ember.computed.reads('data.difficulty'),
-    hashrate: Ember.computed.reads('data.hashrate'),
-    blockchainHeight: Ember.computed.reads('data.blockchainHeight'),
-    epochDate: Ember.computed.reads('data.epochDate')
+    difficulty: Ember.computed('data', function() {
+        return this.getWithDefault('data.difficulty', 0);
+    }),
+    hashrate: Ember.computed('data', function() {
+        return this.getWithDefault('data.hashrate', 0);
+    }),    
+    blockchainHeight: Ember.computed('data', function() {
+        return this.getWithDefault('data.blockchainHeight', 0);
+    }),
+    epochDate: Ember.computed('data', function() {
+        return this.getWithDefault('data.epochDate', 0);
+    })
 });

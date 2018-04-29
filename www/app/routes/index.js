@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import PoolStats from '../models/shared/pool-stats';
-import NetworkStats from '../models/shared/network-stats';
 
 export default Ember.Route.extend({
   poolStatsService: Ember.inject.service('pool-stats'),
@@ -17,7 +15,7 @@ export default Ember.Route.extend({
 		return {
       poolStats: poolStats,
       networkStats: networkStats
-    } 
+    }; 
 	},
 
   actions: {

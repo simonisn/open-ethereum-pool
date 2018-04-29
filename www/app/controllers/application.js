@@ -11,9 +11,22 @@ export default Ember.Controller.extend({
         
         return poolStats;
     }),
+
+    networkStats: Ember.computed(function() {
+        var owner = Ember.getOwner(this);    
+        var networkStats = owner.lookup('object:network-stats');
+
+        console.log('application controller : networkStats lookup', networkStats);      
+        
+        return networkStats;
+    }),
     
     init() {
-        this.get('poolStatsService').start();            
+        this._super(...arguments);
+
+        var serviceStartVal = this.get('poolStatsService').start();
+
+        console.log('serviceStartVal', serviceStartVal);
     },
 
     willDestroy() {

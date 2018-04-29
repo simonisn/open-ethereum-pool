@@ -4,8 +4,8 @@ export default Ember.Service.extend({
     globals: Ember.inject.service('globals'),
     config: Ember.computed.reads('globals.config'),  
 
-    poolStats: null,
-    networkStats: null,
+    poolStats: {},
+    networkStats: {},
 
     getStats() {
         return this.get('stats');
@@ -14,11 +14,11 @@ export default Ember.Service.extend({
     _runTimer: null,      
 
     init() {
-        this._super(arguments);                
+        this._super(arguments);
     },    
 
     start() {
-        this.loadStats();
+        return this.loadStats();
     },
 
     stop() {
@@ -29,7 +29,7 @@ export default Ember.Service.extend({
     loadStats() {
         var that = this;
 
-        Ember.$.getJSON(that.get('config').ApiUrl + 'api/stats').then(function(data) {
+        return Ember.$.getJSON(that.get('config').ApiUrl + 'api/stats').then(function(data) {
             that.parseStats(data);
 
             that.set('_runTimer', Ember.run.later(that, that.loadStats, that.get('config').StatsRefreshRate));
@@ -40,12 +40,13 @@ export default Ember.Service.extend({
         // Create PoolStats and NetworkStats data structures
         // set poolStats and networkStats with new models from the data structures
 
-        var parser,
+        var owner,
+            parser,
             poolStats,
             networkStats;
 
-        var owner = Ember.getOwner(this);
-        var parser = owner.lookup('object:pool-stats-parser');
+        owner = Ember.getOwner(this);
+        parser = owner.lookup('object:pool-stats-parser');
 
         parser.set('data', data);
 

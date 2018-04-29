@@ -69,16 +69,16 @@ export default Ember.Object.extend({
         return networkHashRate;                    
     }),
 
-    epochDate: Ember.computed('blockChainHeight', 'config.BlockTime', 'config.EpochBlockCount', function() {
+    epochDate: Ember.computed('blockchainHeight', 'config.BlockTime', 'config.EpochBlockCount', function() {
         console.debug('Computing nextEpoch');
 
-        var blockChainHeight = this.get('blockChainHeight'),
+        var blockchainHeight = this.get('blockchainHeight'),
             blockTime = this.get('config.BlockTime'),
             epochBlockCount = this.get('config.EpochBlockCount'),
             epochOffset,
             epochDate;
-
-        epochOffset = (epochBlockCount - (blockChainHeight % epochBlockCount)) * 1000 * blockTime;
+        
+        epochOffset = (epochBlockCount - (blockchainHeight % epochBlockCount)) * 1000 * blockTime;
         epochDate = Date.now() + epochOffset;     
         
         console.debug('epochDate', epochDate);
@@ -106,23 +106,23 @@ export default Ember.Object.extend({
 
     poolStats: Ember.computed('config.PayoutThreshold', 'config.PoolFee', 'data.minersTotal', 'data.hashrate', 'data.stats.lastBlockFound', 'data.stats.roundShares', 'roundVariance', 'newBlocks', function() {
         return {
-            payoutThreshold: this.get('config.PayoutThreshold'),
-            poolFee: this.get('config.PoolFee'),
-            minersOnline: this.get('data.minersTotal'),
-            hashrate: this.get('data.hashrate'),
-            lastBlockFound: this.get('data.stats.lastBlockFound'),
-            newBlocks: this.get('newBlocks'),
-            roundShares: this.get('data.stats.roundShares'),
-            roundVariance: this.get('roundVariance')
+            payoutThreshold: this.getWithDefault('config.PayoutThreshold', 0),
+            poolFee: this.getWithDefault('config.PoolFee', 0),
+            minersOnline: this.getWithDefault('data.minersTotal', 0),
+            hashrate: this.getWithDefault('data.hashrate', 0),
+            lastBlockFound: this.getWithDefault('data.stats.lastBlockFound', 0),
+            newBlocks: this.getWithDefault('newBlocks', 0),
+            roundShares: this.getWithDefault('data.stats.roundShares', 0),
+            roundVariance: this.getWithDefault('roundVariance', 0)
         };
     }),
 
     networkStats: Ember.computed('difficulty', 'networkHashrate', 'blockchainHeight', 'epochDate', function() {
         return {
-            difficulty: this.get('difficulty'),
-            hashrate: this.get('networkHashrate'),
-            blockchainHeight: this.get('blockchainHeight'),
-            epochDate: this.get('epochDate')
+            difficulty: this.getWithDefault('difficulty', 0),
+            hashrate: this.getWithDefault('networkHashrate', 0),
+            blockchainHeight: this.getWithDefault('blockchainHeight', 0),
+            epochDate: this.getWithDefault('epochDate', 0)
         };
     })
 });

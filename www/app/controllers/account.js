@@ -1,13 +1,26 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({  
-  poolStatsService: Ember.inject.service('pool-stats'),
-  poolStats: Ember.computed('poolStatsService.stats', function() {
-    return this.get('poolStatsService').getStats();
-  }),  
+  poolStats: Ember.computed(function() {
+    var owner = Ember.getOwner(this);    
+    var poolStats = owner.lookup('object:pool-stats');    
 
-  roundPercent: Ember.computed('model', 'poolStats', function() {    
-    var poolRoundShares = this.get('poolStats.stats.roundShares'),
+    console.log('account controller : poolStats lookup', poolStats);          
+    
+    return poolStats;
+  }),
+
+  networkStats: Ember.computed(function() {
+    var owner = Ember.getOwner(this);        
+    var networkStats = owner.lookup('object:network-stats');
+
+    console.log('account controller : networkStats lookup', networkStats);
+    
+    return networkStats;
+  }),
+
+  roundPercent: Ember.computed('model', 'poolStats.roundShares', function() {    
+    var poolRoundShares = this.get('poolStats.roundShares'),
         loginRoundShares = this.get('model.roundShares'),      
         percent = 0;
     
