@@ -23,12 +23,12 @@ export default Ember.Object.extend({
         return this.getWithDefault('data.lastBlockFound', 0);
     }),
     newBlocks: Ember.computed('data', function() {
-        return this.getWithDefault('data.newBlocksTotal', 0);
+        return this.getWithDefault('data.newBlocks', 0);
     }),
     roundVariance: Ember.computed('data', function() {
         return this.getWithDefault('data.roundVariance', 0);
     }),    
     roundShares: Ember.computed('data', function() {
-        return this.getWithDefault('data.roundShares', 0)
+        return this.getWithDefault('data.roundShares', 0);
     })
 });
