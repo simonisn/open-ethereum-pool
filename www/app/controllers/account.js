@@ -3,18 +3,14 @@ import Ember from 'ember';
 export default Ember.Controller.extend({  
   poolStats: Ember.computed(function() {
     var owner = Ember.getOwner(this);    
-    var poolStats = owner.lookup('object:pool-stats');    
-
-    console.log('account controller : poolStats lookup', poolStats);          
+    var poolStats = owner.lookup('object:pool-stats');        
     
     return poolStats;
   }),
 
   networkStats: Ember.computed(function() {
     var owner = Ember.getOwner(this);        
-    var networkStats = owner.lookup('object:network-stats');
-
-    console.log('account controller : networkStats lookup', networkStats);
+    var networkStats = owner.lookup('object:network-stats');    
     
     return networkStats;
   }),

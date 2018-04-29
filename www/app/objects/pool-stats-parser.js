@@ -7,8 +7,6 @@ export default Ember.Object.extend({
     data: null,            
 
     bestNode: Ember.computed('data.nodes', function() {
-        console.debug('Computing bestNode');
-
         var node = null,
             nodes = this.get('data.nodes');
         
@@ -22,14 +20,10 @@ export default Ember.Object.extend({
             });
         }
 
-        console.debug('bestNode', node);
-
         return node;           
     }),
 
     blockchainHeight: Ember.computed('bestNode', function() {     
-        console.debug('Computing blockchainHeight');
-        
         var height = 0,
             node = this.get('bestNode');
 
@@ -37,14 +31,10 @@ export default Ember.Object.extend({
             height = node.height;
         }
 
-        console.debug('blockchainHeight', height);
-
         return height;
     }),
 
     difficulty: Ember.computed('bestNode', function() {
-        console.debug('Computing difficulty');    
-
         var difficulty = 0,
             node = this.get('bestNode');
 
@@ -52,26 +42,18 @@ export default Ember.Object.extend({
             difficulty = node.difficulty;
         }
 
-        console.debug('difficulty', difficulty);    
-
         return difficulty;
     }),    
 
     networkHashrate: Ember.computed('difficulty', 'config.BlockTime', function() {        
-        console.debug('Computing networkHashrate');    
-
         var networkHashRate = 0;
         
         networkHashRate = this.getWithDefault('difficulty', 0) / this.getWithDefault('config.BlockTime', 1);
-
-        console.debug('networkHashrate', networkHashRate);    
 
         return networkHashRate;                    
     }),
 
     epochDate: Ember.computed('blockchainHeight', 'config.BlockTime', 'config.EpochBlockCount', function() {
-        console.debug('Computing nextEpoch');
-
         var blockchainHeight = this.get('blockchainHeight'),
             blockTime = this.get('config.BlockTime'),
             epochBlockCount = this.get('config.EpochBlockCount'),
@@ -80,8 +62,6 @@ export default Ember.Object.extend({
         
         epochOffset = (epochBlockCount - (blockchainHeight % epochBlockCount)) * 1000 * blockTime;
         epochDate = Date.now() + epochOffset;     
-        
-        console.debug('epochDate', epochDate);
 
         return epochDate;            
     }),   
@@ -91,15 +71,11 @@ export default Ember.Object.extend({
     }),
 
     roundVariance: Ember.computed('difficulty', 'data.stats.roundShares', function() {        
-        console.debug('Computing roundVariance');    
-
         var percent = this.get('data.stats.roundShares') / this.getWithDefault('difficulty', 1);
 
         if (!percent) {
             percent = 0;
         }
-
-        console.debug('roundVariance', percent);    
 
         return percent.toFixed(2);                            
     }),

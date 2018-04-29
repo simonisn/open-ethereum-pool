@@ -5,9 +5,7 @@ export default Ember.Component.extend({
     config: Ember.computed.reads('globalsService.config'),  
 
     init() {
-        this._super(...arguments);
-
-        console.log('miningapp', this.get('miningApp'));
+        this._super(...arguments);        
 
         var example = this.get('miningApp.runtime.example'),
             config = this.get('config');

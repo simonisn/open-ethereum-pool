@@ -5,18 +5,14 @@ export default Ember.Controller.extend({
     
     poolStats: Ember.computed(function() {
         var owner = Ember.getOwner(this);    
-        var poolStats = owner.lookup('object:pool-stats');
-
-        console.log('application controller : poolStats lookup', poolStats);      
+        var poolStats = owner.lookup('object:pool-stats');        
         
         return poolStats;
     }),
 
     networkStats: Ember.computed(function() {
         var owner = Ember.getOwner(this);    
-        var networkStats = owner.lookup('object:network-stats');
-
-        console.log('application controller : networkStats lookup', networkStats);      
+        var networkStats = owner.lookup('object:network-stats');        
         
         return networkStats;
     }),
@@ -24,9 +20,7 @@ export default Ember.Controller.extend({
     init() {
         this._super(...arguments);
 
-        var serviceStartVal = this.get('poolStatsService').start();
-
-        console.log('serviceStartVal', serviceStartVal);
+        this.get('poolStatsService').start();        
     },
 
     willDestroy() {
