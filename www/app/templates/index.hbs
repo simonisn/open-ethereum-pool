@@ -21,15 +21,15 @@
           <div class="row">            
             <div class="col-md-12">
               <p class="lead text-center">
-                <a href="#/help" class="ul-link">
+                {{#link-to "help"}}
                   <span class="ul ul-warning">Stratum</span>
-                </a>
+                {{/link-to}}
               </p>             
             </div>
           </div>
           <div class="row">                        
             <div class="text-center">
-              <object type="image/svg+xml" data="flag-usa.svg" class="flag"></object>
+              <object type="image/svg+xml" data="assets/images/flag-usa.svg" class="flag"></object>
             </div>
             <p class="text-center">{{config.StratumHost}}:{{config.StratumPort}}</p>
           </div>          
