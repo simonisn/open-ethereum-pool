@@ -1,6 +1,7 @@
 <div class="container">
   {{#if model.workers}}
   <h4>Your Workers</h4>
+  <div class="table-responsive">
   <table class="table table-condensed table-striped">
     <thead>
       <tr>
@@ -21,6 +22,7 @@
       {{/each-in}}
     </tbody>
   </table>
+  </div>
   {{else}}
     <h3>No workers online</h3>
   {{/if}}

@@ -1,48 +1,51 @@
-{{#bs-navbar class='navbar-fixed-top' as |navbar|}}
-  <div class="navbar-header">
-    {{navbar.toggle}}
-    <a class="navbar-brand center" href="/">
-        <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="ubiq"></object>
-    </a>
+
+{{#bs-navbar class='navbar navbar-default navbar-fixed-top' role='navigation' as |navbar|}}
+  <div class="container">
+    <div class="navbar-header">    
+      {{navbar.toggle}}      
+      <a class="navbar-brand" href="/">
+          <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="ubiq"></object>
+      </a>    
+    </div>
+    {{#navbar.content}}
+      {{#navbar.nav as |nav|}}
+        {{#nav.item}}
+          {{#nav.link-to "index"}}
+          <i class="fa fa-home"></i> Home
+          {{/nav.link-to}}
+        {{/nav.item}}
+        {{#nav.item}}
+          {{#nav.link-to "blocks"}}
+          <i class="fa fa-cubes"></i> Pool Blocks
+          {{#if poolStats.newBlocks}}
+          <span class="badge">{{poolStats.newBlocks}}</span>
+          {{/if}}                
+          {{/nav.link-to}}
+        {{/nav.item}}
+        {{#nav.item}}
+          {{#nav.link-to "payments"}}
+          <i class="fa fa-money"></i> Payments
+          {{/nav.link-to}}
+        {{/nav.item}}      
+        {{#nav.item}}
+          {{#nav.link-to "miners" current-when="miners account"}}
+          <i class="fa fa-users"></i> Miners
+          {{#if poolStats.minersOnline}}
+          <span class="badge">{{poolStats.minersOnline}}</span>
+          {{/if}}
+          {{/nav.link-to}}
+        {{/nav.item}}      
+        {{#nav.item}}
+          {{#nav.link-to "help"}}
+          <i class="fa fa-question"></i> Help
+          {{/nav.link-to}}
+        {{/nav.item}}      
+        {{#nav.item}}
+          {{#nav.link-to "about"}}
+          <i class="fa fa-comments"></i> About
+          {{/nav.link-to}}
+        {{/nav.item}}
+      {{/navbar.nav}}
+    {{/navbar.content}}
   </div>
-  {{#navbar.content}}
-    {{#navbar.nav as |nav|}}
-      {{#nav.item}}
-        {{#nav.link-to "index"}}
-        <i class="fa fa-home"></i> Home
-        {{/nav.link-to}}
-      {{/nav.item}}
-      {{#nav.item}}
-        {{#nav.link-to "blocks"}}
-        <i class="fa fa-cubes"></i> Pool Blocks
-        {{#if poolStats.newBlocks}}
-        <span class="ul">{{poolStats.newBlocks}}</span>
-        {{/if}}                
-        {{/nav.link-to}}
-      {{/nav.item}}
-      {{#nav.item}}
-        {{#nav.link-to "payments"}}
-        <i class="fa fa-money"></i> Payments
-        {{/nav.link-to}}
-      {{/nav.item}}      
-      {{#nav.item}}
-        {{#nav.link-to "miners" current-when="miners account"}}
-        <i class="fa fa-users"></i> Miners
-        {{#if poolStats.minersOnline}}
-        <span class="ul">{{poolStats.minersOnline}}</span>
-        {{/if}}
-        {{/nav.link-to}}
-      {{/nav.item}}      
-      {{#nav.item}}
-        {{#nav.link-to "help"}}
-        <i class="fa fa-question"></i> Help
-        {{/nav.link-to}}
-      {{/nav.item}}      
-      {{#nav.item}}
-        {{#nav.link-to "about"}}
-        <i class="fa fa-comments"></i> About
-        {{/nav.link-to}}
-      {{/nav.item}}
-    {{/navbar.nav}}
-  {{/navbar.content}}
 {{/bs-navbar}}

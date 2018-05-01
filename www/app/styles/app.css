@@ -7,7 +7,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  background: url('/bg.png');
+  background: url('/assets/images/bg.png');
 }
 .footer {
   position: absolute;
@@ -20,6 +20,19 @@ body {
 .center {
   align-items: center;
   display: flex;
+}
+
+.truncate-ellipsis {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.truncate-ellipsis > * {
+  display: table-cell;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Custom page CSS
@@ -43,86 +56,29 @@ body > .container {
   padding-left: 15px;
 }
 
-.jumbotron {
-	margin: 0;
-	padding: 40px 0 15px 0;
-	margin-bottom: 15px;
+.jumbotron {	
+  padding: 10x;   
+  margin: 10px 0px 15px 0px;
+  
+  color: black;  
+  border: 1px;
+  border-color: #61BD81;  
+  border-style:solid;
 }
 
-.jumbotron-brand {
-  margin: 0;
-	padding: 40px 0 15px 0;
-	margin-bottom: 15px;
+.jumbotron-brand {    
+  padding: 10px; 
+  margin: 10px 0px 15px 0px;
   background-color: #e9ffee;
-}
-
-code {
-  font-size: 80%;
+  
+  color: black;  
+  border: 1px;
+  border-color: #61BD81;
+  border-style:solid; 
 }
 
 .hash {
   font-family: Courier, monospace;
-}
-
-.navbar-default {
-	background-color: #ffffff;
-	border-color: #61BD81;
-  border-bottom-width: 2px;
-}
-.navbar-default .navbar-brand {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-text {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-nav > li > a {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-	color: #61BD81;
-}
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: #ffffff;
-	background-color: #61BD81;
-}
-.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-	color: #ffffff;
-	background-color: #69102b;
-}
-.navbar-default .navbar-toggle {
-	border-color: #2885da;
-}
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-	background-color: #2885da;
-}
-.navbar-default .navbar-toggle .icon-bar {
-	background-color: #4A4A4A;
-}
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form {
-	border-color: #4A4A4A;
-}
-.navbar-default .navbar-link {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-link:hover {
-	color: #ffffff;
-}
-
-@media (max-width: 767px) {
-	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
-		color: #4A4A4A;
-	}
-	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-		color: #ffffff;
-	}
-	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-		color: #ffffff;
-		background-color: #3f9ff7;
-	}
 }
 
 span.logo-1 {
@@ -136,18 +92,6 @@ span.logo-2 {
 	font-weight: 700;
 	color: #4A4A4A;
   padding: 0 3px 0 5px;
-}
-
-span.logo-3 {
-	color: #FFF;
-	font-weight: 100;
-  padding: 0 3px 0 3px;
-}
-
-span.logo-gold {
-	color: #f2cf18;
-	font-weight: 700;
-  padding: 0 3px 0 3px;
 }
 
 .ubiq {
@@ -177,11 +121,95 @@ span.logo-gold {
   transform: translate(-200px, -50px);
 }
 */
+/*------------------------Nav Bar----------------------------*/
+.navbar-default {
+	background-color: #ffffff;
+	border-color: #61BD81;
+  border-bottom-width: 2px;
+  text-align: center;
+  width: 100%;  
+}
 
+/*-----------------Ceneter Nav Bar Links---------------------*/
+.navbar-header {
+  display: block;
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.navbar-brand > object {
+  float: left;
+}
+.navbar-collapse {
+  float:left;
+}
+.navbar-nav {
+  width: 100%;  
+  text-align: center;
+  display: inline-block;
+}
+.navbar-nav > li {  
+    float: none;
+    display: inline-block;  
+}
+/*------------------------------------------------------------*/
+
+
+.navbar-default .navbar-brand {
+  color: #4A4A4A;
+  float: left;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: #61BD81;
+  background-color:rgb(200, 200, 200);
+}
+.navbar-default .navbar-brand .active > a {
+	color: #ffffff;
+  background-color: #61BD81;
+}
+.navbar-default .navbar-text {
+	color: #4A4A4A;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #4A4A4A;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #61BD81;
+  background-color:rgb(200, 200, 200);
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #ffffff;
+  background-color: #61BD81;  
+  background-image: none;
+}
+
+/*----------------------Nav Bar Toggle-------------------------------*/
+.navbar-default .navbar-toggle {
+	border-color: #2885da;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #2885da;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #4A4A4A;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border-color: #4A4A4A;
+}
+.navbar-default .navbar-link {
+	color: #4A4A4A;
+}
+.navbar-default .navbar-link:hover {
+	color: #ffffff;
+}
 .navbar-collapse {
 	font-size: 14px;
 	font-weight: 200;
 }
+
+
+
 
 .note {
 	margin: 0 0 20px 0;
@@ -204,86 +232,7 @@ h4.note {
 	margin-top: 0;
 	font-weight: 300 !important;
 }
-/*---------------------------------------------------------------------------------------------------*/
-/*----------------------------Bootstrap side notes for calling out things----------------------------*/
-/*---------------------------------------------------------------------------------------------------*/
 
-/* Base styles (regardless of theme) */
-.bs-callout {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-}
-.bs-callout h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-    margin-bottom: 0;
-}
-.bs-callout code {
-    border-radius: 3px;
-}
-.bs-callout+.bs-callout {
-    margin-top: -5px;
-}
-/* Themes for different contexts */
-
-/* Default */
-.bs-callout-default {
-    background-color: #eeeeee;
-    border-left-color: #777;
-}
-.bs-callout-default h4 {
-    color: #777;
-}
-
-/* Primary */
-.bs-callout-primary {
-    background-color: #e8effc;
-    border-left-color: #428bca;
-}
-.bs-callout-primary h4 {
-    color: #428bca;
-}
-
-/* Success */
-.bs-callout-success {
-    background-color: #eafce8;
-    border-left-color: #5cb85c;
-}
-.bs-callout-success h4 {
-    color: #5cb85c;
-}
-
-/* Danger */
-.bs-callout-danger {
-    background-color: #fce8e8;
-    border-left-color: #d9534f;
-}
-.bs-callout-danger h4 {
-    color: #d9534f;
-}
-
-/* Warning */
-.bs-callout-warning {
-    background-color: #fcfbe8;
-    border-left-color: #f0ad4e;
-}
-.bs-callout-warning h4 {
-    color: #f0ad4e;
-}
-
-/* Info */
-.bs-callout-info {
-    background-color: #E8F6FC;
-    border-left-color: #5bc0de;
-}
-.bs-callout-info h4 {
-    color: #5bc0de;
-}
 
 /*---------------------------------------------------------------------------------------------------*/
 /*----------------------------x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x----------------------------*/

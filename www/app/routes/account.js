@@ -15,7 +15,7 @@ export default Ember.Route.extend({
 
   setupController: function (controller, model) {
     this._super(controller, model);
-    Ember.run.later(this, this.refresh, this.get('config').StatsRefreshRate);
+    Ember.run.later(this, this.refresh, this.get('config').APIRefreshRate.minerStats);
   },
 
   actions: {    

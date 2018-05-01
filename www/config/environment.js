@@ -31,11 +31,18 @@ module.exports = function (environment) {
       // For network hashrate (change for your favourite fork)
       BlockTime: 88,
 
+      // Average number of blocks before block is matured
+      BlockMaturity: 100,
+
       // Number of blocks in an epoch
       EpochBlockCount: 30000,
 
       // Rate at which stats are refreshed
-      StatsRefreshRate: 10000
+      APIRefreshRate: {        
+        poolStats: 10000,
+        minerStats: 10000,
+        blocks: 30000,        
+      }
     }
   };
 

@@ -1,28 +1,77 @@
-<div class="jumbotron-brand">
-  <div class="container">
-    <p class="lead">Pool always pays full block rewards including TX fees and uncle rewards.</p>
-    <strong>
-      Block maturity requires <u>up to</u> </strong> <span class="label label-success">520</span> <strong>blocks.
-      Usually it's less indeed.
-    </strong>
+<div class="container">
+  <div class="jumbotron-brand">
+    <div class="page-header">
+      <h1>Pool Blocks</h1>
+    </div>  
+
+    <p>Pool always pays full block rewards including TX fees and uncle rewards.</p>    
+    <p>Block maturity can require <strong><u>up to</u></strong> <span class="label label-success">{{config.BlockMaturity}}</span> blocks.</p>
   </div>
 </div>
 
 <div class="container">
+
   {{#if model.luck}}
-    {{partial "luck"}}
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#blocks-success-collapse">Block Success</a>          
+        </h1>
+      </div>
+      <div class="panel-collapse collapse in" id="blocks-success-collapse">
+        <div class="panel-body">
+          {{partial "luck"}}
+        </div>
+      </div>
+    </div>
+  </div>
   {{/if}}
 
-  <ul class="nav nav-tabs">
-    {{#active-li current-when='blocks.index' role='presentation'}}
-      {{#link-to 'blocks.index'}}Blocks <span class="badge alert-success">{{format-number model.maturedTotal}}</span>{{/link-to}}
-    {{/active-li}}
-    {{#active-li current-when='blocks.immature' role='presentation'}}
-      {{#link-to 'blocks.immature'}}Immature <span class="badge alert-success">{{format-number model.immatureTotal}}</span>{{/link-to}}
-    {{/active-li}}
-    {{#active-li current-when='blocks.pending' role='presentation'}}
-      {{#link-to 'blocks.pending'}}New Blocks <span class="badge alert-info">{{format-number model.candidatesTotal}}</span>{{/link-to}}
-    {{/active-li}}
-  </ul>
-  {{outlet}}
+  <div class="panel-group">
+    <div class="panel panel-primary">
+      <div class="panel-heading">      
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#blocks-by-day-collapse">Blocks by Date</a>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse in" id="blocks-by-day-collapse">
+        <div class="panel-body">        
+          {{ember-chart type=model.blockChart.type data=model.blockChart.data options=model.blockChart.options}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-group">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#block-details-collapse">Block Details</a>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse in" id="block-details-collapse">
+        <div class="panel-body">        
+          <ul class="nav nav-tabs">
+            {{#active-li current-when='blocks.index' role='presentation'}} 
+              {{#link-to 'blocks.index'}}
+                Blocks<span class="badge alert-success">{{format-number model.maturedTotal}}</span>
+              {{/link-to}} 
+            {{/active-li}}
+            {{#active-li current-when='blocks.immature' role='presentation'}} 
+              {{#link-to 'blocks.immature'}}
+                Immature<span class="badge alert-success">{{format-number model.immatureTotal}}</span>
+              {{/link-to}}
+            {{/active-li}}
+            {{#active-li current-when='blocks.pending' role='presentation'}} 
+              {{#link-to 'blocks.pending'}}
+                New Blocks<span class="badge alert-info">{{format-number model.candidatesTotal}}</span>
+              {{/link-to}}
+            {{/active-li}}
+          </ul>      
+          {{outlet}}
+        </div>        
+      </div>
+    </div>  
+  </div>
 </div>

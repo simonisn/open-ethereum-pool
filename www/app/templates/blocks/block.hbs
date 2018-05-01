@@ -8,11 +8,15 @@
   </td>
   <td>
     {{#if block.uncle}}
-      <a href="http://ubiqscan.io/en/uncle/{{block.hash}}" class="hash" rel="nofollow" target="_blank">{{block.hash}}</a>
-    {{else if block.orphan}}
+      <div class="truncate-ellipsis">
+        <a href="http://ubiqscan.io/en/uncle/{{block.hash}}" class="hash" rel="nofollow" target="_blank">{{block.hash}}</a>
+      </div>
+    {{else if block.orphan}}    
       <span class="label label-danger">Orphan</span>
     {{else}}
-      <a href="http://ubiqscan.io/en/block/{{block.hash}}" class="hash" rel="nofollow" target="_blank">{{block.hash}}</a>
+      <div class="truncate-ellipsis">
+        <a href="http://ubiqscan.io/en/block/{{block.hash}}" class="hash" rel="nofollow" target="_blank">{{block.hash}}</a>
+      </div>
     {{/if}}
   </td>
   <td>{{format-date-locale block.timestamp}}</td>

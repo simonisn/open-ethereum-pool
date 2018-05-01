@@ -32,7 +32,7 @@ export default Ember.Service.extend({
         return Ember.$.getJSON(that.get('config').ApiUrl + 'api/stats').then(function(data) {
             that.parseStats(data);
 
-            that.set('_runTimer', Ember.run.later(that, that.loadStats, that.get('config').StatsRefreshRate));
+            that.set('_runTimer', Ember.run.later(that, that.loadStats, that.get('config').APIRefreshRate.poolStats));
         });
     },
 
