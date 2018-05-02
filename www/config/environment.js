@@ -41,7 +41,8 @@ module.exports = function (environment) {
       APIRefreshRate: {        
         poolStats: 10000,
         minerStats: 10000,
-        blocks: 30000,        
+        blocks: 30000,
+        payments: 60000
       }
     }
   };

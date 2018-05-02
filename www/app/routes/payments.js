@@ -19,6 +19,6 @@ export default Ember.Route.extend({
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    this.delayedRun = Ember.run.later(this, this.refresh, 5000);
+    this.delayedRun = Ember.run.later(this, this.refresh, this.get('config').APIRefreshRate.payments);
 	}
 });
