@@ -1,51 +1,59 @@
-
-{{#bs-navbar class='navbar navbar-default navbar-fixed-top' role='navigation' as |navbar|}}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <!-- Use "container" instead of "container-fluid" to center the NavBar -->
   <div class="container">
-    <div class="navbar-header">    
-      {{navbar.toggle}}      
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <a class="navbar-brand" href="/">
-          <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="ubiq"></object>
+        <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="brand-logo"></object>
       </a>    
     </div>
-    {{#navbar.content}}
-      {{#navbar.nav as |nav|}}
-        {{#nav.item}}
-          {{#nav.link-to "index"}}
-          <i class="fa fa-home"></i> Home
-          {{/nav.link-to}}
-        {{/nav.item}}
-        {{#nav.item}}
-          {{#nav.link-to "blocks"}}
-          <i class="fa fa-cubes"></i> Pool Blocks
-          {{#if poolStats.newBlocks}}
-          <span class="badge">{{poolStats.newBlocks}}</span>
-          {{/if}}                
-          {{/nav.link-to}}
-        {{/nav.item}}
-        {{#nav.item}}
-          {{#nav.link-to "payments"}}
-          <i class="fa fa-money"></i> Payments
-          {{/nav.link-to}}
-        {{/nav.item}}      
-        {{#nav.item}}
-          {{#nav.link-to "miners" current-when="miners account"}}
-          <i class="fa fa-users"></i> Miners
-          {{#if poolStats.minersOnline}}
-          <span class="badge">{{poolStats.minersOnline}}</span>
-          {{/if}}
-          {{/nav.link-to}}
-        {{/nav.item}}      
-        {{#nav.item}}
-          {{#nav.link-to "help"}}
-          <i class="fa fa-question"></i> Help
-          {{/nav.link-to}}
-        {{/nav.item}}      
-        {{#nav.item}}
-          {{#nav.link-to "about"}}
-          <i class="fa fa-comments"></i> About
-          {{/nav.link-to}}
-        {{/nav.item}}
-      {{/navbar.nav}}
-    {{/navbar.content}}
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {{#active-li currentWhen='index'}}        
+          {{#link-to "index"}}
+            <i class="fa fa-home"></i> Home          
+          {{/link-to}}
+        {{/active-li}}        
+        {{#active-li currentWhen='blocks'}}
+          {{#link-to "blocks"}}
+            <i class="fa fa-cubes"></i> Pool Blocks
+            {{#if poolStats.newBlocks}}
+              <span class="badge">{{poolStats.newBlocks}}</span>
+            {{/if}}                
+          {{/link-to}}
+        {{/active-li}}
+        {{#active-li currentWhen='payments'}}
+          {{#link-to "payments"}}
+            <i class="fa fa-money"></i> Payments          
+          {{/link-to}}
+        {{/active-li}}
+        {{#active-li currentWhen='miners'}} 
+          {{#link-to "miners"}}
+            <i class="fa fa-users"></i> Miners
+            {{#if poolStats.minersOnline}}
+              <span class="badge">{{poolStats.minersOnline}}</span>
+            {{/if}}
+          {{/link-to}}
+        {{/active-li}}
+        {{#active-li currentWhen='help'}}
+          {{#link-to "help"}}
+            <i class="fa fa-question"></i> Help
+          {{/link-to}}  
+        {{/active-li}}
+        {{#active-li currentWhen='about'}}        
+          {{#link-to "about"}}
+            <i class="fa fa-comments"></i> About
+          {{/link-to}}
+        {{/active-li}}
+      </ul>
+    </div>
   </div>
-{{/bs-navbar}}
+</nav>

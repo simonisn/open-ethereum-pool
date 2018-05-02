@@ -58,7 +58,7 @@ body > .container {
 
 .jumbotron {	
   padding: 10x;   
-  margin: 10px 0px 15px 0px;
+  margin: 40px 0px 15px 0px;
   
   color: black;  
   border: 1px;
@@ -68,7 +68,7 @@ body > .container {
 
 .jumbotron-brand {    
   padding: 10px; 
-  margin: 10px 0px 15px 0px;
+  margin: 40px 0px 15px 0px;
   background-color: #e9ffee;
   
   color: black;  
@@ -94,10 +94,10 @@ span.logo-2 {
   padding: 0 3px 0 5px;
 }
 
-.ubiq {
+.brand-logo {
   height: 30px;
   width: 30px;
-  pointer-events: none;
+  pointer-events: none;  
 }
 
 .ubiq-green > object{
@@ -121,72 +121,72 @@ span.logo-2 {
   transform: translate(-200px, -50px);
 }
 */
-/*------------------------Nav Bar----------------------------*/
+/*-------------------Nav Bar Styles-------------------------*/
 .navbar-default {
 	background-color: #ffffff;
 	border-color: #61BD81;
-  border-bottom-width: 2px;
-  text-align: center;
+  border-bottom-width: 2px;  
   width: 100%;  
-}
-
-/*-----------------Ceneter Nav Bar Links---------------------*/
-.navbar-header {
-  display: block;
-}
-.navbar-brand {
-  display: flex;
-  align-items: center;
-}
-.navbar-brand > object {
-  float: left;
-}
-.navbar-collapse {
-  float:left;
-}
-.navbar-nav {
-  width: 100%;  
-  text-align: center;
-  display: inline-block;
-}
-.navbar-nav > li {  
-    float: none;
-    display: inline-block;  
-}
-/*------------------------------------------------------------*/
-
-
-.navbar-default .navbar-brand {
-  color: #4A4A4A;
-  float: left;
-}
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: #61BD81;
-  background-color:rgb(200, 200, 200);
-}
-.navbar-default .navbar-brand .active > a {
-	color: #ffffff;
-  background-color: #61BD81;
 }
 .navbar-default .navbar-text {
 	color: #4A4A4A;
 }
-.navbar-default .navbar-nav > li > a {
-	color: #4A4A4A;
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  border-color: #4A4A4A;
+	font-size: 14px;
+	font-weight: 200;  
 }
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+/*------------------------------------------------------------*/
+
+/*-------------------Float Brand Logo------------------------*/
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.navbar-brand > .brand-logo {
+  float: left;
+}
+/*------------------------------------------------------------*/
+
+/*---------------------Brand Styles---------------------------*/
+.navbar-default .navbar-brand {
+  color: #4A4A4A;  
+}
+.navbar-default .navbar-brand:hover {
   color: #61BD81;
   background-color:rgb(200, 200, 200);
 }
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: #ffffff;
-  background-color: #61BD81;  
-  background-image: none;
-}
+/*------------------------------------------------------------*/
 
-/*----------------------Nav Bar Toggle-------------------------------*/
+/*-------------------Float Nav Links-------------------------*/
+.navbar-default .container {
+  display: flex;
+  align-items: center;  
+}
+.navbar-default .navbar-header {
+  display: block;
+}
+.navbar-default .container {
+  display: block;
+
+}
+/*------------------------------------------------------------*/
+
+/*-----------------Nav Bar List Item Styles-------------------*/
+.navbar-default .navbar-nav > li > a {
+	color: #4A4A4A;
+}
+.navbar-default .navbar-nav > li > a:hover {
+  color: #61BD81;
+  background-color:rgb(200, 200, 200);
+}
+/*------------------------------------------------------------*/
+
+
+/*----------------------Nav Bar Toggle------------------------*/
 .navbar-default .navbar-toggle {
-	border-color: #2885da;
+  border-color: #2885da;
+  float: right;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
 	background-color: #2885da;
@@ -194,19 +194,14 @@ span.logo-2 {
 .navbar-default .navbar-toggle .icon-bar {
 	background-color: #4A4A4A;
 }
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-	border-color: #4A4A4A;
-}
-.navbar-default .navbar-link {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-link:hover {
-	color: #ffffff;
-}
-.navbar-collapse {
-	font-size: 14px;
-	font-weight: 200;
-}
+/*------------------------------------------------------------*/
+
+
+
+
+
+
+
 
 
 
