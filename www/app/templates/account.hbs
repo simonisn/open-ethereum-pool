@@ -1,53 +1,57 @@
-{{outlet 'error' }}
-<div class="jumbotron-brand">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 stats">
-        <div style="display: block;">
-          <i class="fa fa-cloud"></i> Immature Balance: <span>{{format-balance model.stats.immature}}</span><br>
-          <small>Preliminary balance awaiting blocks to mature.</small>
-        </div>
-        <div style="display: block;">
-          <i class="fa fa-bank"></i> Pending Balance: <span>{{format-balance model.stats.balance}}</span><br>
-          <small>Credited coins awaiting payout.</small>
-        </div>
-        {{#if model.stats.pending}}
-        <div style="display: block;">
-          <i class="fa fa-clock-o"></i> Current Payment: <span>{{format-balance model.stats.pending}}</span><br>
-        </div>
-        {{/if}}
-        <div style="display: block;"><i class="fa fa-money"></i> Total Paid: <span>{{format-balance model.stats.paid}}</span></div>
-      </div>
-      <div class="col-md-4 stats">
-        {{#if model.stats.lastShare}}
-        <div style="display: block;"><i class="fa fa-clock-o"></i>
-          Last Share Submitted: <span>{{format-relative (seconds-to-ms (string-to-int model.stats.lastShare))}}</span>
-        </div>
-        {{/if}}
-        <div style="display: block;"><i class="fa fa-gears"></i> Workers Online: <span>{{format-number model.workersOnline}}</span></div>
-        <div style="display: block;"><i class="fa fa-tachometer"></i> Hashrate (30m): <span>{{format-hashrate model.currentHashrate}}</span></div>
-        <div style="display: block;"><i class="fa fa-tachometer"></i> Hashrate (3h): <span>{{format-hashrate model.hashrate}}</span></div>
-      </div>
-      <div class="col-md-4 stats">
-        <div style="display: block;"><i class="fa fa-tachometer"></i> Blocks Found: <span>{{format-number model.stats.blocksFound fallback='0'}}</span></div>
-        <div style="display: block;"><i class="fa fa-paper-plane-o"></i> Total Payments: <span>{{format-number model.paymentsTotal}}</span></div>
-        <div style="display: block;">
-          <i class="fa fa-gears"></i> Your Round Share: <span>{{format-number roundPercent style='percent' maximumFractionDigits='6'}}</span><br/>
-          <small>Percent of your contribution to current round.</small>
-        </div>
-        <div style="display: block;">
-          <i class="fa fa-clock-o"></i>
-          Epoch Switch: <span>{{format-relative networkStats.epochDate units="hour"}}</span>
+{{page-header title="Account: " after-title=model.login}}
+
+<div class="container">
+  <div class="well"> 
+
+    <div class="row">      
+      
+      <div class="col-md-4">        
+        <div class="stats">
+          {{mining-stat iconClass="fa fa-money" title="Immature Balance:" value=(format-balance model.stats.immature)}}          
+          <small style="margin-left: 10px;">Preliminary balance awaiting blocks to mature.</small>
+          
+          {{mining-stat iconClass="fa fa-money" title="Pending Balance:" value=(format-balance model.stats.balance)}}          
+          <small style="margin-left: 10px;">Credited coins awaiting payout.</small>        
+
+          {{#if model.stats.pending}}
+            {{mining-stat iconClass="fa fa-money" title="Pending Payment:" value=(format-balance model.stats.pending)}}                  
+          {{/if}}
+
+          {{mining-stat iconClass="fa fa-money" title="Total Paid:" value=(format-balance model.stats.paid)}}           
         </div>
       </div>
+
+      <div class="col-md-4 stats">
+        <div class="stats">
+          {{mining-stat iconClass="fa fa-gears" title="Workers Online:" value=(format-number model.workersOnline)}}          
+          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.currentHashrate)}}          
+          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (3h):" value=(format-hashrate model.hashrate)}}         
+        </div>
+      </div>
+
+      <div class="col-md-4 stats">    
+        <div class="stats">
+          {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.stats.blocksFound fallback='0')}}          
+          {{#if model.stats.lastShare}}
+            {{mining-stat iconClass="fa fa-clock-o" title="Last Share Submitted:" value=(format-relative (seconds-to-ms model.stats.lastShare))}}                    
+          {{/if}}        
+          {{mining-stat iconClass="fa fa-tachometer" title="Round Share:" value=(format-number roundPercent style='percent' maximumFractionDigits='6')}}
+          <small style="margin-left: 10px;">Percent of your contribution to current round.</small>
+        </div>    
+      </div>      
     </div>
+   
   </div>
 </div>
 
 <div class="container">
   <ul class="nav nav-tabs">
     {{#active-li current-when='account.index' role='presentation'}}
-      {{#link-to 'account.index'}}Workers <span class="badge alert-danger">{{model.workersOffline}}</span>{{/link-to}}
+      {{#link-to 'account.index'}}Workers 
+        {{#if model.workersOffline}}
+          <span class="badge alert-danger">{{model.workersOffline}}</span>
+        {{/if}}
+      {{/link-to}}
     {{/active-li}}
     {{#active-li current-when='account.payouts' role='presentation'}}
       {{#link-to 'account.payouts'}}Payouts{{/link-to}}

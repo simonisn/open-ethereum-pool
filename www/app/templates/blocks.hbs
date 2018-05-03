@@ -1,19 +1,12 @@
-<div class="container">
-  <div class="jumbotron-brand">
-    <div class="page-header">
-      <h1>Pool Blocks</h1>
-    </div>  
-
-    <p>Pool always pays full block rewards including TX fees and uncle rewards.</p>    
-    <p>Block maturity can require <strong><u>up to</u></strong> <span class="label label-success">{{config.BlockMaturity}}</span> blocks.</p>
-  </div>
-</div>
+{{#page-header title="Pool Blocks" info="Pool always pays full block rewards including TX fees and uncle rewards."}}
+  <p>Block maturity can require <strong><u>up to</u></strong> <span class="label label-success">{{config.BlockMaturity}}</span> blocks.</p>
+{{/page-header}}
 
 <div class="container">
 
   {{#if model.luck}}
   <div class="panel-group">
-    <div class="panel panel-info">
+    <div class="panel panel-success">
       <div class="panel-heading">
         <h1 class="panel-title">
           <a data-toggle="collapse" href="#blocks-success-collapse">Block Success</a>          
@@ -29,7 +22,7 @@
   {{/if}}
 
   <div class="panel-group">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">      
         <h1 class="panel-title">
           <a data-toggle="collapse" href="#blocks-by-day-collapse">Blocks by Date</a>
@@ -44,7 +37,7 @@
   </div>
 
   <div class="panel-group">
-    <div class="panel panel-success">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <h1 class="panel-title">
           <a data-toggle="collapse" href="#block-details-collapse">Block Details</a>

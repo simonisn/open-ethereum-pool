@@ -1,39 +1,47 @@
-<div class="container">    
-  <div class="jumbotron-brand">
-    <div class="row">   
-         
-      <div class="col-md-3" style="min-width:250px;">        
-        <h1 style="font-size: 24px; margin-top: 0">
-          <div class="ubiq-green">
-              <object type="image/svg+xml" data="assets/images/ubiq-green-small.svg"></object>
-              <strong>          
-                <span class="logo-2">Mining.net</span>          
-              </strong>        
+<div class="page-header">
+  <div class="container">    
+    <div class="well">
+      <div class="row"> 
+
+        <div class="col-md-3">
+          <div style="width:250px;">
+            <div style="display:flex;align-items:center;">                          
+              <object type="image/svg+xml" data="assets/images/ubiq-green-small.svg"></object>            
+              <strong><span style="font-size: 24px;margin: 0 0 0 5px;">Mining.net</span></strong>
+            </div>  
+            
+            <div>          
+                <span class="label label-success">PROP</span> Stable and profitable pool with regular payouts throughout the day.            
+            </div>                                       
           </div>
-        </h1>       
+        </div>      
 
-        <div style="clear:both">          
-          <span class="label label-success">PROP</span> Stable and profitable pool with regular payouts throughout the day.
+        <div class="col-md-3">      
+          <div class="stats">
+          {{mining-stat iconClass="fa fa-money" title="Payout Threshold:" value=poolStats.payoutThreshold}} 
+          {{mining-stat iconClass="fa fa-money" title="Pool Fee:" value=poolStats.poolFee}}      
+          </div>
+        </div>           
+        
+        <div class="col-md-3">
+          <div class="stats">
+          {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=(format-number poolStats.minersOnline)}}
+          {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=(format-hashrate poolStats.hashrate)}} 
+          {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=(format-relative (seconds-to-ms poolStats.lastBlockFound) units="hour")}}
+          {{mining-stat iconClass="fa fa-tachometer" title="Round Variance:" value=(format-number poolStats.roundVariance style='percent' maximumFractionDigits='2')}}
+          </div>
         </div>
-      </div>      
 
-      <div class="col-md-3 stats">      
-        {{mining-stat iconClass="fa fa-money" title="Payout Threshold:" value=poolStats.payoutThreshold}} 
-        {{mining-stat iconClass="fa fa-money" title="Pool Fee:" value=poolStats.poolFee}}      
+        <div class="col-md-3">
+          <div class="stats">
+          {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=(with-metric-prefix networkStats.difficulty)}} 
+          {{mining-stat iconClass="fa fa-tachometer" title="Network Hashrate:" value=(format-hashrate networkStats.hashrate)}} 
+          {{mining-stat iconClass="fa fa-bars" title="Blockchain Height:" value=(format-number networkStats.blockchainHeight)}}
+          {{mining-stat iconClass="fa fa-clock-o" title="Epoch Switch:" value=(format-relative networkStats.epochDate units="hour")}}      
+          </div>
+        </div>                 
+
       </div>      
-      <div class="col-md-3 stats">
-        {{mining-stat iconClass="fa fa-users" title="Miners Online:" value=(format-number poolStats.minersOnline)}}
-        {{mining-stat iconClass="fa fa-tachometer" title="Pool Hashrate:" value=(format-hashrate poolStats.hashrate)}} 
-        {{mining-stat iconClass="fa fa-clock-o" title="Last Block Found:" value=(format-relative (seconds-to-ms poolStats.lastBlockFound) units="hour")}}
-        {{mining-stat iconClass="fa fa-tachometer" title="Round Variance:" value=(format-number poolStats.roundVariance style='percent' maximumFractionDigits='2')}}
-      </div>
-      <div class="col-md-3 stats">
-        {{mining-stat iconClass="fa fa-unlock-alt" title="Network Difficulty:" value=(with-metric-prefix networkStats.difficulty)}} 
-        {{mining-stat iconClass="fa fa-tachometer" title="Network Hashrate:" value=(format-hashrate networkStats.hashrate)}} 
-        {{mining-stat iconClass="fa fa-bars" title="Blockchain Height:" value=(format-number networkStats.blockchainHeight)}}
-        {{mining-stat iconClass="fa fa-clock-o" title="Epoch Switch:" value=(format-relative networkStats.epochDate units="hour")}}      
-      </div>
     </div>
   </div>
 </div>
-
