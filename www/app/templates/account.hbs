@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 stats">
+      <div class="col-md-4">
         <div class="stats">
           {{mining-stat iconClass="fa fa-gears" title="Workers Online:" value=(format-number model.workersOnline)}}          
           {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.currentHashrate)}}          
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 stats">    
+      <div class="col-md-4">    
         <div class="stats">
           {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.stats.blocksFound fallback='0')}}          
           {{#if model.stats.lastShare}}
