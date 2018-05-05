@@ -78,6 +78,18 @@ type Worker struct {
 	TotalHR int64 `json:"hr2"`
 }
 
+type HistoricalStats struct {
+	Login   string                           `json:"login"`
+	Workers map[string]HistoricalWorkerStats `json:"workers"`
+}
+type HistoricalWorkerStats struct {
+	Hashrates map[int64]HistoricalWorkerHashrate `json:"hashrates"`
+}
+type HistoricalWorkerHashrate struct {
+	AvgShort int64 `json:"avgShort"`
+	AvgLong  int64 `json:"avgLong"`
+}
+
 func NewRedisClient(cfg *Config, prefix string) *RedisClient {
 	client := redis.NewClient(&redis.Options{
 		Addr:     cfg.Endpoint,
@@ -563,6 +575,99 @@ func (r *RedisClient) writeMaturedBlock(tx *redis.Multi, block *BlockData) {
 	tx.ZAdd(r.formatKey("blocks", "matured"), redis.Z{Score: float64(block.Height), Member: block.key()})
 }
 
+func (r *RedisClient) CollectHistoricalStats(sWindow, lWindow time.Duration) error {
+	logins := make(map[string]struct{})
+
+	// Get hashrate logins
+	for {
+		var keys []string
+		var err error
+		var c int64
+
+		c, keys, err = r.client.Scan(c, r.formatKey("hashrate", "*"), 100).Result()
+
+		if err != nil {
+			return err
+		}
+
+		for _, row := range keys {
+			login := strings.Split(row, ":")[1]
+			logins[login] = struct{}{}
+		}
+
+		if c == 0 {
+			break
+		}
+	}
+
+	for login, _ := range logins {
+		var stats map[string]interface{}
+		var workers map[string]Worker
+		var err error
+
+		// Collect worker stats
+		stats, err = r.CollectWorkersStats(sWindow, lWindow, login)
+
+		if err != nil {
+			return err
+		}
+
+		ms := util.MakeTimestamp()
+		ts := ms / 1000
+
+		// For each worker
+
+		if stats != nil {
+			workers = stats["workers"].(map[string]Worker)
+
+			for id, worker := range workers {
+				tx := r.client.Multi()
+				defer tx.Close()
+
+				// Write worker hashrate (small and long)
+				_, err := tx.Exec(func() error {
+					tx.ZAdd(r.formatKey("historic-hashrate", login), redis.Z{Score: float64(ts), Member: join(id, "short", worker.HR, ms)})
+					tx.ZAdd(r.formatKey("historic-hashrate", login), redis.Z{Score: float64(ts), Member: join(id, "long", worker.TotalHR, ms)})
+
+					return nil
+				})
+
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+func (r *RedisClient) GetMinerHistoricalStats(login string, histWindow time.Duration) (HistoricalStats, error) {
+	window := int64(histWindow / time.Second)
+	now := util.MakeTimestamp() / 1000
+	stats := HistoricalStats{Login: login, Workers: make(map[string]HistoricalWorkerStats)}
+
+	tx := r.client.Multi()
+	defer tx.Close()
+
+	cmds, err := tx.Exec(func() error {
+		// Remove values outside of window
+		tx.ZRemRangeByScore(r.formatKey("historic-hashrate"), "-inf", fmt.Sprint("(", now-window))
+		// Read remaining values
+		tx.ZRangeWithScores(r.formatKey("historic-hashrate"), 0, -1)
+
+		return nil
+	})
+
+	if err != nil {
+		return stats, err
+	}
+
+	stats.Workers = convertHistoricalWorkerStats(cmds[1].(*redis.ZSliceCmd))
+
+	return stats, nil
+}
+
 func (r *RedisClient) IsMinerExists(login string) (bool, error) {
 	return r.client.Exists(r.formatKey("miners", login)).Result()
 }
@@ -610,14 +715,19 @@ func convertStringMap(m map[string]string) map[string]interface{} {
 }
 
 // WARNING: Must run it periodically to flush out of window hashrate entries
-func (r *RedisClient) FlushStaleStats(window, largeWindow time.Duration) (int64, error) {
+func (r *RedisClient) FlushStaleStats(window, largeWindow, histWindow time.Duration) (int64, int64, int64, error) {
+	var minerHashrateTotal int64 = 0
+	var minerHistoricHashrateTotal int64 = 0
+
+	// Read hashrate keys - they're set to expire and reading allows/enables the keys to expire
 	now := util.MakeTimestamp() / 1000
 	max := fmt.Sprint("(", now-int64(window/time.Second))
-	total, err := r.client.ZRemRangeByScore(r.formatKey("hashrate"), "-inf", max).Result()
+	hashrateTotal, err := r.client.ZRemRangeByScore(r.formatKey("hashrate"), "-inf", max).Result()
 	if err != nil {
-		return total, err
+		return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, err
 	}
 
+	// Flush miner hashrate values past the largeWindow duration
 	var c int64
 	miners := make(map[string]struct{})
 	max = fmt.Sprint("(", now-int64(largeWindow/time.Second))
@@ -627,24 +737,52 @@ func (r *RedisClient) FlushStaleStats(window, largeWindow time.Duration) (int64,
 		var err error
 		c, keys, err = r.client.Scan(c, r.formatKey("hashrate", "*"), 100).Result()
 		if err != nil {
-			return total, err
+			return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, err
 		}
 		for _, row := range keys {
 			login := strings.Split(row, ":")[2]
 			if _, ok := miners[login]; !ok {
 				n, err := r.client.ZRemRangeByScore(r.formatKey("hashrate", login), "-inf", max).Result()
 				if err != nil {
-					return total, err
+					return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, err
 				}
 				miners[login] = struct{}{}
-				total += n
+				minerHashrateTotal += n
 			}
 		}
 		if c == 0 {
 			break
 		}
 	}
-	return total, nil
+
+	// Flush historical-hashrate values past the histWindow duration
+	histMiners := make(map[string]struct{})
+	max = fmt.Sprint("(", now-int64(histWindow/time.Second))
+
+	for {
+		var keys []string
+		var err error
+		c, keys, err = r.client.Scan(c, r.formatKey("historic-hashrate", "*"), 100).Result()
+		if err != nil {
+			return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, err
+		}
+		for _, row := range keys {
+			login := strings.Split(row, ":")[2]
+			if _, ok := histMiners[login]; !ok {
+				n, err := r.client.ZRemRangeByScore(r.formatKey("historic-hashrate", login), "-inf", max).Result()
+				if err != nil {
+					return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, err
+				}
+				histMiners[login] = struct{}{}
+				minerHistoricHashrateTotal += n
+			}
+		}
+		if c == 0 {
+			break
+		}
+	}
+
+	return hashrateTotal, minerHashrateTotal, minerHistoricHashrateTotal, nil
 }
 
 func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPayments int64) (map[string]interface{}, error) {
@@ -893,6 +1031,49 @@ func convertWorkersStats(window int64, raw *redis.ZSliceCmd) map[string]Worker {
 		}
 		workers[id] = worker
 	}
+	return workers
+}
+
+func convertHistoricalWorkerStats(raw *redis.ZSliceCmd) map[string]HistoricalWorkerStats {
+	workers := make(map[string]HistoricalWorkerStats)
+
+	var workerHashrates map[int64]HistoricalWorkerHashrate
+	var historicalHashrate HistoricalWorkerHashrate
+
+	for _, v := range raw.Val() {
+		// worker:short/long:hashrate:timestamp
+		parts := strings.Split(v.Member.(string), ":")
+		id := parts[0]
+		avgType := parts[1]
+		hashrate, _ := strconv.ParseInt(parts[2], 10, 64)
+		score := int64(v.Score)
+		worker := workers[id]
+
+		// Create HistoricalWorkerHashrates map
+		workerHashrates = worker.Hashrates
+		if workerHashrates == nil {
+			workerHashrates = make(map[int64]HistoricalWorkerHashrate)
+			worker.Hashrates = workerHashrates
+		}
+
+		// Check that historicalHashrate exists for given timestamp
+		if _, ok := workerHashrates[score]; ok {
+			historicalHashrate = worker.Hashrates[score]
+		} else {
+			// Create new HistoricalHashrate
+			historicalHashrate := HistoricalWorkerHashrate{}
+			worker.Hashrates[score] = historicalHashrate
+		}
+
+		if avgType == "short" {
+			historicalHashrate.AvgShort = hashrate
+		} else if avgType == "long" {
+			historicalHashrate.AvgLong = hashrate
+		}
+
+		workers[id] = worker
+	}
+
 	return workers
 }
 

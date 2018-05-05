@@ -17,16 +17,18 @@ import (
 )
 
 type ApiConfig struct {
-	Enabled              bool   `json:"enabled"`
-	Listen               string `json:"listen"`
-	StatsCollectInterval string `json:"statsCollectInterval"`
-	HashrateWindow       string `json:"hashrateWindow"`
-	HashrateLargeWindow  string `json:"hashrateLargeWindow"`
-	LuckWindow           []int  `json:"luckWindow"`
-	Payments             int64  `json:"payments"`
-	Blocks               int64  `json:"blocks"`
-	PurgeOnly            bool   `json:"purgeOnly"`
-	PurgeInterval        string `json:"purgeInterval"`
+	Enabled                  bool   `json:"enabled"`
+	Listen                   string `json:"listen"`
+	StatsCollectInterval     string `json:"statsCollectInterval"`
+	HashrateWindow           string `json:"hashrateWindow"`
+	HashrateLargeWindow      string `json:"hashrateLargeWindow"`
+	LuckWindow               []int  `json:"luckWindow"`
+	Payments                 int64  `json:"payments"`
+	Blocks                   int64  `json:"blocks"`
+	PurgeOnly                bool   `json:"purgeOnly"`
+	PurgeInterval            string `json:"purgeInterval"`
+	HistoricalStatsInterval  string `json:"historicalStatsInterval"`
+	HistoricalStatsRetention string `json:"historicalStatsRetention"`
 }
 
 type ApiServer struct {
@@ -36,8 +38,10 @@ type ApiServer struct {
 	hashrateLargeWindow time.Duration
 	stats               atomic.Value
 	miners              map[string]*Entry
+	minersHistorical    map[string]*Entry
 	minersMu            sync.RWMutex
 	statsIntv           time.Duration
+	histStatsIntv       time.Duration
 }
 
 type Entry struct {
@@ -48,12 +52,18 @@ type Entry struct {
 func NewApiServer(cfg *ApiConfig, backend *storage.RedisClient) *ApiServer {
 	hashrateWindow := util.MustParseDuration(cfg.HashrateWindow)
 	hashrateLargeWindow := util.MustParseDuration(cfg.HashrateLargeWindow)
+	statsIntv := util.MustParseDuration(cfg.StatsCollectInterval)
+	histStatsIntv := util.MustParseDuration(cfg.HistoricalStatsInterval)
+
 	return &ApiServer{
 		config:              cfg,
 		backend:             backend,
 		hashrateWindow:      hashrateWindow,
 		hashrateLargeWindow: hashrateLargeWindow,
+		statsIntv:           statsIntv,
+		histStatsIntv:       histStatsIntv,
 		miners:              make(map[string]*Entry),
+		minersHistorical:    make(map[string]*Entry),
 	}
 }
 
@@ -64,9 +74,11 @@ func (s *ApiServer) Start() {
 		log.Printf("Starting API on %v", s.config.Listen)
 	}
 
-	s.statsIntv = util.MustParseDuration(s.config.StatsCollectInterval)
 	statsTimer := time.NewTimer(s.statsIntv)
 	log.Printf("Set stats collect interval to %v", s.statsIntv)
+
+	histStatsTimer := time.NewTimer(s.histStatsIntv)
+	log.Printf("Set historical stats collect interval to %v", s.histStatsIntv)
 
 	purgeIntv := util.MustParseDuration(s.config.PurgeInterval)
 	purgeTimer := time.NewTimer(purgeIntv)
@@ -89,6 +101,9 @@ func (s *ApiServer) Start() {
 					s.collectStats()
 				}
 				statsTimer.Reset(s.statsIntv)
+			case <-histStatsTimer.C:
+				s.collectHistoricalStats()
+				histStatsTimer.Reset(s.histStatsIntv)
 			case <-purgeTimer.C:
 				s.purgeStale()
 				purgeTimer.Reset(purgeIntv)
@@ -108,6 +123,7 @@ func (s *ApiServer) listen() {
 	r.HandleFunc("/api/blocks", s.BlocksIndex)
 	r.HandleFunc("/api/payments", s.PaymentsIndex)
 	r.HandleFunc("/api/accounts/{login:0x[0-9a-fA-F]{40}}", s.AccountIndex)
+	r.HandleFunc("/api/historical/{login:0x[0-9a-fA-F]{40}}", s.HistoricalStatsIndex)
 	r.NotFoundHandler = http.HandlerFunc(notFound)
 	err := http.ListenAndServe(s.config.Listen, r)
 	if err != nil {
@@ -124,7 +140,7 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 
 func (s *ApiServer) purgeStale() {
 	start := time.Now()
-	total, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow)
+	total, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.cfg.HistoricalStatsRetention)
 	if err != nil {
 		log.Println("Failed to purge stale data from backend:", err)
 	} else {
@@ -148,6 +164,16 @@ func (s *ApiServer) collectStats() {
 	}
 	s.stats.Store(stats)
 	log.Printf("Stats collection finished %s", time.Since(start))
+}
+
+func (s *ApiServer) collectHistoricalStats() {
+	start := time.Now()
+	err := s.backend.CollectHistoricalStats(s.hashrateWindow, s.hashrateLargeWindow)
+	if err != nil {
+		log.Printf("Failed to fetch historical stats from backend: %v", err)
+		return
+	}
+	log.Printf("Historical Stats collection finished %s", time.Since(start))
 }
 
 func (s *ApiServer) StatsIndex(w http.ResponseWriter, r *http.Request) {
@@ -287,6 +313,48 @@ func (s *ApiServer) AccountIndex(w http.ResponseWriter, r *http.Request) {
 		stats["pageSize"] = s.config.Payments
 		reply = &Entry{stats: stats, updatedAt: now}
 		s.miners[login] = reply
+	}
+
+	w.WriteHeader(http.StatusOK)
+	err := json.NewEncoder(w).Encode(reply.stats)
+	if err != nil {
+		log.Println("Error serializing API response: ", err)
+	}
+}
+
+func (s *ApiServer) HistoricalStatsIndex(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Cache-Control", "no-cache")
+
+	login := strings.ToLower(mux.Vars(r)["login"])
+	s.minersMu.Lock()
+	defer s.minersMu.Unlock()
+
+	reply, ok := s.minersHistorical[login]
+	now := util.MakeTimestamp()
+	cacheIntv := int64(s.histStatsIntv / time.Millisecond)
+	// Refresh stats if stale
+	if !ok || reply.updatedAt < now-cacheIntv {
+		exist, err := s.backend.IsMinerExists(login)
+		if !exist {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Printf("Failed to fetch stats from backend: %v", err)
+			return
+		}
+
+		historicalStats, err := s.backend.GetMinerHistoricalStats(login, s.cfg.HistoricalStatsRetention)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Printf("Failed to fetch stats from backend: %v", err)
+			return
+		}
+		reply = &Entry{stats: historicalStats, updatedAt: now}
+		s.minersHistorical[login] = reply
 	}
 
 	w.WriteHeader(http.StatusOK)
