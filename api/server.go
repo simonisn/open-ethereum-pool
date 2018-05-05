@@ -38,14 +38,19 @@ type ApiServer struct {
 	hashrateLargeWindow time.Duration
 	stats               atomic.Value
 	miners              map[string]*Entry
-	minersHistorical    map[string]*Entry
+	minersHistorical    map[string]*HistoricalEntry
 	minersMu            sync.RWMutex
 	statsIntv           time.Duration
 	histStatsIntv       time.Duration
+	histStatsRetain     time.Duration
 }
 
 type Entry struct {
 	stats     map[string]interface{}
+	updatedAt int64
+}
+type HistoricalEntry struct {
+	stats     storage.HistoricalStats
 	updatedAt int64
 }
 
@@ -54,6 +59,7 @@ func NewApiServer(cfg *ApiConfig, backend *storage.RedisClient) *ApiServer {
 	hashrateLargeWindow := util.MustParseDuration(cfg.HashrateLargeWindow)
 	statsIntv := util.MustParseDuration(cfg.StatsCollectInterval)
 	histStatsIntv := util.MustParseDuration(cfg.HistoricalStatsInterval)
+	histStatsRetain := util.MustParseDuration(cfg.HistoricalStatsRetention)
 
 	return &ApiServer{
 		config:              cfg,
@@ -62,8 +68,9 @@ func NewApiServer(cfg *ApiConfig, backend *storage.RedisClient) *ApiServer {
 		hashrateLargeWindow: hashrateLargeWindow,
 		statsIntv:           statsIntv,
 		histStatsIntv:       histStatsIntv,
+		histStatsRetain:     histStatsRetain,
 		miners:              make(map[string]*Entry),
-		minersHistorical:    make(map[string]*Entry),
+		minersHistorical:    make(map[string]*HistoricalEntry),
 	}
 }
 
@@ -91,6 +98,7 @@ func (s *ApiServer) Start() {
 	} else {
 		s.purgeStale()
 		s.collectStats()
+		s.collectHistoricalStats()
 	}
 
 	go func() {
@@ -140,11 +148,13 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 
 func (s *ApiServer) purgeStale() {
 	start := time.Now()
-	total, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.cfg.HistoricalStatsRetention)
+	totalHashrate, totalLongHashrate, totalHistoricalHashrate, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.histStatsRetain)
 	if err != nil {
 		log.Println("Failed to purge stale data from backend:", err)
 	} else {
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", total, time.Since(start))
+		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHashrate, time.Since(start))
+		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalLongHashrate, time.Since(start))
+		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHistoricalHashrate, time.Since(start))
 	}
 }
 
@@ -347,13 +357,13 @@ func (s *ApiServer) HistoricalStatsIndex(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
-		historicalStats, err := s.backend.GetMinerHistoricalStats(login, s.cfg.HistoricalStatsRetention)
+		historicalStats, err := s.backend.GetMinerHistoricalStats(login, s.histStatsRetain)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("Failed to fetch stats from backend: %v", err)
 			return
 		}
-		reply = &Entry{stats: historicalStats, updatedAt: now}
+		reply = &HistoricalEntry{stats: historicalStats, updatedAt: now}
 		s.minersHistorical[login] = reply
 	}
 
