@@ -1,10 +1,10 @@
 package proxy
 
 import (
-	"github.com/ubiq/open-ethereum-pool/api"
-	"github.com/ubiq/open-ethereum-pool/payouts"
-	"github.com/ubiq/open-ethereum-pool/policy"
-	"github.com/ubiq/open-ethereum-pool/storage"
+	"github.com/simonisn/open-ethereum-pool/api"
+	"github.com/simonisn/open-ethereum-pool/payouts"
+	"github.com/simonisn/open-ethereum-pool/policy"
+	"github.com/simonisn/open-ethereum-pool/storage"
 )
 
 type Config struct {

@@ -11,10 +11,10 @@ import (
 
 	"github.com/yvasiyarov/gorelic"
 
-	"github.com/ubiq/open-ethereum-pool/api"
-	"github.com/ubiq/open-ethereum-pool/payouts"
-	"github.com/ubiq/open-ethereum-pool/proxy"
-	"github.com/ubiq/open-ethereum-pool/storage"
+	"github.com/simonisn/open-ethereum-pool/api"
+	"github.com/simonisn/open-ethereum-pool/payouts"
+	"github.com/simonisn/open-ethereum-pool/proxy"
+	"github.com/simonisn/open-ethereum-pool/storage"
 )
 
 var cfg proxy.Config

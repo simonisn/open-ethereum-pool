@@ -10,9 +10,9 @@ import (
 
 	/*"github.com/ethereum/go-ethereum/common/math"*/
 
-	"github.com/ubiq/open-ethereum-pool/rpc"
-	"github.com/ubiq/open-ethereum-pool/storage"
-	"github.com/ubiq/open-ethereum-pool/util"
+	"github.com/simonisn/open-ethereum-pool/rpc"
+	"github.com/simonisn/open-ethereum-pool/storage"
+	"github.com/simonisn/open-ethereum-pool/util"
 )
 
 type UnlockerConfig struct {
@@ -34,7 +34,6 @@ var (
 	big2                 = big.NewInt(2)
 	big32                = big.NewInt(32)
 	BlockReward *big.Int = big.NewInt(8e+18)
-
 )
 
 // Donate 10% from pool fees to developers
@@ -113,10 +112,10 @@ func (u *BlockUnlocker) unlockCandidates(candidates []*storage.BlockData) (*Unlo
 		 * Also we are searching for a block that can include this one as uncle.
 		 */
 		if candidate.Height < minDepth {
-		 		orphan = false
-		 		// avoid scanning the first 16 blocks 
-		 		continue
-		 }
+			orphan = false
+			// avoid scanning the first 16 blocks
+			continue
+		}
 		for i := int64(minDepth * -1); i < minDepth; i++ {
 			height := candidate.Height + i
 			block, err := u.rpc.GetBlockByHeight(height)
