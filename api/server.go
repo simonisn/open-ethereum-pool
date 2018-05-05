@@ -86,6 +86,7 @@ func (s *ApiServer) Start() {
 
 	histStatsTimer := time.NewTimer(s.histStatsIntv)
 	log.Printf("Set historical stats collect interval to %v", s.histStatsIntv)
+	log.Printf("Set historical stats retention duration to %v", s.histStatsRetain)
 
 	purgeIntv := util.MustParseDuration(s.config.PurgeInterval)
 	purgeTimer := time.NewTimer(purgeIntv)
@@ -98,7 +99,7 @@ func (s *ApiServer) Start() {
 	} else {
 		s.purgeStale()
 		s.collectStats()
-		s.collectHistoricalStats()
+		s.collectHistoricalWorkerStats()
 	}
 
 	go func() {
@@ -110,7 +111,7 @@ func (s *ApiServer) Start() {
 				}
 				statsTimer.Reset(s.statsIntv)
 			case <-histStatsTimer.C:
-				s.collectHistoricalStats()
+				s.collectHistoricalWorkerStats()
 				histStatsTimer.Reset(s.histStatsIntv)
 			case <-purgeTimer.C:
 				s.purgeStale()
@@ -176,14 +177,14 @@ func (s *ApiServer) collectStats() {
 	log.Printf("Stats collection finished %s", time.Since(start))
 }
 
-func (s *ApiServer) collectHistoricalStats() {
+func (s *ApiServer) collectHistoricalWorkerStats() {
 	start := time.Now()
-	err := s.backend.CollectHistoricalStats(s.hashrateWindow, s.hashrateLargeWindow)
+	err := s.backend.CollectHistoricalWorkerStats(s.hashrateWindow, s.hashrateLargeWindow)
 	if err != nil {
-		log.Printf("Failed to fetch historical stats from backend: %v", err)
+		log.Printf("Failed to fetch Historical Worker Stats from backend: %v", err)
 		return
 	}
-	log.Printf("Historical Stats collection finished %s", time.Since(start))
+	log.Printf("Historical Worker Stats collection finished %s", time.Since(start))
 }
 
 func (s *ApiServer) StatsIndex(w http.ResponseWriter, r *http.Request) {
@@ -347,23 +348,31 @@ func (s *ApiServer) HistoricalStatsIndex(w http.ResponseWriter, r *http.Request)
 	// Refresh stats if stale
 	if !ok || reply.updatedAt < now-cacheIntv {
 		exist, err := s.backend.IsMinerExists(login)
+		
 		if !exist {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
+		
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("Failed to fetch stats from backend: %v", err)
+			log.Printf("Failed to fetch Historical Worker Stats from backend: %v", err)
 			return
 		}
 
-		historicalStats, err := s.backend.GetMinerHistoricalStats(login, s.histStatsRetain)
+		historicalStats, err := s.backend.GetHistoricalWorkerStats(login, s.histStatsRetain)
+		
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("Failed to fetch stats from backend: %v", err)
+			log.Printf("Failed to fetch Historical Worker Stats from backend: %v", err)
 			return
 		}
+		
+		historicalStats.StatsInterval = int64(s.histStatsIntv / time.Second)
+		historicalStats.StatsRetention = int64(s.histStatsRetain / time.Second)
+		
 		reply = &HistoricalEntry{stats: historicalStats, updatedAt: now}
+		
 		s.minersHistorical[login] = reply
 	}
 
