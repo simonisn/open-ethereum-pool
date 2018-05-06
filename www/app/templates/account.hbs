@@ -44,6 +44,78 @@
   </div>
 </div>
 
+{{#if hashrateCharts.totalsChart}}
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">      
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#hashrate-totals-chart-collapse">Total Hashrate</a>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse in" id="hashrate-totals-chart-collapse">
+        <div class="panel-body">           
+          {{ember-chart type=hashrateCharts.totalsChart.type data=hashrateCharts.totalsChart.data options=hashrateCharts.totalsChart.options}}        
+        </div>
+        {{#if historicalStatsInterval}}
+        <div class="panel-footer">
+          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
+{{#if hashrateCharts.workersLongChart}}
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">      
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#hashrate-workers-long-chart-collapse">Worker Long Average Hashrate</a>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse" id="hashrate-workers-long-chart-collapse">
+        <div class="panel-body">           
+          {{ember-chart type=hashrateCharts.workersLongChart.type data=hashrateCharts.workersLongChart.data options=hashrateCharts.workersLongChart.options}}        
+        </div>
+        {{#if historicalStatsInterval}}
+        <div class="panel-footer">
+          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+        </div>
+        {{/if}}        
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
+{{#if hashrateCharts.workersShortChart}}
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">      
+        <h1 class="panel-title">
+          <a data-toggle="collapse" href="#hashrate-workers-short-chart-collapse">Worker Short Average Hashrate</a>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse" id="hashrate-workers-short-chart-collapse">
+        <div class="panel-body">           
+          {{ember-chart type=hashrateCharts.workersShortChart.type data=hashrateCharts.workersShortChart.data options=hashrateCharts.workersShortChart.options}}        
+        </div>
+        {{#if historicalStatsInterval}}
+        <div class="panel-footer">
+          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+        </div>
+        {{/if}}         
+      </div>     
+    </div>
+  </div>
+</div>
+{{/if}}
+
 <div class="container">
   <ul class="nav nav-tabs">
     {{#active-li current-when='account.index' role='presentation'}}

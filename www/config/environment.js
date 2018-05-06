@@ -39,10 +39,11 @@ module.exports = function (environment) {
 
       // Rate at which stats are refreshed
       APIRefreshRate: {        
-        poolStats: 10000,
-        minerStats: 10000,
-        blocks: 30000,
-        payments: 60000
+        poolStats: 10000,    // 10 Seconds 
+        minerStats: 10000,   // 10 Seconds
+        blocks: 30000,       // 30 Seconds
+        payments: 60000,     // 60 Seconds
+        historical: 300000   // 5 Minutes
       }
     }
   };

@@ -7,10 +7,6 @@ export default Ember.Service.extend({
     poolStats: {},
     networkStats: {},
 
-    getStats() {
-        return this.get('stats');
-    },
-
     _runTimer: null,      
 
     init() {
