@@ -10,19 +10,47 @@ export default Ember.Service.extend({
 
 		var workersLongChart,
 			workersShortChart,
-			totalsChart;
+			totalsChart,
+			chartColors = new ChartColors();					
 
-		function dynamicColors() {
-			var r = Math.floor(Math.random() * 255);
-			var g = Math.floor(Math.random() * 255);
-			var b = Math.floor(Math.random() * 255);
-			return "rgb(" + r + "," + g + "," + b + ")";
-		}			
+		function ChartColors() {
+			var colorIndex = 0;
 
-		function HashrateChartDataSet(label, data, color) {
+			this.totals = {
+				long: "#286D92",
+				short: "#829AB6"
+			};
+
+			this.colorPalette = [
+				"#5E8DAD",
+				"#4A5E8A",
+				"#376A97",
+				"#0D0F20",
+				"#6D7677",
+				"#8E804E",
+				"#EEE8C8",
+				"#A9BFBA"
+			];
+
+			this.nextColor = function() {
+				var color;
+	
+				if (colorIndex < chartColors.colorPalette.length) {
+					color = chartColors.colorPalette[colorIndex];
+					colorIndex += 1;
+				} else {
+					colorIndex = 0;
+					color = chartColors.colorPalette[colorIndex];
+				}
+	
+				return color;
+			}
+		}
+
+		function HashrateChartDataSet(label, color, data) {
 			this.type = 'line';
 			this.label = label;
-			this.borderColor = color || dynamicColors();
+			this.borderColor = color;
 			this.yAxesID = 'y-axis-hashrate';
 			this.data = data;			
 		}
@@ -125,6 +153,7 @@ export default Ember.Service.extend({
 			// Workers is an object, indexed by WorkerId
 			Object.keys(historicalStats.workers).forEach(function(workerId) {
 				var worker = historicalStats.workers[workerId],
+					color,
 					longData = [],
 					shortData = [];
 			
@@ -162,18 +191,20 @@ export default Ember.Service.extend({
 					});
 				}
 
+				color = chartColors.nextColor();
+
 				// Create Worker Long Hashrate dataset
-				workerLongHashrateDataSets.push(new HashrateChartDataSet(workerId, longData));
+				workerLongHashrateDataSets.push(new HashrateChartDataSet(workerId, color, longData));
 
 				// Create Worker Short Hashrate dataset
-				workerShortHashrateDataSets.push(new HashrateChartDataSet(workerId, shortData));
+				workerShortHashrateDataSets.push(new HashrateChartDataSet(workerId, color, shortData));
 			});
 			
 			// Convert Total Long Hashrate object to array of values
-			totalLongHashrateDataSet = new HashrateChartDataSet('Avg Long Hashrate', totalsObjectToDataPointsArray(totalLongHashrates));
+			totalLongHashrateDataSet = new HashrateChartDataSet('Avg Long Hashrate', chartColors.totals.long, totalsObjectToDataPointsArray(totalLongHashrates));
 
 			// Convert Total Short Hashrate object to array of values
-			totalShortHashrateDataSet = new HashrateChartDataSet('Avg Short Hashrate', totalsObjectToDataPointsArray(totalShortHashrates));
+			totalShortHashrateDataSet = new HashrateChartDataSet('Avg Short Hashrate', chartColors.totals.short, totalsObjectToDataPointsArray(totalShortHashrates));
 
 			return {
 				workerLongHashrateDataSets: workerLongHashrateDataSets,

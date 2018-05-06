@@ -7,33 +7,33 @@
       
       <div class="col-md-4">        
         <div class="stats">
-          {{mining-stat iconClass="fa fa-money" title="Immature Balance:" value=(format-balance model.stats.immature)}}          
+          {{mining-stat iconClass="fa fa-money" title="Immature Balance:" value=(format-balance model.immature)}}          
           <small style="margin-left: 10px;">Preliminary balance awaiting blocks to mature.</small>
           
-          {{mining-stat iconClass="fa fa-money" title="Pending Balance:" value=(format-balance model.stats.balance)}}          
+          {{mining-stat iconClass="fa fa-money" title="Pending Balance:" value=(format-balance model.balance)}}          
           <small style="margin-left: 10px;">Credited coins awaiting payout.</small>        
 
-          {{#if model.stats.pending}}
-            {{mining-stat iconClass="fa fa-money" title="Pending Payment:" value=(format-balance model.stats.pending)}}                  
+          {{#if model.pending}}
+            {{mining-stat iconClass="fa fa-money" title="Pending Payment:" value=(format-balance model.pending)}}                  
           {{/if}}
 
-          {{mining-stat iconClass="fa fa-money" title="Total Paid:" value=(format-balance model.stats.paid)}}           
+          {{mining-stat iconClass="fa fa-money" title="Total Paid:" value=(format-balance model.paid)}}           
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="stats">
           {{mining-stat iconClass="fa fa-gears" title="Workers Online:" value=(format-number model.workersOnline)}}          
-          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.currentHashrate)}}          
-          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (3h):" value=(format-hashrate model.hashrate)}}         
+          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.shortHashrate)}}          
+          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (3h):" value=(format-hashrate model.longHashrate)}}         
         </div>
       </div>
 
       <div class="col-md-4">    
         <div class="stats">
-          {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.stats.blocksFound fallback='0')}}          
-          {{#if model.stats.lastShare}}
-            {{mining-stat iconClass="fa fa-clock-o" title="Last Share Submitted:" value=(format-relative (seconds-to-ms model.stats.lastShare))}}                    
+          {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.blocksFound fallback='0')}}          
+          {{#if model.lastShare}}
+            {{mining-stat iconClass="fa fa-clock-o" title="Last Share Submitted:" value=(format-relative (seconds-to-ms model.lastShare))}}                    
           {{/if}}        
           {{mining-stat iconClass="fa fa-tachometer" title="Round Share:" value=(format-number roundPercent style='percent' maximumFractionDigits='6')}}
           <small style="margin-left: 10px;">Percent of your contribution to current round.</small>
@@ -59,7 +59,7 @@
         </div>
         {{#if historicalStatsInterval}}
         <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
         </div>
         {{/if}}
       </div>
@@ -83,7 +83,7 @@
         </div>
         {{#if historicalStatsInterval}}
         <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
         </div>
         {{/if}}        
       </div>
@@ -107,7 +107,7 @@
         </div>
         {{#if historicalStatsInterval}}
         <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated on the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
         </div>
         {{/if}}         
       </div>     
@@ -118,7 +118,7 @@
 
 <div class="container">
   <ul class="nav nav-tabs">
-    {{#active-li current-when='account.index' role='presentation'}}
+    {{#active-li current-when='account account.index' role='presentation'}}
       {{#link-to 'account.index'}}Workers 
         {{#if model.workersOffline}}
           <span class="badge alert-danger">{{model.workersOffline}}</span>

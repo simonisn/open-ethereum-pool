@@ -34,9 +34,16 @@ export default Ember.Controller.extend({
     return networkStats;
   }),
 
+  accountStats: Ember.computed(function() {
+    var owner = Ember.getOwner(this);
+    var accountStats = owner.lookup('object:account-stats');
+
+    return accountStats;
+  }),
+
   roundPercent: Ember.computed('model', 'poolStats.roundShares', function() {    
     var poolRoundShares = this.get('poolStats.roundShares'),
-        loginRoundShares = this.get('model.roundShares'),      
+        loginRoundShares = this.get('accountStats.roundShares'),      
         percent = 0;
     
     if (poolRoundShares && poolRoundShares !== 0) {
