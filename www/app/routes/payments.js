@@ -1,12 +1,12 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route'
+import config from '../config/environment';
+
 import Payment from "../models/payment";
 
-export default Ember.Route.extend({
-	globalsService: Ember.inject.service('globals'),
-    config: Ember.computed.reads('globalsService.config'), 
-
+export default Route.extend({
 	model: function() {
-		var url = this.get('config').ApiUrl + 'api/payments';
+		var url = config.APP.ApiUrl + 'api/payments';
 		return Ember.$.getJSON(url).then(function(data) {
 				if (data.payments) {
 					data.payments = data.payments.map(function(p) {
@@ -19,6 +19,6 @@ export default Ember.Route.extend({
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    this.delayedRun = Ember.run.later(this, this.refresh, this.get('config').APIRefreshRate.payments);
+    this.delayedRun = Ember.run.later(this, this.refresh, config.APP.APIRefreshRate.payments);
 	}
 });

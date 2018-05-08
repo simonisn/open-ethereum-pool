@@ -1,5 +1,6 @@
+/*-------------------------------------------------- */
 /* Sticky footer styles
--------------------------------------------------- */
+/*-------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
@@ -7,7 +8,9 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  background: url('/assets/images/bg.png');
+}
+main.container-fluid {
+  padding: 60px 15px 0;
 }
 .footer {
   position: absolute;
@@ -15,13 +18,18 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
+  line-height: 60px; /* Vertically center the text there */
   background-color: #f5f5f5;
 }
-.center {
-  align-items: center;
-  display: flex;
-}
+/*-------------------------------------------------- */
 
+
+.stats {
+  min-width: 270px;  
+}
+.stats > .card {
+  height: 100%;
+}
 .truncate-ellipsis {
   display: table;
   table-layout: fixed;
@@ -33,52 +41,6 @@ body {
   display: table-cell;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-body {
-  padding-top: 20px;
-  padding-bottom: 5px;
-}
-
-body > .container {
-  padding: 0px 15px 0;
-}
-.container .text-muted {
-  margin: 20px 0;
-}
-
-.footer > .container {  
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.page-header {
-  margin: 40px 0 10px 0;
-}
-
-.jumbotron {	
-  padding: 10x;   
-  margin: 40px 0px 15px 0px;
-  
-  color: black;  
-  border: 1px;
-  border-color: #61BD81;  
-  border-style:solid;
-}
-
-.jumbotron-brand {    
-  padding: 10px; 
-  margin: 40px 0px 15px 0px;
-  background-color: #e9ffee;
-  
-  color: black;  
-  border: 1px;
-  border-color: #61BD81;
-  border-style:solid; 
 }
 
 .hash {
@@ -125,198 +87,3 @@ span.logo-2 {
   transform: translate(-200px, -50px);
 }
 */
-/*-------------------Nav Bar Styles-------------------------*/
-.navbar-default {
-	background-color: #ffffff;
-	border-color: #61BD81;
-  border-bottom-width: 2px;  
-  width: 100%;  
-}
-.navbar-default .navbar-text {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-  border-color: #4A4A4A;
-	font-size: 14px;
-	font-weight: 200;  
-}
-/*------------------------------------------------------------*/
-
-/*-------------------Float Brand Logo------------------------*/
-.navbar-brand {
-  display: flex;
-  align-items: center;
-}
-.navbar-brand > .brand-logo {
-  float: left;
-}
-/*------------------------------------------------------------*/
-
-/*---------------------Brand Styles---------------------------*/
-.navbar-default .navbar-brand {
-  color: #4A4A4A;  
-}
-.navbar-default .navbar-brand:hover {
-  color: #61BD81;
-  background-color:rgb(200, 200, 200);
-}
-/*------------------------------------------------------------*/
-
-/*-------------------Float Nav Links-------------------------*/
-.navbar-default .container {
-  display: flex;
-  align-items: center;  
-}
-.navbar-default .navbar-header {
-  display: block;
-}
-.navbar-default .container {
-  display: block;
-
-}
-/*------------------------------------------------------------*/
-
-/*-----------------Nav Bar List Item Styles-------------------*/
-.navbar-default .navbar-nav > li > a {
-	color: #4A4A4A;
-}
-.navbar-default .navbar-nav > li > a:hover {
-  color: #61BD81;
-  background-color:rgb(200, 200, 200);
-}
-/*------------------------------------------------------------*/
-
-
-/*----------------------Nav Bar Toggle------------------------*/
-.navbar-default .navbar-toggle {
-  border-color: #2885da;
-  float: right;
-}
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-	background-color: #2885da;
-}
-.navbar-default .navbar-toggle .icon-bar {
-	background-color: #4A4A4A;
-}
-/*------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-.note {
-	margin: 0 0 20px 0;
-	padding: 15px 30px 15px 15px;
-	border-left: 5px solid #eee;
-	border-radius: 5px;
-}
-
-.note-info {
-	background-color: #E8F6FC;
-	border-color: #57b5e3;
-}
-
-.note-danger {
-	background-color: #fce8e8;
-	border-color: #ff0000;
-}
-
-h4.note {
-	margin-top: 0;
-	font-weight: 300 !important;
-}
-
-
-/*---------------------------------------------------------------------------------------------------*/
-/*----------------------------x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x----------------------------*/
-/*---------------------------------------------------------------------------------------------------*/
-
-/* Stats */
-.stats {
-	margin-bottom: 10px;
-	margin-top: 5px;
-}
-.stats:last-child{
-	width: auto;
-}
-.stats > h3 > i {
-	width: 21px;
-}
-.stats > div{
-	padding: 5px 0;
-}
-.stats > div > .fa {
-	width: 25px;
-}
-.stats > div > span:first-of-type{
-	font-weight: bold;
-}
-
-/*--------------------------------------| Bootstrap overrides |--------------------------------------*/
-
-.ul, .ul-link {
-  font-weight: 200;
-  text-align: center;
-}
-
-.ul-link:hover, .ul-link:focus {
-  color: inherit;
-  text-decoration: none;
-  opacity: .70;
-}
-
-.ul-default {
-    color: #777;
-    border-bottom: 2px solid #777;
-}
-
-.ul-primary {
-    color: #428bca;
-    border-bottom: 2px solid #428bca;
-}
-
-.ul-success {
-    color: #5cb85c;
-    border-bottom: 2px solid #5cb85c;
-}
-
-.ul-danger {
-    color: #d9534f;
-    border-bottom: 2px solid #d9534f;
-}
-
-.ul-warning {
-    color: #f0ad4e;
-    border-bottom: 2px solid #f0ad4e;
-}
-
-.ul-info {
-    color: #5bc0de;
-    border-bottom: 2px solid #5bc0de;
-}
-
-.ul-ubiq {
-    color: #61BD81;
-    border-bottom: 2px solid #61BD81;
-}
-
-/*-----------------------------------------| Custom Classes |-----------------------------------------*/
-
-.btn-ubiq {
-  background-color: #61BD81;
-  border-color: #408c5a;
-}
-
-.btn-ubiq:hover {
-    color: #fff;
-    background-color: #428359;
-    border-color: #2c623e;
-}
-
-/*--------------------------------------| x-x-x-x-x-x-x-x-x-x |--------------------------------------*/

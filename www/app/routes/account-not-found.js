@@ -1,7 +1,6 @@
 import Ember from 'ember';
+import EmberRoute from '@ember/routing/route';
 
-export default Ember.Route.extend({
-    globalsService: Ember.inject.service('globals'),
-    config: Ember.computed.reads('globalsService.config')
+export default EmberRoute.extend({       
 
 });

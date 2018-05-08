@@ -1,70 +1,87 @@
 {{#page-header title="Pool Blocks" info="Pool always pays full block rewards including TX fees and uncle rewards."}}
-  <p>Block maturity can require <strong><u>up to</u></strong> <span class="label label-success">{{config.BlockMaturity}}</span> blocks.</p>
+  <p>Block maturity can require <strong><u>up to</u></strong> <span class="label label-success">{{config.APP.BlockMaturity}}</span> blocks.</p>
 {{/page-header}}
 
 <div class="container">
 
   {{#if model.luck}}
-  <div class="panel-group">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#blocks-success-collapse">Block Success</a>          
-        </h1>
+  
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#blocks-success-collapse" aria-expanded="true" aria-controls="blocks-success-collapse">
+            Block Success
+          </button>
+        </h5>        
       </div>
-      <div class="panel-collapse collapse in" id="blocks-success-collapse">
-        <div class="panel-body">
+      <div class="collapse show" id="blocks-success-collapse">
+        <div class="card-body">
           {{partial "luck"}}
         </div>
       </div>
     </div>
-  </div>
+  
   {{/if}}
-
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">      
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#blocks-by-day-collapse">Blocks by Date</a>
-        </h1>
+  
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#blocks-by-day-collapse" aria-expanded="true" aria-controls="blocks-by-day-collapse">
+            Blocks by Date
+          </button>
+        </h5>                              
       </div>
-      <div class="panel-collapse collapse in" id="blocks-by-day-collapse">
-        <div class="panel-body">        
+      <div class="collapse show" id="blocks-by-day-collapse">
+        <div class="card-body">        
           {{ember-chart type=model.blockChart.type data=model.blockChart.data options=model.blockChart.options}}
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#block-details-collapse">Block Details</a>
-        </h1>
+  
+  
+    <div class="card">
+      <div class="card-header">        
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#block-details-collapse" aria-expanded="true" aria-controls="block-details-collapse">
+            Block Details
+          </button>
+        </h5>        
       </div>
-      <div class="panel-collapse collapse in" id="block-details-collapse">
-        <div class="panel-body">        
-          <ul class="nav nav-tabs">
-            {{#active-li current-when='blocks.index' role='presentation'}} 
-              {{#link-to 'blocks.index'}}
-                Blocks<span class="badge alert-success">{{format-number model.maturedTotal}}</span>
-              {{/link-to}} 
-            {{/active-li}}
-            {{#active-li current-when='blocks.immature' role='presentation'}} 
-              {{#link-to 'blocks.immature'}}
-                Immature<span class="badge alert-success">{{format-number model.immatureTotal}}</span>
-              {{/link-to}}
-            {{/active-li}}
-            {{#active-li current-when='blocks.pending' role='presentation'}} 
-              {{#link-to 'blocks.pending'}}
-                New Blocks<span class="badge alert-info">{{format-number model.candidatesTotal}}</span>
-              {{/link-to}}
-            {{/active-li}}
-          </ul>      
-          {{outlet}}
+      <div class="collapse show" id="block-details-collapse">
+        <div class="card-body"> 
+
+          <ul class="nav nav-tabs" role="tablist">            
+            <li class="nav-item">  
+              <a class="nav-link active" id="matured-tab" href="#matured" role="tab" aria-controls="matured" aria-selected="true" data-toggle="tab">
+              Matured Blocks<span class="badge alert-success">{{format-number model.maturedTotal}}</span>
+              </a>              
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" id="immature-tab" href="#immature" role="tab" aria-controls="immature" aria-selected="false" data-toggle="tab">
+              Immature Blocks<span class="badge alert-success">{{format-number model.immatureTotal}}</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" id="pending-tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false" data-toggle="tab">              
+              New Blocks<span class="badge alert-success">{{format-number model.candidatesTotal}}</span>
+              </a>
+            </li>     
+          </ul>    
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="matured" role="tabpanel" aria-labelledby="immature-tab">
+            {{partial 'blocks/matured'}}
+            </div>
+            <div class="tab-pane fade" id="immature" role="tabpanel" aria-labelledby="immature-tab">
+            {{partial 'blocks/immature'}}
+            </div>
+            <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+            {{partial 'blocks/pending'}}
+            </div>            
+          </div>            
         </div>        
       </div>
     </div>  
-  </div>
+  
 </div>

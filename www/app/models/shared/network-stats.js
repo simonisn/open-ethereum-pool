@@ -1,22 +1,23 @@
 import Ember from 'ember';
+import EmberObject, { computed } from '@ember/object';
 
-export default Ember.Object.extend({   
+export default EmberObject.extend({   
     poolStatsService: Ember.inject.service('pool-stats'),
 
-    data: Ember.computed('poolStatsService.networkStats', function() {
+    data: computed('poolStatsService.networkStats', function() {
         return this.get('poolStatsService.networkStats');
     }),
 
-    difficulty: Ember.computed('data', function() {
+    difficulty: computed('data', function() {
         return this.getWithDefault('data.difficulty', 0);
     }),
-    hashrate: Ember.computed('data', function() {
+    hashrate: computed('data', function() {
         return this.getWithDefault('data.hashrate', 0);
     }),    
-    blockchainHeight: Ember.computed('data', function() {
+    blockchainHeight: computed('data', function() {
         return this.getWithDefault('data.blockchainHeight', 0);
     }),
-    epochDate: Ember.computed('data', function() {
+    epochDate: computed('data', function() {
         return this.getWithDefault('data.epochDate', 0);
     })
 });

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from 'open-ethereum-pool/initializers/register-poolstats-parser';
+import { initialize } from 'ubiq-mining-pool/initializers/register-poolstats-parser';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 

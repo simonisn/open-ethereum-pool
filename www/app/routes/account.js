@@ -1,21 +1,10 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route';
+import EmberObject, { computed } from '@ember/object';
 
-export default Ember.Route.extend({
-  globalsService: Ember.inject.service('globals'),
-  config: Ember.computed.reads('globalsService.config'), 
-
+export default Route.extend({
   historicalStatsService: Ember.inject.service('historical-stats'),  
   accountStatsService: Ember.inject.service('account-stats'),
-
-  afterModel(resolvedModel) {
-    // Get the login from the resolvedModel
-    //var login = resolvedModel.login;
-
-    //this.get('historicalStatsService').start(login);
-    //this.get('accountStatsService').start(login);
-
-    this._super(...arguments);
-  },
 
   model: function (params) {  
     var login = params.login;

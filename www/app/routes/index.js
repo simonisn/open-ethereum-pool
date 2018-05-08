@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route';
+import EmberObject, { computed } from '@ember/object';
 
-export default Ember.Route.extend({
-  poolStatsService: Ember.inject.service('pool-stats'),
-  config: Ember.computed.reads('globalsService.config'), 
+export default Route.extend({
+  poolStatsService: Ember.inject.service('pool-stats'),  
   
   model: function() {    
     var owner = Ember.getOwner(this);    

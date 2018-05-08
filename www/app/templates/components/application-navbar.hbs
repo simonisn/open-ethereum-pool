@@ -1,59 +1,61 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-  <!-- Use "container" instead of "container-fluid" to center the NavBar -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
   <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">
-        <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="brand-logo"></object>
-      </a>    
-    </div>
+
+    <a class="navbar-brand" href="/">
+      <object type="image/svg+xml" data="/assets/images/ubiq.svg" class="brand-logo"></object>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        {{#active-li currentWhen='index'}}        
-          {{#link-to "index"}}
-            <i class="fa fa-home"></i> Home          
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">      
+      <ul class="navbar-nav nav-tabs mr-auto" role="tablist">              
+        <li class="nav-item">
+          {{#link-to 'index' current-when='index' class="nav-link"}}
+          <i class="fa fa-home"></i> Home
           {{/link-to}}
-        {{/active-li}}        
-        {{#active-li currentWhen='blocks'}}
-          {{#link-to "blocks"}}
-            <i class="fa fa-cubes"></i> Pool Blocks
-            {{#if poolStats.newBlocks}}
-              <span class="badge">{{poolStats.newBlocks}}</span>
-            {{/if}}                
+        </li>>
+      
+        <li class="nav-item">
+          {{#link-to 'blocks' current-when='blocks' class="nav-link"}}          
+            <i class="fa fa-cubes"></i>
+              &nbsp;Pool Blocks
+              {{#if poolStats.newBlocks}}
+                <span class="badge badge-light">{{poolStats.newBlocks}}</span>
+              {{/if}}                
           {{/link-to}}
-        {{/active-li}}
-        {{#active-li currentWhen='payments'}}
-          {{#link-to "payments"}}
-            <i class="fa fa-money"></i> Payments          
+        </li>>
+      
+        <li class="nav-item">
+          {{#link-to 'payments' current-when='payments' class="nav-link"}}
+          <i class="fa fa-money"></i> Payments
           {{/link-to}}
-        {{/active-li}}
-        {{#active-li currentWhen='miners'}} 
-          {{#link-to "miners"}}
+        </li>                                
+      
+        <li class="nav-item">
+          {{#link-to 'miners' current-when='miners' class="nav-link"}}
             <i class="fa fa-users"></i> Miners
             {{#if poolStats.minersOnline}}
-              <span class="badge">{{poolStats.minersOnline}}</span>
+              <span class="badge badge-light">{{poolStats.minersOnline}}</span>
             {{/if}}
-          {{/link-to}}
-        {{/active-li}}
-        {{#active-li currentWhen='help'}}
-          {{#link-to "help"}}
+          {{/link-to}}          
+        </li>
+
+        <li class="nav-item">
+          {{#link-to 'help' current-when='help' class="nav-link"}}
             <i class="fa fa-question"></i> Help
-          {{/link-to}}  
-        {{/active-li}}
-        {{#active-li currentWhen='about'}}        
-          {{#link-to "about"}}
-            <i class="fa fa-comments"></i> About
           {{/link-to}}
-        {{/active-li}}
+        </li>                    
+
+        <li class="nav-item">
+          {{#link-to 'about' current-when='about' class="nav-link"}}
+          <i class="fa fa-comments"></i> About
+          {{/link-to}}
+        </li>            
       </ul>
     </div>
+
   </div>
 </nav>

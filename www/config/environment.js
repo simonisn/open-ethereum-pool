@@ -1,7 +1,7 @@
 /* jshint node: true */
 module.exports = function (environment) {
   var ENV = {
-    modulePrefix: 'open-ethereum-pool',
+    modulePrefix: 'ubiq-mining-pool',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',

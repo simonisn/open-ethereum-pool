@@ -1,22 +1,22 @@
 import Ember from 'ember';
+import Service from '@ember/service';
+import EmberObject, { computed } from '@ember/object';
+import config from '../config/environment';
 
-export default Ember.Service.extend({
-    globals: Ember.inject.service('globals'),
-    config: Ember.computed.reads('globals.config'),  
-    
+export default Service.extend({    
     _login: '',
     _runTimer: null,    
-    _isRunning: Ember.computed('_runTimer', function() {
+    _isRunning: computed('_runTimer', function() {
         return (this.get('_runTimer') !== null);
     }),    
 
     stats: null,
     
-    statsInterval: Ember.computed('stats', function() {
+    statsInterval: computed('stats', function() {
         return this.get('stats').statsInterval;        
     }),
 
-    statsRetention: Ember.computed('stats', function() {
+    statsRetention: computed('stats', function() {
         return this.get('stats').statsRetention;
     }),
 
@@ -62,11 +62,11 @@ export default Ember.Service.extend({
         var that = this,
             login = this.get('_login');    
         
-        Ember.$.getJSON(that.get('config').ApiUrl + 'api/historical/' + login).then(
+        Ember.$.getJSON(config.APP.ApiUrl + 'api/historical/' + login).then(
             function(data) {
                 // Handle Resolve
                 that.set('stats', data);
-                that.set('_runTimer', Ember.run.later(that, that._loadStats, that.get('config').APIRefreshRate.historical));
+                that.set('_runTimer', Ember.run.later(that, that._loadStats, config.APP.APIRefreshRate.historical));
             }, function() {
                 // Handle Reject
                 console.error('Historical Stats Service: Loading Stats Failed.', 'Login not provided');  

@@ -20,23 +20,25 @@
 
     {{#if miningApp.runtime.options}}
     <div>
-      <!--Button Expands the Options Panel-->
+      <!--Button Expands the Options-->
       <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#mining-app-{{miningAppIndex}}-runtime-options-collapse">Options</button>
 
       <!--Button Expands entire Options div-->
       <div id="mining-app-{{miningAppIndex}}-runtime-options-collapse" class="collapse">
 
         <!--Accordion allows one section  of options to be shown at a time-->
-        <div class="panel-group" id="mining-app-{{miningAppIndex}}-runtime-options-accordion">
+        <div id="mining-app-{{miningAppIndex}}-runtime-options-accordion">
           {{#each miningApp.runtime.options.sections as |section sectionIndex|}}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#mining-app-{{miningAppIndex}}-runtime-options-accordion" href="#mining-app-{{miningAppIndex}}-runtime-options-section-{{sectionIndex}}-collapse">{{section.name}}</a>               
-                </h4>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#mining-app-{{miningAppIndex}}-runtime-options-accordion" aria-expanded="true" aria-controls="mining-app-{{miningAppIndex}}-runtime-options-accordion">
+                   {{section.name}}<
+                  </button>
+                </h5>                                
               </div>
-              <div id="mining-app-{{miningAppIndex}}-runtime-options-section-{{sectionIndex}}-collapse" class="panel-collapse collapse">
-                <div class="panel-body">
+              <div id="mining-app-{{miningAppIndex}}-runtime-options-section-{{sectionIndex}}-collapse" class="collapse">
+                <div class="card-body">
                   <h5>{{section-info}}</h5>    
                   <div class="table-responsive">
                     <table class="table table-striped table-condensed">

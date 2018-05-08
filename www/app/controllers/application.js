@@ -1,16 +1,21 @@
 import Ember from 'ember';
+import Controller from '@ember/controller';
+import EmberObject, { computed } from '@ember/object';
+import config from '../config/environment';
 
-export default Ember.Controller.extend({    
+export default Controller.extend({    
+    config: config,
+
     poolStatsService: Ember.inject.service('pool-stats'),
     
-    poolStats: Ember.computed(function() {
+    poolStats: computed(function() {
         var owner = Ember.getOwner(this);    
         var poolStats = owner.lookup('object:pool-stats');        
         
         return poolStats;
     }),
 
-    networkStats: Ember.computed(function() {
+    networkStats: computed(function() {
         var owner = Ember.getOwner(this);    
         var networkStats = owner.lookup('object:network-stats');        
         
@@ -25,6 +30,5 @@ export default Ember.Controller.extend({
 
     willDestroy() {
         this.get('poolStatsService').stop();
-    }
-    
+    }    
 });

@@ -1,15 +1,12 @@
 {{pool-stats-bar poolStats=model.poolStats networkStats=model.networkStats}}  
 
-<div class="container"> 
+<div class="container">   
   
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h1 class="panel-title">
-          Your Stats &amp; Payment History
-        </h1>
+    <div class="card">
+      <div class="card-header">        
+          Your Stats &amp; Payment History        
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <div class="stats">                
           <div class="input-group">
             {{input value=cachedLogin class="form-control" placeholder="Enter Your Ubiq Address"}}
@@ -24,16 +21,12 @@
         </div>
       </div>      
     </div>
-  </div>
-
-  <div class="panel-group">
-    <div class="panel panel-primary">
-      <div class="panel-heading">      
-        <h1 class="panel-title">
-          <span class="text-center">Instructions</span>
-        </h1>
+  
+    <div class="card">
+      <div class="card-header">        
+        <span class="text-center">Instructions</span>        
       </div>      
-      <div class="panel-body">
+      <div class="card-body">
         <p class="lead text-center">
           {{#link-to "help"}}
             <span class="ul ul-success">Stratum</span>
@@ -44,10 +37,9 @@
           <object type="image/svg+xml" data="/assets/images/flag-usa.svg" class="flag"></object>
         </div>
 
-        <p class="lead text-center">{{config.StratumHost}}:{{config.StratumPort}}</p>        
+        <p class="lead text-center">{{config.APP.StratumHost}}:{{config.APP.StratumPort}}</p>        
       </div>
     </div>    
-  </div>
 
 
 </div>

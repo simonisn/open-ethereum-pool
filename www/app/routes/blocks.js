@@ -1,18 +1,12 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route';
 import Block from "../models/block";
+import config from '../config/environment';
 
-export default Ember.Route.extend({
-	globalsService: Ember.inject.service('globals'),
-	config: Ember.computed.reads('globalsService.config'),
-	
-	init() {
-		this._super(...arguments);
-
-	},
-
+export default Route.extend({
 	model: function () {
 
-		var url = this.get('config').ApiUrl + 'api/blocks';
+		var url = config.APP.ApiUrl + 'api/blocks';
 
 		return Ember.$.getJSON(url).then(function (data) {
 			if (data.candidates) {
@@ -141,6 +135,6 @@ export default Ember.Route.extend({
 
 	setupController: function (controller, model) {
 		this._super(controller, model);
-		Ember.run.later(this, this.refresh, this.get('config').APIRefreshRate.blocks);
+		Ember.run.later(this, this.refresh, config.APP.APIRefreshRate.blocks);
 	}
 });

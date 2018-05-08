@@ -1,134 +1,152 @@
 {{page-header title="Account: " after-title=model.login}}
 
 <div class="container">
-  <div class="well"> 
+  <div class="card"> 
+    <div class="card-body">
 
-    <div class="row">      
-      
-      <div class="col-md-4">        
-        <div class="stats">
-          {{mining-stat iconClass="fa fa-money" title="Immature Balance:" value=(format-balance model.immature)}}          
-          <small style="margin-left: 10px;">Preliminary balance awaiting blocks to mature.</small>
-          
-          {{mining-stat iconClass="fa fa-money" title="Pending Balance:" value=(format-balance model.balance)}}          
-          <small style="margin-left: 10px;">Credited coins awaiting payout.</small>        
+      <div class="row">      
+        
+        <div class="col-md-4">        
+          <div class="stats">
+            {{mining-stat iconClass="fa fa-money" title="Immature Balance:" value=(format-balance model.immature)}}          
+            <small style="margin-left: 10px;">Preliminary balance awaiting blocks to mature.</small>
+            
+            {{mining-stat iconClass="fa fa-money" title="Pending Balance:" value=(format-balance model.balance)}}          
+            <small style="margin-left: 10px;">Credited coins awaiting payout.</small>        
 
-          {{#if model.pending}}
-            {{mining-stat iconClass="fa fa-money" title="Pending Payment:" value=(format-balance model.pending)}}                  
-          {{/if}}
+            {{#if model.pending}}
+              {{mining-stat iconClass="fa fa-money" title="Pending Payment:" value=(format-balance model.pending)}}                  
+            {{/if}}
 
-          {{mining-stat iconClass="fa fa-money" title="Total Paid:" value=(format-balance model.paid)}}           
+            {{mining-stat iconClass="fa fa-money" title="Total Paid:" value=(format-balance model.paid)}}           
+          </div>
         </div>
+
+        <div class="col-md-4">
+          <div class="stats">
+            {{mining-stat iconClass="fa fa-gears" title="Workers Online:" value=(format-number model.workersOnline)}}          
+            {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.shortHashrate)}}          
+            {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (3h):" value=(format-hashrate model.longHashrate)}}         
+          </div>
+        </div>
+
+        <div class="col-md-4">    
+          <div class="stats">
+            {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.blocksFound fallback='0')}}          
+            {{#if model.lastShare}}
+              {{mining-stat iconClass="fa fa-clock-o" title="Last Share Submitted:" value=(format-relative (seconds-to-ms model.lastShare))}}                    
+            {{/if}}        
+            {{mining-stat iconClass="fa fa-tachometer" title="Round Share:" value=(format-number roundPercent style='percent' maximumFractionDigits='6')}}
+            <small style="margin-left: 10px;">Percent of your contribution to current round.</small>
+          </div>    
+        </div>      
       </div>
 
-      <div class="col-md-4">
-        <div class="stats">
-          {{mining-stat iconClass="fa fa-gears" title="Workers Online:" value=(format-number model.workersOnline)}}          
-          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (30m):" value=(format-hashrate model.shortHashrate)}}          
-          {{mining-stat iconClass="fa fa-tachometer" title="Hashrate (3h):" value=(format-hashrate model.longHashrate)}}         
-        </div>
-      </div>
-
-      <div class="col-md-4">    
-        <div class="stats">
-          {{mining-stat iconClass="fa fa-bars" title="Blocks Found:" value=(format-number model.blocksFound fallback='0')}}          
-          {{#if model.lastShare}}
-            {{mining-stat iconClass="fa fa-clock-o" title="Last Share Submitted:" value=(format-relative (seconds-to-ms model.lastShare))}}                    
-          {{/if}}        
-          {{mining-stat iconClass="fa fa-tachometer" title="Round Share:" value=(format-number roundPercent style='percent' maximumFractionDigits='6')}}
-          <small style="margin-left: 10px;">Percent of your contribution to current round.</small>
-        </div>    
-      </div>      
-    </div>
-   
+    </div>   
   </div>
 </div>
 
 {{#if hashrateCharts.totalsChart}}
 <div class="container">
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">      
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#hashrate-totals-chart-collapse">Total Hashrate</a>
-        </h1>
-      </div>
-      <div class="panel-collapse collapse in" id="hashrate-totals-chart-collapse">
-        <div class="panel-body">           
-          {{ember-chart type=hashrateCharts.totalsChart.type data=hashrateCharts.totalsChart.data options=hashrateCharts.totalsChart.options}}        
-        </div>
-        {{#if historicalStatsInterval}}
-        <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-        </div>
-        {{/if}}
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-totals-chart-collapse" aria-expanded="true" aria-controls="hashrate-totals-chart-collapse">
+          Total Average Hashrate
+        </button>
+      </h5>      
     </div>
+      
+    <div class="collapse" id="hashrate-totals-chart-collapse">
+      <div class="card-body">           
+        {{ember-chart type=hashrateCharts.totalsChart.type data=hashrateCharts.totalsChart.data options=hashrateCharts.totalsChart.options}}        
+      </div>
+      {{#if historicalStatsInterval}}
+      <div class="card-footer">
+        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+      </div>
+      {{/if}}         
+    </div>         
   </div>
 </div>
 {{/if}}
 
 {{#if hashrateCharts.workersLongChart}}
 <div class="container">
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">      
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#hashrate-workers-long-chart-collapse">Worker Long Average Hashrate</a>
-        </h1>
-      </div>
-      <div class="panel-collapse collapse" id="hashrate-workers-long-chart-collapse">
-        <div class="panel-body">           
-          {{ember-chart type=hashrateCharts.workersLongChart.type data=hashrateCharts.workersLongChart.data options=hashrateCharts.workersLongChart.options}}        
-        </div>
-        {{#if historicalStatsInterval}}
-        <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-        </div>
-        {{/if}}        
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-workers-long-chart-collapse" aria-expanded="true" aria-controls="hashrate-workers-long-chart-collapse">
+          Worker Long Average Hashrate
+        </button>
+      </h5>
     </div>
+      
+    <div class="collapse" id="hashrate-workers-long-chart-collapse">
+      <div class="card-body">           
+        {{ember-chart type=hashrateCharts.workersLongChart.type data=hashrateCharts.workersLongChart.data options=hashrateCharts.workersLongChart.options}}        
+      </div>
+      {{#if historicalStatsInterval}}
+      <div class="card-footer">
+        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+      </div>
+      {{/if}}         
+    </div>         
   </div>
 </div>
 {{/if}}
 
 {{#if hashrateCharts.workersShortChart}}
 <div class="container">
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">      
-        <h1 class="panel-title">
-          <a data-toggle="collapse" href="#hashrate-workers-short-chart-collapse">Worker Short Average Hashrate</a>
-        </h1>
-      </div>
-      <div class="panel-collapse collapse" id="hashrate-workers-short-chart-collapse">
-        <div class="panel-body">           
-          {{ember-chart type=hashrateCharts.workersShortChart.type data=hashrateCharts.workersShortChart.data options=hashrateCharts.workersShortChart.options}}        
-        </div>
-        {{#if historicalStatsInterval}}
-        <div class="panel-footer">
-          <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-        </div>
-        {{/if}}         
-      </div>     
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-workers-short-chart-collapse" aria-expanded="true" aria-controls="hashrate-workers-short-chart-collapse">
+          Worker Short Average Hashrate
+        </button>
+      </h5>
     </div>
+      
+    <div class="collapse" id="hashrate-workers-short-chart-collapse">
+      <div class="card-body">           
+        {{ember-chart type=hashrateCharts.workersShortChart.type data=hashrateCharts.workersShortChart.data options=hashrateCharts.workersShortChart.options}}        
+      </div>
+      {{#if historicalStatsInterval}}
+      <div class="card-footer">
+        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
+      </div>
+      {{/if}}         
+    </div>         
   </div>
 </div>
 {{/if}}
 
 <div class="container">
-  <ul class="nav nav-tabs">
-    {{#active-li current-when='account account.index' role='presentation'}}
-      {{#link-to 'account.index'}}Workers 
+  <ul class="nav nav-tabs" role="tablist">            
+    <li class="nav-item">  
+      <a class="nav-link active" id="stats-tab" href="#workers" role="tab" aria-controls="workers" aria-selected="true" data-toggle="tab">
+        Workers
         {{#if model.workersOffline}}
           <span class="badge alert-danger">{{model.workersOffline}}</span>
         {{/if}}
-      {{/link-to}}
-    {{/active-li}}
-    {{#active-li current-when='account.payouts' role='presentation'}}
-      {{#link-to 'account.payouts'}}Payouts{{/link-to}}
-    {{/active-li}}
-  </ul>
+      </a>              
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" id="payouts-tab" href="#payouts" role="tab" aria-controls="payouts" aria-selected="false" data-toggle="tab">
+      Payouts
+      </a>
+    </li>
+  </ul>    
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="workers" role="tabpanel" aria-labelledby="immature-tab">
+    {{partial 'account/workers'}}
+    </div>
+    <div class="tab-pane fade" id="payouts" role="tabpanel" aria-labelledby="immature-tab">
+    {{partial 'account/payouts'}}
+    </div>    
+  </div>            
+
 </div>
 
 {{outlet}}

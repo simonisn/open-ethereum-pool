@@ -5,11 +5,8 @@
 
 <div class="container">
   {{#if model.miners}}  
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h1 class="panel-title">Miners</h1>
-    </div>
-    <div class="panel-body">      
+  <div class="card">    
+    <div class="card-body">      
       <div class="table-responsive">
         <table class="table table-condensed table-striped">
           <thead>
@@ -37,11 +34,11 @@
     </div>
   </div>  
   {{else}}
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h1 class="panel-title">No miners yet</h1>
+  <div class="card">
+    <div class="card-header">
+      No miners yet
     </div>
-    <div class="panel-body">
+    <div class="card-body">
 
     </div>
   </div>

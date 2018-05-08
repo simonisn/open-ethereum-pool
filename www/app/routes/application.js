@@ -1,11 +1,11 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  intl: Ember.inject.service(),
-  globalsService: Ember.inject.service('globals'),
-  config: Ember.computed.reads('globalsService.config'), 
+export default Route.extend({ 
+    intl: Ember.inject.service(),
 
-  beforeModel() {
-    this.get('intl').setLocale('en-us');
-  }
+    beforeModel() {
+      /* NOTE: if you lazily load translations, here is also where you would load them via `intl.addTranslations` */
+      return this.get('intl').setLocale(['en-us']); /* array optional */
+    }
 });

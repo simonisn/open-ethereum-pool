@@ -1,12 +1,12 @@
 import Ember from 'ember';
+import Service from '@ember/service';
+import EmberObject, { computed } from '@ember/object';
+import config from '../config/environment';
 
-export default Ember.Service.extend({
-    globals: Ember.inject.service('globals'),
-    config: Ember.computed.reads('globals.config'),  
-    
+export default Service.extend({    
     _login: '',
     _runTimer: null,    
-    _isRunning: Ember.computed('_runTimer', function() {
+    _isRunning: computed('_runTimer', function() {
         return (this.get('_runTimer') !== null);
     }),    
 
@@ -54,7 +54,7 @@ export default Ember.Service.extend({
         var that = this,
             login = this.get('_login');    
         
-        Ember.$.getJSON(that.get('config').ApiUrl + 'api/accounts/' + login).then(
+        Ember.$.getJSON(config.APP.ApiUrl + 'api/accounts/' + login).then(
             function(data) {
                 console.log('AccountStats Service: data', data);
 
@@ -62,7 +62,7 @@ export default Ember.Service.extend({
 
                 // Handle Resolve
                 that.set('accountStats', data);
-                that.set('_runTimer', Ember.run.later(that, that._loadStats, that.get('config').APIRefreshRate.minerStats));
+                that.set('_runTimer', Ember.run.later(that, that._loadStats, config.APP.APIRefreshRate.minerStats));
             }, function(error) {
                 // Handle Reject
                 console.error('Account Stats Service: Loading Stats Failed.', error);  

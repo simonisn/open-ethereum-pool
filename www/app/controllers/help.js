@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  globalsService: Ember.inject.service('globals'),
-  config: Ember.computed.reads('globalsService.config')  
+export default Controller.extend({
+
+
 });

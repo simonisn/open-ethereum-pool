@@ -1,11 +1,11 @@
 import Ember from 'ember';
+import Route from '@ember/routing/route';
+import config from '../config/environment';
 
-export default Ember.Route.extend({
-  globalsService: Ember.inject.service('globals'),
-  config: Ember.computed.reads('globalsService.config'), 
+export default Route.extend({
     
   model: function() {
-    var url = this.get('config').ApiUrl + 'api/miners';
+    var url = config.APP.ApiUrl + 'api/miners';
 
     return Ember.$.getJSON(url).then(function(data) {
       if (data.miners) {

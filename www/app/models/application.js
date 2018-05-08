@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import EmberObject, { computed } from '@ember/object';
 
-var Application = Ember.Object.extend({   
+var Application = EmberObject.extend({   
 
 });
 

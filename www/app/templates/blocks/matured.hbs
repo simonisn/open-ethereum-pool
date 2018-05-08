@@ -1,5 +1,5 @@
-{{#if model.immature}}
-<h4>Immature Blocks</h4>
+{{#if model.matured}}
+<h4>Matured Blocks</h4>
 <div class="table-responsive">
   <table class="table table-condensed table-striped">
     <thead>
@@ -13,12 +13,12 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.immature as |block|}}
-        {{block-row block=block}}
+      {{#each model.matured as |block|}}        
+        {{block-row block=block}}        
       {{/each}}
     </tbody>
   </table>
 </div>
 {{else}}
-<h3>No immature blocks yet</h3>
+<h3>No matured blocks yet</h3>
 {{/if}}
