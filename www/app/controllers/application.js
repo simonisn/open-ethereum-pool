@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Controller from '@ember/controller';
 import EmberObject, { computed } from '@ember/object';
 import config from '../config/environment';
+import svgInjector from 'svg-injector';
 
 export default Controller.extend({    
     config: config,
@@ -24,6 +25,12 @@ export default Controller.extend({
     
     init() {
         this._super(...arguments);
+
+        // Elements to inject
+        var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+
+        // Do the injection
+        svgInjector(mySVGsToInject);        
 
         this.get('poolStatsService').start();        
     },

@@ -1,4 +1,6 @@
-<div id="{{id}}" style="overflow-x:hidden;">    
-    <i class="{{iconClass}}"> </i>
-    {{title}} {{value}}
-</div>
+{{#if iconClass}}   
+    {{open-iconic icon-name=iconClass}}    
+{{/if}}
+
+<div>{{title}}</div>
+<div class="ml-auto">{{value}}</div>

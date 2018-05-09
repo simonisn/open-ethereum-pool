@@ -1,6 +1,6 @@
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var Funnel = require('broccoli-funnel');
+var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {    
@@ -19,6 +19,12 @@ module.exports = function(defaults) {
     }
   });
 
+  var openIconic = new Funnel('node_modules/open-iconic', {
+    srcDir: 'sprite',
+    destDir: 'assets/images',
+    include: ['sprite.min.svg']
+  });
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
@@ -32,9 +38,19 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value. 
   
+  // Import Bootstrap 4 native
   app.import('node_modules/bootstrap/dist/js/bootstrap.min.js');
   //app.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
+  
+  // Import Custom Bootstrap theme
   app.import('vendor/bootstrap.min.css');
 
-  return app.toTree();
+  // Import SVG Injector - Required for open-iconic sprites
+  app.import('node_modules/svg-injector/dist/svg-injector.min.js', {
+    using: [
+      { transformation: 'amd', as: 'svg-injector' }
+    ]
+  });
+
+  return app.toTree(openIconic);
 };

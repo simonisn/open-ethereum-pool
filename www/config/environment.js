@@ -10,7 +10,11 @@ module.exports = function (environment) {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       }
-    },    
+    },
+    'ember-logging-service': {
+      enabled: true,
+      errorsEnabled: true
+    },
     APP: {
       PoolName: 'UbiqMining.net',
       

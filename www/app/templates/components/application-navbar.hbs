@@ -12,46 +12,63 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar-collapse-1">      
       <ul class="navbar-nav nav-tabs mr-auto" role="tablist">              
-        <li class="nav-item">
+        <li class="nav-item">          
           {{#link-to 'index' current-when='index' class="nav-link"}}
-          <i class="fa fa-home"></i> Home
-          {{/link-to}}
-        </li>>
+            <div class="d-flex align-items-center">
+              {{open-iconic icon-name="home"}}
+              <span>Home</span>
+            </div>
+          {{/link-to}}          
+        </li>
       
         <li class="nav-item">
           {{#link-to 'blocks' current-when='blocks' class="nav-link"}}          
-            <i class="fa fa-cubes"></i>
-              &nbsp;Pool Blocks
+             <div class="d-flex align-items-center">
+              {{open-iconic icon-name="grid-two-up"}}
+              <span>Pool Blocks</span>
               {{#if poolStats.newBlocks}}
-                <span class="badge badge-light">{{poolStats.newBlocks}}</span>
+                <span class="badge badge-light alert-success">{{poolStats.newBlocks}}</span>
               {{/if}}                
+            </div>
           {{/link-to}}
-        </li>>
+        </li>
       
         <li class="nav-item">
           {{#link-to 'payments' current-when='payments' class="nav-link"}}
-          <i class="fa fa-money"></i> Payments
+          <div class="d-flex align-items-center">
+              {{open-iconic icon-name="dollar"}}
+              <span>Payments</span>
+          </div>          
           {{/link-to}}
         </li>                                
       
         <li class="nav-item">
           {{#link-to 'miners' current-when='miners' class="nav-link"}}
-            <i class="fa fa-users"></i> Miners
-            {{#if poolStats.minersOnline}}
-              <span class="badge badge-light">{{poolStats.minersOnline}}</span>
-            {{/if}}
+            <div class="d-flex align-items-center">
+              {{open-iconic icon-name="people"}}
+              <span>Miners</span>
+              {{#if poolStats.minersOnline}}
+                <span class="badge badge-light">{{poolStats.minersOnline}}</span>
+              {{/if}}
+            </div>
           {{/link-to}}          
         </li>
 
         <li class="nav-item">
           {{#link-to 'help' current-when='help' class="nav-link"}}
-            <i class="fa fa-question"></i> Help
+            <div class="d-flex align-items-center">
+              {{open-iconic icon-name="question-mark"}}
+              <span>Help</span>
+            </div>
           {{/link-to}}
         </li>                    
 
         <li class="nav-item">
           {{#link-to 'about' current-when='about' class="nav-link"}}
-          <i class="fa fa-comments"></i> About
+          <div class="d-flex align-items-center">
+            {{open-iconic icon-name="info"}}
+            <span>About</span>
+          </div>
           {{/link-to}}
         </li>            
       </ul>

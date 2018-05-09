@@ -10,7 +10,7 @@ export default Route.extend({
     var poolStats = owner.lookup('object:pool-stats');
     var networkStats = owner.lookup('object:network-stats');
    
-		return {
+		return {      
       poolStats: poolStats,
       networkStats: networkStats
     }; 

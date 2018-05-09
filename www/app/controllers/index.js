@@ -1,18 +1,23 @@
 import Ember from 'ember';
 import Controller from '@ember/controller';
 import EmberObject, {computed} from '@ember/object';
+import Cookies from 'ember-cli-js-cookie';
 import config from '../config/environment';
 
 export default Controller.extend({
-  config: config,
+  config: config.APP,
+
+  logger: Ember.inject.service(),
   
-	cachedLogin: computed('login', {
+	cachedLogin: computed({
     get() {
-      return this.get('login') || document.cookie.login;
+      var login = Cookies.get('login');
+      this.get('logger').info('login', login);
+      return login;
     },
     set(key, value) {
-      document.cookie.login = value;
-      this.set('model.login', value);
+      this.get('logger').info('set login', value);
+      Cookies.set('login', value);            
       return value;
     }
   })  

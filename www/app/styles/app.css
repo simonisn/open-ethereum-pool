@@ -23,12 +23,31 @@ main.container-fluid {
 }
 /*-------------------------------------------------- */
 
+svg { 
+  pointer-events: none; 
+}
+svg.icon {    
+  height: 16px;
+  width: 16px;  
+  margin: 5px;
+  fill: currentColor;
+}
 
+.nav-item .badge {
+  margin: 5px;
+}
+
+
+.brand {
+  min-width:255px;  
+  padding-bottom: 15px;
+}
 .stats {
-  min-width: 270px;  
+  min-width: 255px;   
 }
 .stats > .card {
   height: 100%;
+  padding: 0.5rem;
 }
 .truncate-ellipsis {
   display: table;

@@ -12,9 +12,12 @@
             {{input value=cachedLogin class="form-control" placeholder="Enter Your Ubiq Address"}}
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" {{action 'lookup' cachedLogin}}>
-                <span style="display: inline;">
-                  <i class="fa fa-search"></i>Lookup
-                </span>
+                <div class="d-flex align-items-center">
+                  <span style="display: inline;">
+                    {{open-iconic icon-name="magnifying-glass"}}
+                    <span>Lookup</span>
+                  </span>
+                </div>
               </button>
             </span>
           </div>
@@ -37,7 +40,7 @@
           <object type="image/svg+xml" data="/assets/images/flag-usa.svg" class="flag"></object>
         </div>
 
-        <p class="lead text-center">{{config.APP.StratumHost}}:{{config.APP.StratumPort}}</p>        
+        <p class="lead text-center">{{config.StratumHost}}:{{config.StratumPort}}</p>        
       </div>
     </div>    
 
