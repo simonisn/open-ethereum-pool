@@ -52,7 +52,8 @@ export default Ember.Service.extend({
 			this.label = label;
 			this.borderColor = color;
 			this.yAxesID = 'y-axis-hashrate';
-			this.data = data;			
+			this.data = data;	
+			this.pointRadius = 0; // Don't show points		
 		}
 
 		function DataPoint(x, y) {
