@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Controller from '@ember/controller';
 import EmberObject, { computed } from '@ember/object';
+import $ from 'jquery';
 import config from '../config/environment';
 import svgInjector from 'svg-injector';
 
@@ -26,10 +27,15 @@ export default Controller.extend({
     init() {
         this._super(...arguments);
 
-        // Elements to inject
-        var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+        // Close the navbar menu when an list item is clicked
+        $(document).ready(function() {
+            $('#application-navbar>.navbar-nav>li>a').on('click', function(){
+                $('#application-navbar').collapse('hide');
+            });
+        });        
 
-        // Do the injection
+        // Inject open-iconic SVG 
+        var mySVGsToInject = document.querySelectorAll('.iconic-sprite');        
         svgInjector(mySVGsToInject);        
 
         this.get('poolStatsService').start();        
