@@ -30,17 +30,15 @@
         <span class="text-center">Instructions</span>        
       </div>      
       <div class="card-body">
-        <p class="lead text-center">
+        
           {{#link-to "help"}}
-            <span class="ul ul-success">Stratum</span>
+            <h3 class="ul ul-success text-center">Stratum</h3>
+            <div>
+              <img class="emblem-earth" src="/assets/images/Emblem-earth.svg"/>
+              <p class="lead text-center">{{config.StratumHost}}:{{config.StratumPort}}</p>
+            </div>
           {{/link-to}}
-        </p>
-
-        <div class="text-center">
-          <object type="image/svg+xml" data="/assets/images/flag-usa.svg" class="flag"></object>
-        </div>
-
-        <p class="lead text-center">{{config.StratumHost}}:{{config.StratumPort}}</p>        
+        
       </div>
     </div>    
 
