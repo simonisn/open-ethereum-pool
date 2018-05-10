@@ -6,13 +6,10 @@
             Stratum Mining (S)
         </div>
         <div class="card-body">                  
-            {{#if model.miningApps}}
-                <h4>Mining Apps</h4>
-                <div>
-                    {{#each model.miningApps as |miningApp miningAppIndex|}}  
-                        {{mining-app miningApp=miningApp miningAppIndex=miningAppIndex}}
-                    {{/each}}
-                </div>       
+            {{#if model.miningApps}}                
+                {{#each model.miningApps as |miningApp miningAppIndex|}}  
+                    {{mining-app miningApp=miningApp miningAppIndex=miningAppIndex}}
+                {{/each}}                
             {{else}}                
                 <p class="lead">Point your favorite Ethash mining application at {{config.StratumHost}}:{{config.StratumPort}} and be sure to
                     include &lt;YOUR_UBIQ_ADDRESS&gt; and &lt;YOUR_RIG_ID&gt;</p>                
@@ -33,7 +30,7 @@
     </div>  
 
     <div class="card">
-        <div class="card-header bg-warning">
+        <div class="card-header bg-warning text-dark">
             Terms of Service
         </div>
         <div class="card-body">            

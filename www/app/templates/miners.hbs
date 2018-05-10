@@ -1,6 +1,12 @@
 {{#page-header title="Miners"}}
-  {{mining-stat iconClass="pulse" title="Total Hashrate:" value=(format-hashrate model.hashrate)}}
-  {{mining-stat iconClass="laptop" title="Total Miners:" value=(format-number model.minersTotal)}}
+  <div class="row">
+    <div class="col-md-3 stats">
+      <div class="card">        
+        {{mining-stat iconClass="pulse" title="Total Hashrate:" value=(format-hashrate model.hashrate)}}
+        {{mining-stat iconClass="laptop" title="Total Miners:" value=(format-number model.minersTotal)}}      
+      </div>
+    </div>
+  </div>
 {{/page-header}}
 
 <div class="container">

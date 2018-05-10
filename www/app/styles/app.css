@@ -1,16 +1,8 @@
 /*-------------------------------------------------- */
 /* Sticky footer styles
 /*-------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-main.container-fluid {
-  padding: 60px 15px 0;
+body > .ember-view {
+  padding-top: 60px;
 }
 .footer {
   position: absolute;
@@ -55,11 +47,13 @@ svg.icon {
   width: 100%;
   white-space: nowrap;
 }
-
 .truncate-ellipsis > * {
   display: table-cell;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.chart-hashrate {
+  min-height: 400px;
 }
 
 .hash {

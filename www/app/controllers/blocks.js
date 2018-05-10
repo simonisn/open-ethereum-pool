@@ -3,6 +3,6 @@ import Controller from '@ember/controller';
 import config from '../config/environment';
 
 export default Controller.extend({
-    config: config
+    config: config.APP
     
 });

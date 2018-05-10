@@ -77,12 +77,14 @@ export default Ember.Service.extend({
 					},
 					lengend: {
 						position: 'bottom'
-					},			
+					},		
+					maintainAspectRatio: false,	
 					scales: {
 						xAxes: [{						
 							type: 'time',
 							distribution: 'linear',
 							time: {
+								unit: 'day',
 								displayFormats: {
 									'day': 'MMM DD'
 								}

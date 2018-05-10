@@ -5,7 +5,7 @@ import config from '../config/environment';
 import svgInjector from 'svg-injector';
 
 export default Controller.extend({    
-    config: config,
+    config: config.APP,
 
     poolStatsService: Ember.inject.service('pool-stats'),
     

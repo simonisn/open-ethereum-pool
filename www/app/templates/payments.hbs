@@ -1,5 +1,11 @@
 {{#page-header title="Payments" info="Pool always pays transaction fees."}}
-  {{mining-stat iconClass="dollar" title="Total Payments Sent:" value=(format-number model.paymentsTotal)}}  
+  <div class="row">
+    <div class="col-md-3 stats">
+      <div class="card">        
+        {{mining-stat iconClass="dollar" title="Total Payments Sent:" value=(format-number model.paymentsTotal)}}  
+      </div>
+    </div>
+  </div>
 {{/page-header}}
 
 <div class="container">
