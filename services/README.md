@@ -1,21 +1,34 @@
-## Ubuntu Services Installation
+# Ubuntu Services Installation
 
-Services Installed:
+**Usage:** sudo ./install.sh
+
+#### Services Installed:
 	ubiqpool-api.service
 	ubiqpool-proxy.service
 	ubiqpool-unlocker.service
 	ubiqpool-payouts.service
 
-	NOTE: Services are started immediately when installed.
+##### NOTES:
+	Services are started **immediately** when installed.
 
-Config Files:
+#### Config Files:
 	Deployed to /etc/ubiqpool/config
 
-	NOTE: Be sure to update the config files with your settings prior to installing.
-	
+##### NOTES:
+	Be sure to update the config files with your settings prior to installing.
+	Minimally, the following should be updated:
+		config/ubiqpool-proxy.json
+			upstream: url (url to your instance of go-ubiq)
+		config/ubiqpool-payouts.json
+			upstream: url (url to your instance of go-ubiq)
+			payouts: address (pool's Ubiq address)
+		config/ubiqpool-unlocker
+			unlocker: poolFeeAddress (where pool fees are sent)
 
-Script Files:
+#### Script Files:
 	Deployed to /etc/ubiqpool/scripts
 
-	NOTE: Script Files are used by the services to execute open-ethereum-pool with the appropriate config file.
+##### NOTES:
+	Script Files are used by the services to execute open-ethereum-pool with the appropriate config file.
+	Scripts exceute open-ethereum-pool at /usr/local/bin/open-ethereum-pool, so be sure to deploy open-ethereum-pool here after building.
 
