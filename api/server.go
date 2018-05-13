@@ -149,12 +149,11 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 
 func (s *ApiServer) purgeStale() {
 	start := time.Now()
-	totalHashrate, totalHistoricalHashrate, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.histStatsRetain)
+	totalHashrate, totalMinerHashrate, totalHistoricalHashrate, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.histStatsRetain)
 	if err != nil {
 		log.Println("Failed to purge stale data from backend:", err)
 	} else {
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHashrate, time.Since(start))
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHistoricalHashrate, time.Since(start))
+		log.Printf("Purged stale hashrate stats from backend. %v hashrate shares, %v miner hashrate entries, %v historical hashrate entries.  Elapsed time %v", totalHashrate, totalMinerHashrate, totalHistoricalHashrate, time.Since(start))		
 	}
 }
 
