@@ -1,10 +1,15 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({	
-	historicalStatsService: Ember.inject.service('historical-stats'),  
+export default Ember.Service.extend({		
+	
+	constants: {
+		MEGAHASH: 1000000,
+		GWEI: 1000000000
+	},
 
-	ChartColors: Ember.computed(function() { 
-		function ChartColors() {
+	common: {
+		// ChartColors constructor
+		ChartColors: function () {
 			var colorIndex = 0,
 				colorPalette =  [
 				"#286D92",
@@ -34,30 +39,20 @@ export default Ember.Service.extend({
 	
 				return color;
 			}
-		}
-
-		return ChartColors;
-	}),
-
-	TimeDataPoint: Ember.computed(function() {
-		function TimeDataPoint(timeStamp, value) {
+		},			
+		
+		// TimeDataPoint constructor
+		TimeDataPoint: function (timeStamp, value) {
 			this.x = +timeStamp;
 			this.y = value;
-		}
-
-		return TimeDataPoint;
-	}),
-
-	hashrateChart: Ember.computed('historicalStatsService.stats', function() {		
-		var historicalStats = this.get('historicalStatsService.stats');
-
-		var MEGAHASH = 1000000;							
-		
-		// Get Constructors
-		var ChartColors = this.ChartColors,
-			TimeDataPoint = this.TimeDataPoint;
-		
-		var chartColors = new ChartColors();		
+		}				
+	},	
+	
+	accountHashrateChart(historicalStats) {			
+		var ChartColors = this.common.ChartColors,
+			TimeDataPoint = this.common.TimeDataPoint,
+			chartColors = new ChartColors(),
+			constants = this.constants;
 
 		function HashrateChartDataSet(label, color, data) {
 			this.type = 'line';
@@ -166,7 +161,7 @@ export default Ember.Service.extend({
 						// Stats is an object, indexed by Timestamp
 						Object.keys(worker.stats).forEach(function(timeStamp) {
 							if(worker.stats[timeStamp].hashrate) {
-								var hashrate = +(worker.stats[timeStamp].hashrate) / MEGAHASH,
+								var hashrate = +(worker.stats[timeStamp].hashrate) / constants.MEGAHASH,
 									dataPoint = new TimeDataPoint(timeStamp, hashrate);
 
 								// Add hashrate to Worker datapoint array
@@ -200,5 +195,5 @@ export default Ember.Service.extend({
 		var dataSets = createDataSets(historicalStats);		
 
 		return createChart(dataSets);
-	})
+	}
 });
