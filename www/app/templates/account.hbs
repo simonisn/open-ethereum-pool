@@ -42,74 +42,24 @@
         </div>      
       </div>
 
-    </div>   
+    </div>
   </div>
 </div>
 
-{{#if hashrateCharts.totalsChart}}
+{{#if hashrateChart}}
 <div class="container">
   <div class="card">
     <div class="card-header">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-totals-chart-collapse" aria-expanded="true" aria-controls="hashrate-totals-chart-collapse">
-          Total Average Hashrate
+        <button class="btn btn-link" data-toggle="collapse" data-target="#chart-account-hashrate-collapse" aria-expanded="true" aria-controls="chart-account-hashrate-collapse">
+          Hashrate
         </button>
       </h5>      
     </div>
       
-    <div class="collapse" id="hashrate-totals-chart-collapse">
+    <div class="collapse in show" id="chart-account-hashrate-collapse">
       <div class="card-body chart-hashrate">           
-        {{ember-chart type=hashrateCharts.totalsChart.type data=hashrateCharts.totalsChart.data options=hashrateCharts.totalsChart.options}}        
-      </div>
-      {{#if historicalStatsInterval}}
-      <div class="card-footer">
-        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-      </div>
-      {{/if}}         
-    </div>         
-  </div>
-</div>
-{{/if}}
-
-{{#if hashrateCharts.workersLongChart}}
-<div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-workers-long-chart-collapse" aria-expanded="true" aria-controls="hashrate-workers-long-chart-collapse">
-          Worker Long Average Hashrate
-        </button>
-      </h5>
-    </div>
-      
-    <div class="collapse" id="hashrate-workers-long-chart-collapse">
-      <div class="card-body chart-hashrate">           
-        {{ember-chart type=hashrateCharts.workersLongChart.type data=hashrateCharts.workersLongChart.data options=hashrateCharts.workersLongChart.options}}        
-      </div>
-      {{#if historicalStatsInterval}}
-      <div class="card-footer">
-        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-      </div>
-      {{/if}}         
-    </div>         
-  </div>
-</div>
-{{/if}}
-
-{{#if hashrateCharts.workersShortChart}}
-<div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#hashrate-workers-short-chart-collapse" aria-expanded="true" aria-controls="hashrate-workers-short-chart-collapse">
-          Worker Short Average Hashrate
-        </button>
-      </h5>
-    </div>
-      
-    <div class="collapse" id="hashrate-workers-short-chart-collapse">
-      <div class="card-body chart-hashrate">           
-        {{ember-chart type=hashrateCharts.workersShortChart.type data=hashrateCharts.workersShortChart.data options=hashrateCharts.workersShortChart.options}}        
+        {{ember-chart type=hashrateChart.type data=hashrateChart.data options=hashrateChart.options}}        
       </div>
       {{#if historicalStatsInterval}}
       <div class="card-footer">
