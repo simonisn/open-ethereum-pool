@@ -1,0 +1,54 @@
+{
+	"threads": 2,
+	"coin": "ubiq",
+	"name": "main",	
+	
+	"proxy": {
+		"enabled": false		
+	},
+
+	"api": {
+		"enabled": true,
+		"purgeOnly": false,
+		"purgeInterval": "10m",
+		"listen": "127.0.0.1:8081",
+		"statsCollectInterval": "5s",
+		"historicalStatsInterval": "15m",
+		"historicalStatsRetention": "120h",
+		"hashrateWindow": "30m",
+		"hashrateLargeWindow": "3h",
+		"luckWindow": [32, 64, 128],
+		"payments": 30,
+		"blocks": 50
+	},
+	
+	"unlocker": {
+		"enabled": false
+	},
+	
+	"payouts": {
+		"enabled": false
+	},
+
+	"upstreamCheckInterval": "5s",
+	
+	"upstream": [
+		{
+			"name": "gubiq",
+			"url": "http://127.0.0.1:8585",
+			"timeout": "10s"
+		}
+	],
+
+	"redis": {
+		"endpoint": "127.0.0.1:6379",
+		"poolSize": 10,
+		"database": 0,
+		"password": ""
+	},	
+
+	"newrelicEnabled": false,
+	"newrelicName": "",
+	"newrelicKey": "",
+	"newrelicVerbose": false
+}

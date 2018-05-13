@@ -1,0 +1,52 @@
+{
+	"threads": 2,
+	"coin": "ubiq",
+	"name": "main",
+
+	"proxy": {
+		"enabled": false
+	},
+
+	"api": {
+		"enabled": false
+	},
+
+	"payouts": {
+		"enabled": false
+	},
+
+	"unlocker": {
+		"enabled": true,
+		"poolFee": 0.5,
+		"poolFeeAddress": "",
+		"donate": false,
+		"depth": 40,
+		"immatureDepth": 20,
+		"keepTxFees": false,
+		"interval": "10m",
+		"daemon": "http://127.0.0.1:8585",
+		"timeout": "10s"
+	},
+
+	"upstreamCheckInterval": "5s",
+
+	"upstream": [
+		{
+			"name": "gubiq",
+			"url": "http://127.0.0.1:8585",
+			"timeout": "10s"
+		}
+	],
+
+	"redis": {
+		"endpoint": "127.0.0.1:6379",
+		"poolSize": 10,
+		"database": 0,
+		"password": ""
+	},
+
+	"newrelicEnabled": false,
+	"newrelicName": "",
+	"newrelicKey": "",
+	"newrelicVerbose": false
+}
