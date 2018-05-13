@@ -18,8 +18,10 @@ export default Controller.extend({
     return this.get('historicalStatsService.statsRetention');
   }),
 
-  hashrateChart: computed('chartBuilderService.hashrateChart', function() {
-    return this.get('chartBuilderService.hashrateChart');
+  hashrateChart: computed('historicalStats', function() {
+    var historicalStats = this.get('historicalStats');
+
+    return this.chartBuilderService.accountHashrateChart(historicalStats);    
   }),
 
   poolStats: computed(function() {

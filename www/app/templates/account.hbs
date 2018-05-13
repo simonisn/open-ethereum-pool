@@ -46,31 +46,6 @@
   </div>
 </div>
 
-{{#if hashrateChart}}
-<div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#chart-account-hashrate-collapse" aria-expanded="true" aria-controls="chart-account-hashrate-collapse">
-          Hashrate
-        </button>
-      </h5>      
-    </div>
-      
-    <div class="collapse in show" id="chart-account-hashrate-collapse">
-      <div class="card-body chart-hashrate">           
-        {{ember-chart type=hashrateChart.type data=hashrateChart.data options=hashrateChart.options}}        
-      </div>
-      {{#if historicalStatsInterval}}
-      <div class="card-footer">
-        <small title="Frequency at which statistics are recalculated by the pool.">Update Interval: {{moment-duration (seconds-to-ms historicalStatsInterval)}}</small>
-      </div>
-      {{/if}}         
-    </div>         
-  </div>
-</div>
-{{/if}}
-
 <div class="container">
   <ul class="nav nav-tabs" role="tablist">            
     <li class="nav-item">  
@@ -99,4 +74,4 @@
 
 </div>
 
-{{outlet}}
+
