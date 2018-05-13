@@ -22,7 +22,7 @@
 		config/ubiqpool-payouts.json
 			upstream: url (url to your instance of go-ubiq)
 			payouts: address (pool's Ubiq address)
-		config/ubiqpool-unlocker
+		config/ubiqpool-unlocker.json
 			unlocker: poolFeeAddress (where pool fees are sent)
 
 #### Script Files:
