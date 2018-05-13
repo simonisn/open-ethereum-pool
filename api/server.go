@@ -149,13 +149,11 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 
 func (s *ApiServer) purgeStale() {
 	start := time.Now()
-	totalHashrate, totalLongHashrate, totalHistoricalHashrate, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.histStatsRetain)
+	totalHashrate, totalMinerHashrate, totalHistoricalHashrate, err := s.backend.FlushStaleStats(s.hashrateWindow, s.hashrateLargeWindow, s.histStatsRetain)
 	if err != nil {
 		log.Println("Failed to purge stale data from backend:", err)
 	} else {
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHashrate, time.Since(start))
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalLongHashrate, time.Since(start))
-		log.Printf("Purged stale stats from backend, %v shares affected, elapsed time %v", totalHistoricalHashrate, time.Since(start))
+		log.Printf("Purged stale hashrate stats from backend. %v hashrate shares, %v miner hashrate entries, %v historical hashrate entries.  Elapsed time %v", totalHashrate, totalMinerHashrate, totalHistoricalHashrate, time.Since(start))		
 	}
 }
 
@@ -345,15 +343,16 @@ func (s *ApiServer) HistoricalStatsIndex(w http.ResponseWriter, r *http.Request)
 	reply, ok := s.minersHistorical[login]
 	now := util.MakeTimestamp()
 	cacheIntv := int64(s.histStatsIntv / time.Millisecond)
+
 	// Refresh stats if stale
 	if !ok || reply.updatedAt < now-cacheIntv {
 		exist, err := s.backend.IsMinerExists(login)
-		
+
 		if !exist {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
-		
+
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("Failed to fetch Historical Worker Stats from backend: %v", err)
@@ -361,18 +360,18 @@ func (s *ApiServer) HistoricalStatsIndex(w http.ResponseWriter, r *http.Request)
 		}
 
 		historicalStats, err := s.backend.GetHistoricalWorkerStats(login, s.histStatsRetain)
-		
+
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("Failed to fetch Historical Worker Stats from backend: %v", err)
 			return
 		}
-		
+
 		historicalStats.StatsInterval = int64(s.histStatsIntv / time.Second)
 		historicalStats.StatsRetention = int64(s.histStatsRetain / time.Second)
-		
+
 		reply = &HistoricalEntry{stats: historicalStats, updatedAt: now}
-		
+
 		s.minersHistorical[login] = reply
 	}
 

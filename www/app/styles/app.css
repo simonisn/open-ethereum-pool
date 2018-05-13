@@ -11,6 +11,9 @@ svg.icon {
   fill: currentColor;
 }
 
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background-color: #385271;
+}
 .nav-item .badge {
   margin: 5px;
 }

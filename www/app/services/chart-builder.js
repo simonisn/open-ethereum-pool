@@ -1,27 +1,19 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({	
-	historicalStatsService: Ember.inject.service('historical-stats'),  
+export default Ember.Service.extend({		
+	
+	constants: {
+		MEGAHASH: 1000000,
+		GWEI: 1000000000
+	},
 
-	hashrateCharts: Ember.computed('historicalStatsService.stats', function() {		
-		var historicalStats = this.get('historicalStatsService.stats');
-
-		var MEGAHASH = 1000000;
-
-		var workersLongChart,
-			workersShortChart,
-			totalsChart,
-			chartColors = new ChartColors();					
-
-		function ChartColors() {
-			var colorIndex = 0;
-
-			this.totals = {
-				long: "#286D92",
-				short: "#829AB6"
-			};
-
-			this.colorPalette = [
+	common: {
+		// ChartColors constructor
+		ChartColors: function () {
+			var colorIndex = 0,
+				colorPalette =  [
+				"#286D92",
+				"#829AB6",
 				"#5E8DAD",
 				"#4A5E8A",
 				"#376A97",
@@ -32,36 +24,47 @@ export default Ember.Service.extend({
 				"#A9BFBA"
 			];
 
+			this.colorPalette = colorPalette;
+
 			this.nextColor = function() {
 				var color;
 	
-				if (colorIndex < chartColors.colorPalette.length) {
-					color = chartColors.colorPalette[colorIndex];
+				if (colorIndex < colorPalette.length) {
+					color = colorPalette[colorIndex];
 					colorIndex += 1;
 				} else {
 					colorIndex = 0;
-					color = chartColors.colorPalette[colorIndex];
+					color = colorPalette[colorIndex];
 				}
 	
 				return color;
 			}
-		}
+		},			
+		
+		// TimeDataPoint constructor
+		TimeDataPoint: function (timeStamp, value) {
+			this.x = +timeStamp;
+			this.y = value;
+		}				
+	},	
+	
+	accountHashrateChart(historicalStats) {			
+		var ChartColors = this.common.ChartColors,
+			TimeDataPoint = this.common.TimeDataPoint,
+			chartColors = new ChartColors(),
+			constants = this.constants;
 
 		function HashrateChartDataSet(label, color, data) {
 			this.type = 'line';
 			this.label = label;
 			this.borderColor = color;
+			this.borderWidth = 2;
 			this.yAxesID = 'y-axis-hashrate';
 			this.data = data;	
 			this.pointRadius = 0; // Don't show points		
-		}
+		}		
 
-		function DataPoint(x, y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		function createHashrateChart(dataSets) {
+		function createChart(dataSets) {
 			// Build Chart Data Structure
 			var chart = {
 				type: 'line',			
@@ -138,113 +141,59 @@ export default Ember.Service.extend({
 			return chart;
 		}
 		
-		function totalsObjectToDataPointsArray(totalsObject) {
-			return Object.keys(totalsObject).map(function(key) {
-				return totalsObject[key];
+		function hashTableToArray(hashTable) {
+			return Object.keys(hashTable).map(function(key) {
+				return hashTable[key];
 			});
 		}
 
 		function createDataSets(historicalStats) {
-			var workerLongHashrateDataSets = [],	 // Create Array to hold worker Long Hashrate Data Sets
-				workerShortHashrateDataSets = [],	 // Create Array to hold Worker Short Hashrate Data Sets
-				totalLongHashrateDataSet,            // Will be created after all Long values have been accumulated
-				totalShortHashrateDataSet,           // Will be created after all Short values have been accumulated
-				totalLongHashrates = {},  			 // Create Object to hold Total Long Hashrates						
-				totalShortHashrates = {};			 // Create Object to hold Total Short Hashrates
-			
-			
-			// Workers is an object, indexed by WorkerId
-			Object.keys(historicalStats.workers).forEach(function(workerId) {
-				var worker = historicalStats.workers[workerId],
-					color,
-					longData = [],
-					shortData = [];
-			
-				if (worker.stats) {
-					// Stats is an object, indexed by Timestamp
-					Object.keys(worker.stats).forEach(function(timeStamp) {
-						var hrLong =  +(worker.stats[timeStamp].hrlong) / MEGAHASH,
-							hrShort = +(worker.stats[timeStamp].hrshort) / MEGAHASH,
-							dateTime = new Date(+timeStamp),
-							dataPoint;
+			var dataSets = [],			 // Create Array to hold worker Hashrate Data Sets				
+				totalHashTable = {};  	 // Create Object to hold Total Hashrates
+							
+			if (historicalStats && historicalStats.workers) {
+				// Workers is an object, indexed by WorkerId
+				Object.keys(historicalStats.workers).forEach(function(workerId) {
+					var worker = historicalStats.workers[workerId],				
+						hashrateDataPoints = [];
+				
+					if (worker.stats) {
+						// Stats is an object, indexed by Timestamp
+						Object.keys(worker.stats).forEach(function(timeStamp) {
+							if(worker.stats[timeStamp].hashrate) {
+								var hashrate = +(worker.stats[timeStamp].hashrate) / constants.MEGAHASH,
+									dataPoint = new TimeDataPoint(timeStamp, hashrate);
 
-						// Add hrLong to Total Long Hashrates (add to existing values with same timestamp)
-						if (!totalLongHashrates[timeStamp]) {
-							dataPoint = new DataPoint(dateTime, hrLong);
-							totalLongHashrates[timeStamp] = dataPoint;							
-						} else {
-							dataPoint = totalLongHashrates[timeStamp];
-							dataPoint.y += hrLong;
-						}
+								// Add hashrate to Worker datapoint array
+								hashrateDataPoints.push(dataPoint);
 
-						// Add hrShort to Total Short Hashrates (add to existing values with same timestamp)
-						if (!totalShortHashrates[timeStamp]) {
-							dataPoint = new DataPoint(dateTime, hrShort);
-							totalShortHashrates[timeStamp] = dataPoint;
-						} else {
-							dataPoint = totalShortHashrates[timeStamp];
-							dataPoint.y += hrShort;
-						} 
+								// Add/Update hashrate for Total
+								if (totalHashTable[timeStamp]) {
+									totalHashTable[timeStamp].y += hashrate;
+								} else {
+									totalHashTable[timeStamp] = new TimeDataPoint(timeStamp, hashrate);
+								}
+							}
+						});
+					}
 
-						// Add hrLong to Worker Long Data Array
-						longData.push( new DataPoint(dateTime, hrLong));							
-
-						// Add hrSHort to Worker Short Data Array
-						shortData.push(new DataPoint(dateTime, hrShort));							
-					});
-				}
-
-				color = chartColors.nextColor();
-
-				// Create Worker Long Hashrate dataset
-				workerLongHashrateDataSets.push(new HashrateChartDataSet(workerId, color, longData));
-
-				// Create Worker Short Hashrate dataset
-				workerShortHashrateDataSets.push(new HashrateChartDataSet(workerId, color, shortData));
-			});
-			
-			// Convert Total Long Hashrate object to array of values
-			totalLongHashrateDataSet = new HashrateChartDataSet('Avg Long Hashrate', chartColors.totals.long, totalsObjectToDataPointsArray(totalLongHashrates));
-
-			// Convert Total Short Hashrate object to array of values
-			totalShortHashrateDataSet = new HashrateChartDataSet('Avg Short Hashrate', chartColors.totals.short, totalsObjectToDataPointsArray(totalShortHashrates));
-
-			return {
-				workerLongHashrateDataSets: workerLongHashrateDataSets,
-				workerShortHashrateDataSets: workerShortHashrateDataSets,
-				totalLongHashrateDataSet: totalLongHashrateDataSet,
-				totalShortHashrateDataSet: totalShortHashrateDataSet
-			};
-		}
-
-
-		
-
-
-
-
-		if (historicalStats && historicalStats.workers) {
-			// Create Data Sets
-			var dataSets = createDataSets(historicalStats);				
-
-			// Create Charts
-
-			// Only create combined worker charts when more than ONE worker exists, otherwise, only totals chart will be used
-			if (Object.keys(historicalStats.workers).length > 1) {
-				workersLongChart = createHashrateChart(dataSets.workerLongHashrateDataSets);
-				workersShortChart = createHashrateChart(dataSets.workerShortHashrateDataSets);
+					// Create Worker Hashrate dataset
+					dataSets.push(new HashrateChartDataSet(workerId, chartColors.nextColor(), hashrateDataPoints));
+				});
+							
+				// Create Total Hashrate dataset
+				dataSets = [new HashrateChartDataSet('Total Hashrate', chartColors.nextColor(), hashTableToArray(totalHashTable))].concat(dataSets);
 			}
 
-			// Combine Totals Long ans SHort DataSets into a single chart
-			var totalsDataSets = [dataSets.totalLongHashrateDataSet, dataSets.totalShortHashrateDataSet];
-
-			totalsChart = createHashrateChart(totalsDataSets);
+			return dataSets;
 		}
 
-		return {
-			workersLongChart: workersLongChart,
-			workersShortChart: workersShortChart,
-			totalsChart: totalsChart
-		};
-	})
+
+
+
+
+		var dataSets = createDataSets(historicalStats);		
+
+		return createChart(dataSets);
+	}
 });
